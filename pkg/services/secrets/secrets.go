@@ -102,7 +102,7 @@ func (s *Secrets) newRandomDataKey(ctx context.Context, name string) error {
 	}
 
 	err = s.Store.CreateDataKey(ctx, models.DataKey{
-		Active:        true,
+		Active:        true, // TODO: how do we manage active/deactivated DEKs?
 		Name:          name,
 		Provider:      s.defaultProvider,
 		EncryptedData: encrypted,
@@ -113,7 +113,7 @@ func (s *Secrets) newRandomDataKey(ctx context.Context, name string) error {
 var b64 = base64.RawStdEncoding
 
 func (s *Secrets) Encrypt(payload []byte) ([]byte, error) {
-	key := "" // TODO: some logic to figure out what DEK identifier to use
+	key := "root" // TODO: some logic to figure out what DEK identifier to use
 
 	dataKey, err := s.dataKey(key)
 	if err != nil {
@@ -172,7 +172,7 @@ func (s *Secrets) Decrypt(payload []byte) ([]byte, error) {
 // dataKey decrypts and caches DEK
 func (s *Secrets) dataKey(key string) ([]byte, error) {
 	if key == "" {
-		return []byte(setting.SecretKey), nil
+		return []byte(setting.SecretKey), nil // TODO: not sure what case this condition handles
 	}
 
 	if item, exists := s.dataKeyCache[key]; exists {
