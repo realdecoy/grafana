@@ -56,7 +56,15 @@ const HttpAccessHelp = () => (
 );
 
 export const DataSourceHttpSettings: React.FC<HttpSettingsProps> = (props) => {
-  const { defaultUrl, dataSourceConfig, onChange, showAccessOptions, sigV4AuthToggleEnabled, title } = props;
+  const {
+    defaultUrl,
+    dataSourceConfig,
+    onChange,
+    showAccessOptions,
+    sigV4AuthToggleEnabled,
+    title,
+    proxySettingsEnabled = true,
+  } = props;
   let urlTooltip;
   const [isAccessHelpVisible, setIsAccessHelpVisible] = useState(false);
   const theme = useTheme();
@@ -222,7 +230,7 @@ export const DataSourceHttpSettings: React.FC<HttpSettingsProps> = (props) => {
             </div>
           )}
 
-          {dataSourceConfig.access === 'proxy' && (
+          {dataSourceConfig.access === 'proxy' && proxySettingsEnabled && (
             <HttpProxySettings
               dataSourceConfig={dataSourceConfig}
               onChange={(jsonData) => onSettingsChange({ jsonData })}

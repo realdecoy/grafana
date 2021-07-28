@@ -14,6 +14,8 @@ export interface HttpSettingsProps extends HttpSettingsBaseProps {
   showAccessOptions?: boolean;
   /** Show the SigV4 auth toggle option */
   sigV4AuthToggleEnabled?: boolean;
+  /** Show proxy settings if applicable. Default true */
+  proxySettingsEnabled?: boolean;
   /** Title for the section. Default "HTTP" */
   title?: string;
 }
