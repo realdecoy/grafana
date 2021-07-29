@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useAsync } from 'react-use';
 import { CatalogPlugin } from '../types';
 import { api } from '../api';
-import { mapLocalToCatalog, mapRemoteToCatalog, applySearchFilter } from '../helpers';
+import { mapLocalToCatalog, mapRemoteToCatalog, mapToCatalogPlugin, applySearchFilter } from '../helpers';
 
 type CatalogPluginsState = {
   loading: boolean;
@@ -27,10 +27,6 @@ export function usePlugins(): CatalogPluginsState {
     }
 
     for (const plugin of remote) {
-      if (unique[plugin.slug]) {
-        continue;
-      }
-
       if (plugin.typeCode === 'renderer') {
         continue;
       }
@@ -39,9 +35,15 @@ export function usePlugins(): CatalogPluginsState {
         continue;
       }
 
-      unique[plugin.slug] = mapRemoteToCatalog(plugin);
+      if (unique[plugin.slug]) {
+        unique[plugin.slug] = mapToCatalogPlugin(
+          installed.find((plugin) => plugin.id),
+          plugin
+        );
+      } else {
+        unique[plugin.slug] = mapRemoteToCatalog(plugin);
+      }
     }
-
     return Object.values(unique);
   }, [value?.installed, value?.remote]);
 
