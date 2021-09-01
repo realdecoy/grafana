@@ -14,7 +14,7 @@ import { DashboardSettings } from '../components/DashboardSettings';
 import { PanelEditor } from '../components/PanelEditor/PanelEditor';
 import { initDashboard } from '../state/initDashboard';
 import { notifyApp } from 'app/core/actions';
-import { KioskMode, StoreState } from 'app/types';
+import { DashboardRoutes, KioskMode, StoreState } from 'app/types';
 import { PanelModel } from 'app/features/dashboard/state';
 import { PanelInspector } from '../components/Inspector/PanelInspector';
 import { SubMenu } from '../components/SubMenu/SubMenu';
@@ -30,6 +30,7 @@ import { DashboardLoading } from '../components/DashboardLoading/DashboardLoadin
 import { DashboardFailed } from '../components/DashboardLoading/DashboardFailed';
 import { DashboardPrompt } from '../components/DashboardPrompt/DashboardPrompt';
 import classnames from 'classnames';
+import { getBackendSrv } from 'app/core/services/backend_srv';
 
 export interface DashboardPageRouteParams {
   uid?: string;
@@ -124,14 +125,23 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
       this.closeDashboard();
     }
 
-    this.props.initDashboard({
-      urlSlug: match.params.slug,
-      urlUid: match.params.uid,
-      urlType: match.params.type,
-      urlFolderId: queryParams.folderId,
-      routeName: this.props.route.routeName,
-      fixUrl: true,
-    });
+    if (this.props.route.routeName === DashboardRoutes.HomeView) {
+      getBackendSrv()
+        .search({})
+        .then((dashboards) => {
+          console.log(dashboards);
+          window.location.replace(dashboards.filter((p) => p.type === 'dash-db')[0]?.url ?? '404');
+        });
+    } else {
+      this.props.initDashboard({
+        urlSlug: match.params.slug,
+        urlUid: match.params.uid,
+        urlType: match.params.type,
+        urlFolderId: queryParams.folderId,
+        routeName: this.props.route.routeName,
+        fixUrl: true,
+      });
+    }
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
