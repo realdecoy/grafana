@@ -4,7 +4,7 @@ import { hot } from 'react-hot-loader';
 import { connect, ConnectedProps } from 'react-redux';
 import { locationService } from '@grafana/runtime';
 import { selectors } from '@grafana/e2e-selectors';
-import { CustomScrollbar, ScrollbarPosition, stylesFactory, Themeable2, withTheme2 } from '@grafana/ui';
+import { CustomScrollbar, ScrollbarPosition, stylesFactory, Themeable2, withTheme2, PageHeader } from '@grafana/ui';
 
 import { createErrorNotification } from 'app/core/copy/appNotification';
 import { Branding } from 'app/core/components/Branding/Branding';
@@ -14,7 +14,7 @@ import { DashboardSettings } from '../components/DashboardSettings';
 import { PanelEditor } from '../components/PanelEditor/PanelEditor';
 import { initDashboard } from '../state/initDashboard';
 import { notifyApp } from 'app/core/actions';
-import { KioskMode, StoreState } from 'app/types';
+import { DashboardRoutes, KioskMode, StoreState } from 'app/types';
 import { PanelModel } from 'app/features/dashboard/state';
 import { PanelInspector } from '../components/Inspector/PanelInspector';
 import { SubMenu } from '../components/SubMenu/SubMenu';
@@ -30,6 +30,7 @@ import { DashboardLoading } from '../components/DashboardLoading/DashboardLoadin
 import { DashboardFailed } from '../components/DashboardLoading/DashboardFailed';
 import { DashboardPrompt } from '../components/DashboardPrompt/DashboardPrompt';
 import classnames from 'classnames';
+import { getBackendSrv } from 'app/core/services/backend_srv';
 
 export interface DashboardPageRouteParams {
   uid?: string;
@@ -124,14 +125,23 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
       this.closeDashboard();
     }
 
-    this.props.initDashboard({
-      urlSlug: match.params.slug,
-      urlUid: match.params.uid,
-      urlType: match.params.type,
-      urlFolderId: queryParams.folderId,
-      routeName: this.props.route.routeName,
-      fixUrl: true,
-    });
+    if (this.props.route.routeName === DashboardRoutes.HomeView) {
+      getBackendSrv()
+        .search({})
+        .then((dashboards) => {
+          console.log(dashboards);
+          window.location.replace(dashboards.filter((p) => p.type === 'dash-db')[0]?.url ?? '404');
+        });
+    } else {
+      this.props.initDashboard({
+        urlSlug: match.params.slug,
+        urlUid: match.params.uid,
+        urlType: match.params.type,
+        urlFolderId: queryParams.folderId,
+        routeName: this.props.route.routeName,
+        fixUrl: true,
+      });
+    }
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -327,6 +337,9 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
 
     return (
       <div className={containerClassNames}>
+        <PageHeader title={dashboard.title} className="no-margin" pageIcon="apps">
+          <Branding.LoginLogo className={styles.pageHeaderLogo} />
+        </PageHeader>
         {kioskMode !== KioskMode.Full && (
           <header aria-label={selectors.pages.Dashboard.DashNav.nav}>
             <DashNav
@@ -403,6 +416,11 @@ export const getStyles = stylesFactory((theme: GrafanaTheme2, kioskMode) => {
       padding: ${contentPadding};
       flex-basis: 100%;
       flex-grow: 1;
+    `,
+    pageHeaderLogo: css`
+      width: 100%;
+      max-width: 120px;
+      margin-bottom: 0px;
     `,
   };
 });

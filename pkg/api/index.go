@@ -153,38 +153,76 @@ func (hs *HTTPServer) getNavTree(c *models.ReqContext, hasEditPerm bool) ([]*dto
 		})
 	}
 
-	dashboardChildNavs := []*dtos.NavLink{
-		// {Text: "Home", Id: "home", Url: hs.Cfg.AppSubURL + "/", Icon: "home-alt", HideFromTabs: true},
-		// {Text: "Divider", Divider: true, Id: "divider", HideFromTabs: true},
-		{Text: "Manage", Id: "manage-dashboards", Url: hs.Cfg.AppSubURL + "/dashboards", Icon: "sitemap"},
-		// {Text: "Playlists", Id: "playlists", Url: hs.Cfg.AppSubURL + "/playlists", Icon: "presentation-play"},
+	canSeeAll := c.OrgRole == models.ROLE_ADMIN
+
+	dashboardChildNavs := []*dtos.NavLink{}
+
+	if canSeeAll {
+		dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
+			Text: "Home",
+			Id: "home",
+			Url: hs.Cfg.AppSubURL + "/",
+			Icon: "home-alt",
+			HideFromTabs: true,
+		})
+		dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
+			Text: "Divider",
+			Divider: true,
+			Id: "divider",
+			HideFromTabs: true,
+		})
+		dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
+			Text: "Manage",
+			Id: "manage-dashboards",
+			Url: hs.Cfg.AppSubURL + "/dashboards",
+			Icon: "sitemap",
+		})
+		dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
+			Text: "Playlists",
+			Id: "playlists",
+			Url: hs.Cfg.AppSubURL + "/playlists",
+			Icon: "presentation-play",
+		})
 	}
 
-	// if c.IsSignedIn {
-	// 	dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
-	// 		Text: "Snapshots",
-	// 		Id:   "snapshots",
-	// 		Url:  hs.Cfg.AppSubURL + "/dashboard/snapshots",
-	// 		Icon: "camera",
-	// 	})
+	if c.IsSignedIn && canSeeAll {
+		dashboardChildNavs = append(dashboardChildNavs,
+			&dtos.NavLink{
+			Text: "Snapshots",
+			Id:   "snapshots",
+			Url:  hs.Cfg.AppSubURL + "/dashboard/snapshots",
+			Icon: "camera",
+		})
 
-	// 	dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
-	// 		Text: "Library panels",
-	// 		Id:   "library-panels",
-	// 		Url:  hs.Cfg.AppSubURL + "/library-panels",
-	// 		Icon: "library-panel",
-	// 	})
-	// }
+		dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
+			Text: "Library panels",
+			Id:   "library-panels",
+			Url:  hs.Cfg.AppSubURL + "/library-panels",
+			Icon: "library-panel",
+		})
+	}
 
-	navTree = append(navTree, &dtos.NavLink{
-		Text:       "Dashboard",
-		Id:         "dashboards",
-		SubTitle:   "Manage dashboards and folders",
-		Icon:       "home-alt",
-		Url:        hs.Cfg.AppSubURL + "/",
-		SortWeight: dtos.WeightDashboard,
-		Children:   dashboardChildNavs,
-	})
+	if canSeeAll {
+		navTree = append(navTree, &dtos.NavLink{
+			Text:       "Dashboard",
+			Id:         "dashboards",
+			SubTitle:   "Manage dashboards and folders",
+			Icon:       "home-alt",
+			Url:        hs.Cfg.AppSubURL + "/",
+			SortWeight: dtos.WeightDashboard,
+			Children:   dashboardChildNavs,
+		})
+	} else {
+		navTree = append(navTree, &dtos.NavLink{
+			Text:       "Dashboard",
+			Id:         "dashboards",
+			SubTitle:   "Manage dashboards and folders",
+			Icon:       "home-alt",
+			Url:        hs.Cfg.AppSubURL + "/dashboard/view",
+			SortWeight: dtos.WeightDashboard,
+			Children:   dashboardChildNavs,
+		})
+	}
 
 	// canExplore := func(context *models.ReqContext) bool {
 	// 	return c.OrgRole == models.ROLE_ADMIN || c.OrgRole == models.ROLE_EDITOR || setting.ViewersCanEdit

@@ -6,7 +6,6 @@ import config from 'app/core/config';
 export function buildInitialState(): NavIndex {
   const navIndex: NavIndex = {};
   const rootNodes = config.bootData.navTree as NavModelItem[];
-  console.log(rootNodes);
   buildNavIndex(navIndex, rootNodes);
   return navIndex;
 }
