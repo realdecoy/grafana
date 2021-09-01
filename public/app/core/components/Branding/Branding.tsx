@@ -23,7 +23,7 @@ const CwLogo: FC<BrandComponentProps> = ({ className }) => {
       top: 100px;
       height: 60px;
       width: 200px;
-      background: url(public/img/cw_logo.svg);
+      background: url(public/img/corewatts_logo.svg);
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat;
@@ -34,6 +34,7 @@ const CwLogo: FC<BrandComponentProps> = ({ className }) => {
       @media ${styleMixins.mediaUp(theme.v1.breakpoints.lg)} {
         top: 240px;
         left: 200px;
+        display: block;
       }
     }
   `;
@@ -101,7 +102,7 @@ const LoginBackground: FC<BrandComponentProps> = ({ className, children }) => {
 };
 
 const MenuLogo: FC<BrandComponentProps> = ({ className }) => {
-  return <img className={className} src="public/img/grafana_icon.svg" alt="Grafana" />;
+  return <img className={className} src="public/img/cw_logo.svg" alt="Grafana" />;
 };
 
 const LoginBoxBackground = () => {
