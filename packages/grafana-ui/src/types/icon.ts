@@ -145,6 +145,7 @@ export const getAvailableIcons = () =>
     'users-alt',
     'wrap-text',
     'x',
+    'hamburger',
   ] as const;
 
 type BrandIconNames = 'google' | 'microsoft' | 'github' | 'gitlab' | 'okta';

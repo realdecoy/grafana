@@ -337,7 +337,7 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
 
     return (
       <div className={containerClassNames}>
-        <PageHeader title={dashboard.title} className="no-margin" pageIcon="apps">
+        <PageHeader title={dashboard.title} className="no-margin" pageIcon="hamburger">
           <Branding.LoginLogo className={styles.pageHeaderLogo} />
         </PageHeader>
         {kioskMode !== KioskMode.Full && (
