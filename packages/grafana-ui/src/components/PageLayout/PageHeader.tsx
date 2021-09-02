@@ -143,7 +143,7 @@ const getStyles = (theme: GrafanaTheme2) => {
       display: none;
       @media ${styleMixins.mediaUp(theme.v1.breakpoints.md)} {
         display: flex;
-        padding-right: ${theme.spacing(1)};
+        padding-right: ${theme.spacing(2)};
         align-items: center;
       }
     `,
