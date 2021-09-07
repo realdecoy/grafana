@@ -20,7 +20,7 @@ function loadBaselineEntries(): ThunkResult<void> {
 
 export function submitBaselineEntry(payload: BaselineEntryFields): ThunkResult<void> {
   return async function (dispatch) {
-    console.log(`[ submit baseline entry ]`, payload);
+    console.log(`[ submit ]`, payload);
     dispatch(setUpdating({ updating: true }));
     await api.submitBaselineEntry(payload);
     dispatch(loadBaselineEntries());

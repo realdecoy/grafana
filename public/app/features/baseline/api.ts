@@ -1,8 +1,10 @@
 // import { getBackendSrv } from '@grafana/runtime';
 
 import { BaselineEntryFields } from './types';
-import { BaselineDTO } from '../../types';
+import { BaselineDTO, BaselineDatasource } from '../../types';
 let baselineRecords: BaselineDTO[] = [];
+
+const baselineQuery = new BaselineDatasource();
 
 function loadBaselineEntries(): Promise<BaselineDTO[]> {
   // TODO: replace fabircated promise with commented line below
@@ -16,7 +18,7 @@ function loadBaselineEntries(): Promise<BaselineDTO[]> {
 
 async function submitBaselineEntry(payload: BaselineEntryFields): Promise<void> {
   // TODO: replace fabircated promise with commented line below
-  // await getBackendSrv().post('/api/baseline/', payload);
+  await baselineQuery._post('/api/baseline/', payload);
   const baselineRecord = {
     ...payload,
     id: (baselineRecords.length + 1).toString(),
