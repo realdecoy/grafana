@@ -1,7 +1,5 @@
 import { BackendSrvRequest, getBackendSrv } from '@grafana/runtime';
-
-const api = 'https://48qlekz5g1.execute-api.us-east-1.amazonaws.com/kev';
-
+import { API_ENDPOINT } from 'app/core/env';
 export interface BaselineDTO {
   id?: string;
   startDate: string;
@@ -30,7 +28,7 @@ export class BaselineDatasource {
     const options: BackendSrvRequest = {
       headers: {},
       method: 'GET',
-      url: `${api}${url}`,
+      url: `${API_ENDPOINT}${url}`,
     };
     return getBackendSrv().fetch<any>(options).toPromise();
   }
@@ -40,7 +38,7 @@ export class BaselineDatasource {
       headers: {},
       method: 'POST',
       data: paylod,
-      url: `${api}${url}`,
+      url: `${API_ENDPOINT}${url}`,
     };
     return getBackendSrv().fetch<any>(options).toPromise();
   }
