@@ -1,1 +1,1 @@
-export const API_ENDPOINT = 'https://yhil9p5ek2.execute-api.us-east-1.amazonaws.com/qa/api/baseline';
+export const API_ENDPOINT = 'https://yhil9p5ek2.execute-api.us-east-1.amazonaws.com/qa';
