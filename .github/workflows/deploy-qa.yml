@@ -1,9 +1,9 @@
-name: Deploy
+name: Deploy QA
 #on a push to tags to trigger GitHub action workflow
 on:
   push:
     tags:
-      - 'dev-**'
+      - 'qa-**'
 
 jobs:
   deploy:
