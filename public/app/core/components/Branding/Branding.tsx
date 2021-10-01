@@ -51,9 +51,9 @@ const CwSlogan: FC<BrandComponentProps> = ({ className }) => {
       position: absolute;
       left: 50%;
       top: 190px;
-      height: 120px;
-      width: 300px;
-      background: url(public/img/cw_slogan.png);
+      height: 200px;
+      width: 400px;
+      background: url(public/img/cw_slogan.svg);
       background-position: center;
       background-size: contain;
       background-repeat: no-repeat;
@@ -62,8 +62,8 @@ const CwSlogan: FC<BrandComponentProps> = ({ className }) => {
       display: none;
 
       @media ${styleMixins.mediaUp(theme.v1.breakpoints.lg)} {
-        top: 300px;
-        left: 100px;
+        top: 270px;
+        left: 72px;
         display: block;
       }
     }
