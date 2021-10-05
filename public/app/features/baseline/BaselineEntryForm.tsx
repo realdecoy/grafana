@@ -81,6 +81,28 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               </Field>
               <Field
                 className="baseline-field"
+                label="Invoice Date"
+                invalid={!!errors.invoiceDate}
+                error="Invoice Date is required [format: yyyy-mm-dd]"
+                disabled={isSavingBaselineEntry}
+              >
+                <DatePickerWithInput
+                  id="edit-baseline-invoice-date"
+                  placeholder="Invoice Date"
+                  closeOnSelect={true}
+                  {...register('invoiceDate', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
+                  onChange={(val) => {
+                    const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
+                    const el = document.getElementById('edit-baseline-invoice-date') as HTMLInputElement;
+                    el.value = formattedValue;
+                    setValue('invoiceDate', formattedValue, { shouldValidate: true });
+                  }}
+                  defaultValue={''}
+                  suffix={<InputSuffix />}
+                />
+              </Field>
+              <Field
+                className="baseline-field"
                 label="Kilowatt-hour (kWh)"
                 invalid={!!errors.kwh}
                 error="kWh is required [e.g. 24.53]"
@@ -109,6 +131,8 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   suffix={<InputSuffix />}
                 />
               </Field>
+            </div>
+            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Maximum kW"
@@ -124,8 +148,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   suffix={<InputSuffix />}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Average kW"
@@ -186,6 +208,8 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   suffix={<InputSuffix />}
                 />
               </Field>
+            </div>
+            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Maximum PF"
@@ -201,8 +225,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   suffix={<InputSuffix />}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Rate"
@@ -250,6 +272,23 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               </Field>
               <Field
                 className="baseline-field"
+                label="KVA Rate"
+                invalid={!!errors.kvaRate}
+                error="KVA Rate is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('kvaRate', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="edit-baseline-kva-rate"
+                  placeholder="KVA Rate"
+                  defaultValue={''}
+                  suffix={<InputSuffix />}
+                />
+              </Field>
+            </div>
+            <div className="baseline-field-group">
+              <Field
+                className="baseline-field"
                 label="Fuel & IPP Rate"
                 invalid={!!errors.ippRate}
                 error="Fuel & IPP Rate is required [e.g. 24.53]"
@@ -278,8 +317,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   suffix={<InputSuffix />}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="IPP Variable Charge"
@@ -312,6 +349,23 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               </Field>
               <Field
                 className="baseline-field"
+                label="KVA Charge"
+                invalid={!!errors.kvaCharge}
+                error="KVA Charge is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('kvaCharge', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="edit-baseline-kva-charge"
+                  placeholder="KVA Charge"
+                  defaultValue={''}
+                  suffix={<InputSuffix />}
+                />
+              </Field>
+            </div>
+            <div className="baseline-field-group">
+              <Field
+                className="baseline-field"
                 label="Current Charges"
                 invalid={!!errors.currentCharges}
                 error="Current Charges is required [e.g. 24.53]"
@@ -325,6 +379,23 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   suffix={<InputSuffix />}
                 />
               </Field>
+              <Field
+                className="baseline-field"
+                label="Sales Tax"
+                invalid={!!errors.salesTax}
+                error="Sales Tax is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('salesTax', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="edit-baseline-current-charge"
+                  placeholder="Sales Tax"
+                  defaultValue={''}
+                  suffix={<InputSuffix />}
+                />
+              </Field>
+              <div className="baseline-field"></div>
+              <div className="baseline-field"></div>
               <div className="gf-form-button-row">
                 <Button variant="primary" disabled={isSavingBaselineEntry} aria-label="Baseline entry submit button">
                   Submit

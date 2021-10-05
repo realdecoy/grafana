@@ -4,6 +4,7 @@ export interface BaselineDTO {
   id?: string;
   startDate: string;
   endDate: string;
+  invoiceDate: string;
   noOfDays?: string;
   kwh: string;
   minKw: string;
@@ -17,10 +18,13 @@ export interface BaselineDTO {
   energyRate: string;
   fuelRate: string;
   ippRate: string;
+  kvaRate: string;
   ippVariableRate: string;
   ippVariableCharge: string;
   energyCharge: string;
+  kvaCharge: string;
   currentCharges: string;
+  salesTax: string;
 }
 
 export class BaselineDatasource {
