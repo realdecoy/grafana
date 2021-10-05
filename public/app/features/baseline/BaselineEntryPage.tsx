@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
-import { PageToolbar, PageHeader, Tooltip, Icon, useStyles2 } from '@grafana/ui';
+import { PageToolbar, PageHeader, useStyles2 } from '@grafana/ui';
 import { BaselineDTO, StoreState } from 'app/types';
 import { initBaselineEntryPage, submitBaselineEntry } from './state/actions';
 import BaselineEntryForm from './BaselineEntryForm';
@@ -57,11 +57,12 @@ export function BaselineEntryPage({
               <th>No</th>
               <th>
                 Start Date&nbsp;
-                <Tooltip placement="top" content="Start Date">
+                {/* <Tooltip placement="top" content="Start Date">
                   <Icon name="shield" />
-                </Tooltip>
+                </Tooltip> */}
               </th>
               <th>End Date</th>
+              <th>Invoice Date</th>
               <th>No. of Days</th>
               <th>Kilowatt-hour</th>
               <th>Min. kW</th>
@@ -75,10 +76,13 @@ export function BaselineEntryPage({
               <th>Energy Rate</th>
               <th>Fuel Rate</th>
               <th>Fuel & IPP Rate</th>
+              <th>KVA Rate</th>
               <th>IPP Var. Rate</th>
               <th>IPP Var. Charge</th>
               <th>Energy Charge</th>
+              <th>KVA Rate</th>
               <th>Current Charges</th>
+              <th>Sales Tax</th>
               {/* <th>
                 Seen&nbsp;
                 <Tooltip placement="top" content="Time since user was seen using Grafana">
@@ -126,6 +130,11 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO) => {
       <td className="link-td max-width-10">
         <a className="ellipsis" title={baselineEntry.endDate}>
           {baselineEntry.endDate}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
+        <a className="ellipsis" title={baselineEntry.invoiceDate}>
+          {baselineEntry.invoiceDate}
         </a>
       </td>
       <td className="link-td max-width-10">
@@ -189,6 +198,11 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO) => {
         </a>
       </td>
       <td className="link-td max-width-10">
+        <a className="ellipsis" title={baselineEntry.kvaRate}>
+          {baselineEntry.kvaRate}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
         <a className="ellipsis" title={baselineEntry.ippRate}>
           {baselineEntry.ippRate}
         </a>
@@ -209,8 +223,18 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO) => {
         </a>
       </td>
       <td className="link-td max-width-10">
+        <a className="ellipsis" title={baselineEntry.kvaCharge}>
+          {baselineEntry.kvaCharge}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
         <a className="ellipsis" title={baselineEntry.currentCharges}>
           {baselineEntry.currentCharges}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
+        <a className="ellipsis" title={baselineEntry.salesTax}>
+          {baselineEntry.salesTax}
         </a>
       </td>
       {/* <td className="link-td">
