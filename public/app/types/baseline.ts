@@ -23,6 +23,7 @@ export interface BaselineDTO {
   ippVariableCharge: string;
   energyCharge: string;
   kvaCharge: string;
+  ippCharge: string;
   currentCharges: string;
   salesTax: string;
 }

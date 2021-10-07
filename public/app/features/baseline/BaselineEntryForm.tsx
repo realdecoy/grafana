@@ -319,21 +319,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               </Field>
               <Field
                 className="baseline-field"
-                label="IPP Variable Charge"
-                invalid={!!errors.ippVariableCharge}
-                error="IPP Variable Charge is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
-              >
-                <Input
-                  {...register('ippVariableCharge', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-ipp-variable-charge"
-                  placeholder="IPP Variable Charge"
-                  defaultValue={''}
-                  suffix={<InputSuffix />}
-                />
-              </Field>
-              <Field
-                className="baseline-field"
                 label="Energy Charge"
                 invalid={!!errors.energyCharge}
                 error="Energy Charge is required [e.g. 24.53]"
@@ -349,6 +334,38 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               </Field>
               <Field
                 className="baseline-field"
+                label="Fuel & IPP Charge"
+                invalid={!!errors.ippCharge}
+                error="Fuel & IPP Charge is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('ippCharge', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="edit-baseline-ipp-charge"
+                  placeholder="Fuel & IPP charge"
+                  defaultValue={''}
+                  suffix={<InputSuffix />}
+                />
+              </Field>
+              <Field
+                className="baseline-field"
+                label="IPP Variable Charge"
+                invalid={!!errors.ippVariableCharge}
+                error="IPP Variable Charge is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('ippVariableCharge', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="edit-baseline-ipp-variable-charge"
+                  placeholder="IPP Variable Charge"
+                  defaultValue={''}
+                  suffix={<InputSuffix />}
+                />
+              </Field>
+            </div>
+            <div className="baseline-field-group">
+              <Field
+                className="baseline-field"
                 label="KVA Charge"
                 invalid={!!errors.kvaCharge}
                 error="KVA Charge is required [e.g. 24.53]"
@@ -362,8 +379,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   suffix={<InputSuffix />}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Current Charges"
@@ -394,7 +409,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   suffix={<InputSuffix />}
                 />
               </Field>
-              <div className="baseline-field"></div>
               <div className="baseline-field"></div>
               <div className="gf-form-button-row">
                 <Button variant="primary" disabled={isSavingBaselineEntry} aria-label="Baseline entry submit button">

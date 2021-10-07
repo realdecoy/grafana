@@ -75,12 +75,13 @@ export function BaselineEntryPage({
               <th>Rate</th>
               <th>Energy Rate</th>
               <th>Fuel Rate</th>
-              <th>Fuel & IPP Rate</th>
               <th>KVA Rate</th>
+              <th>KVA Charge</th>
+              <th>Fuel & IPP Rate</th>
+              <th>Fuel & IPP Charge</th>
               <th>IPP Var. Rate</th>
               <th>IPP Var. Charge</th>
               <th>Energy Charge</th>
-              <th>KVA Rate</th>
               <th>Current Charges</th>
               <th>Sales Tax</th>
               {/* <th>
@@ -203,8 +204,18 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO) => {
         </a>
       </td>
       <td className="link-td max-width-10">
+        <a className="ellipsis" title={baselineEntry.kvaCharge}>
+          {baselineEntry.kvaCharge}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
         <a className="ellipsis" title={baselineEntry.ippRate}>
           {baselineEntry.ippRate}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
+        <a className="ellipsis" title={baselineEntry.ippCharge}>
+          {baselineEntry.ippCharge}
         </a>
       </td>
       <td className="link-td max-width-10">
@@ -220,11 +231,6 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO) => {
       <td className="link-td max-width-10">
         <a className="ellipsis" title={baselineEntry.energyCharge}>
           {baselineEntry.energyCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kvaCharge}>
-          {baselineEntry.kvaCharge}
         </a>
       </td>
       <td className="link-td max-width-10">
