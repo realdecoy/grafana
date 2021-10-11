@@ -41,9 +41,6 @@ jobs:
           ( github.event_name != 'workflow_dispatch' && contains(github.ref, 'refs/tags/temp') )
         run: |
           echo "STAGE=temp" >> $GITHUB_ENV
-          echo "API_ENDPOINT=${{ secrets.API_ENDPOINT }}" >> $GITHUB_ENV
-          echo "SSH_KEY='$(echo ${{ secrets.SSH_KEY }} | awk -v ORS='\\n' '1')'" >> $GITHUB_ENV
-          echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
 
       - name: branch name
         run: echo running on ${{ env.STAGE }}
@@ -51,14 +48,14 @@ jobs:
       - name: deploy ${{ env.STAGE }}
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ env.SSH_HOST }}
+          host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /grafana
             git fetch
-            git checkout dev
+            git checkout CORE-136
             git pull
             echo "export const API_ENDPOINT = ${{ env.API_ENDPOINT }};" > './public/app/core/env.ts'
             bash grafana-deploy-script.sh
