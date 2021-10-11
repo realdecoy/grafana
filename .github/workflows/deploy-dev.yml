@@ -41,9 +41,9 @@ jobs:
           ( github.event_name != 'workflow_dispatch' && contains(github.ref, 'refs/tags/temp') )
         run: |
           echo "STAGE=temp" >> $GITHUB_ENV
-          echo "API_ENDPOINT=${{ secrets.ENDPOINT_TEMP }}" >> $GITHUB_ENV
-          echo "SSH_KEY=${{ secrets.SSH_HOST_TEMP }}" >> $GITHUB_ENV
-          echo "SSH_HOST=${{ secrets.SSH_KEY_TEMP }}" >> $GITHUB_ENV
+          echo "API_ENDPOINT=${{ secrets.API_ENDPOINT }}" >> $GITHUB_ENV
+          echo "SSH_KEY=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
+          echo "SSH_HOST=${{ secrets.SSH_KEY }}" >> $GITHUB_ENV
 
       - name: branch name
         run: echo running on ${{ env.STAGE }}
