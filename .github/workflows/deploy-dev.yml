@@ -32,8 +32,8 @@ jobs:
         run: |
           echo "STAGE=dev" >> $GITHUB_ENV
           echo "API_ENDPOINT=${{ secrets.ENDPOINT_DEV }}" >> $GITHUB_ENV
-          echo "SSH_KEY=${{ secrets.SSH_HOST_DEV }}" >> $GITHUB_ENV
-          echo "SSH_HOST=${{ secrets.SSH_KEY_DEV }}" >> $GITHUB_ENV
+          echo "SSH_KEY=${{ secrets.SSH_KEY_DEV }}" >> $GITHUB_ENV
+          echo "SSH_HOST=${{ secrets.SSH_HOST_DEV }}" >> $GITHUB_ENV
 
       - name: set environment for deployment (temp)
         if: |
@@ -42,8 +42,8 @@ jobs:
         run: |
           echo "STAGE=temp" >> $GITHUB_ENV
           echo "API_ENDPOINT=${{ secrets.API_ENDPOINT }}" >> $GITHUB_ENV
-          echo "SSH_KEY=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
-          echo "SSH_HOST=${{ secrets.SSH_KEY }}" >> $GITHUB_ENV
+          echo "SSH_KEY=${{ secrets.SSH_KEY }}" >> $GITHUB_ENV
+          echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
 
       - name: branch name
         run: echo running on ${{ env.STAGE }}
