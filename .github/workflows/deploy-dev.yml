@@ -41,6 +41,7 @@ jobs:
           ( github.event_name != 'workflow_dispatch' && contains(github.ref, 'refs/tags/temp') )
         run: |
           echo "STAGE=temp" >> $GITHUB_ENV
+          echo "API_ENDPOINT=${{ secrets.ENDPOINT }}" >> $GITHUB_ENV
 
       - name: branch name
         run: echo running on ${{ env.STAGE }}
@@ -54,8 +55,8 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /grafana
-            git fetch
-            git checkout CORE-136
+            sudo git fetch
+            sudo git checkout CORE-136
             git pull
-            echo "export const API_ENDPOINT = ${{ env.API_ENDPOINT }};" > './public/app/core/env.ts'
-            bash grafana-deploy-script.sh
+            sudo echo "export const API_ENDPOINT = ${{ env.API_ENDPOINT }};" > './public/app/core/env.ts'
+            sudo bash grafana-deploy-script.sh
