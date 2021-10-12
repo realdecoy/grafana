@@ -54,6 +54,14 @@ jobs:
       - name: branch name
         run: echo running on ${{ env.STAGE }}
 
+      - name: Get Branch
+        run: |
+          raw=$(git branch -r --contains ${{ github.ref }})
+          branch=${raw/origin\/}
+          echo ::set-env name=BRANCH::$branch
+     
+      - run: echo ${{ env.BRANCH }}
+
       - name: deploy ${{ env.STAGE }}
         uses: appleboy/ssh-action@master
         timeout-minutes: 30
@@ -65,7 +73,7 @@ jobs:
           script: |
             cd /grafana
             sudo git fetch
-            sudo git checkout CORE-136
+            sudo git checkout ${{ env.BRANCH }}
             sudo git pull
             sudo chmod 777 ./public/app/core/env.ts
             sudo echo "export const API_ENDPOINT = '${{ env.API_ENDPOINT }}';" > './public/app/core/env.ts'
