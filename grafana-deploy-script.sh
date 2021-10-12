@@ -6,7 +6,7 @@ cd /grafana
 container="$(sudo docker ps --format '{{.Names}}')"
 
 #remove images if not empty
-if [[ ! -z "$container" ]]
+if [ ! -z "$container" ]
 then
     # stop running container
     sudo docker-compose down
