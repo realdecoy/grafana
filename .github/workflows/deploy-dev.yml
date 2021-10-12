@@ -42,6 +42,8 @@ jobs:
         run: |
           echo "STAGE=temp" >> $GITHUB_ENV
           echo "API_ENDPOINT=${{ secrets.ENDPOINT }}" >> $GITHUB_ENV
+          echo "SSH_KEY=${{ secrets.SSH_KEY }}" >> $GITHUB_ENV
+          echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
 
       - name: branch name
         run: echo running on ${{ env.STAGE }}
@@ -49,14 +51,15 @@ jobs:
       - name: deploy ${{ env.STAGE }}
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
+          host: ${{ env.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ env.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /grafana
             sudo git fetch
             sudo git checkout CORE-136
-            git pull
+            sudo git pull
+            sudo chmod 777 ./public/app/core/env.ts
             sudo echo "export const API_ENDPOINT = ${{ env.API_ENDPOINT }};" > './public/app/core/env.ts'
             sudo bash grafana-deploy-script.sh
