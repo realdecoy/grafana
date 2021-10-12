@@ -68,5 +68,5 @@ jobs:
             sudo git checkout CORE-136
             sudo git pull
             sudo chmod 777 ./public/app/core/env.ts
-            sudo echo "export const API_ENDPOINT = ${{ env.API_ENDPOINT }};" > './public/app/core/env.ts'
+            sudo echo "export const API_ENDPOINT = '${{ env.API_ENDPOINT }}';" > './public/app/core/env.ts'
             sudo bash grafana-deploy-script.sh
