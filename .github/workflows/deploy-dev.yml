@@ -42,7 +42,7 @@ jobs:
         run: |
           echo "STAGE=temp" >> $GITHUB_ENV
           echo "API_ENDPOINT=${{ secrets.ENDPOINT }}" >> $GITHUB_ENV
-          echo "SSH_KEY=${{ secrets.SSH_KEY }}" >> $GITHUB_ENV
+          echo "SSH_KEY=$(echo ${{ secrets.SSH_KEY }} | awk -v ORS='\\n" >> $GITHUB_ENV
           echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
 
       - name: branch name
