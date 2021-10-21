@@ -4,7 +4,13 @@ import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
 import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button } from '@grafana/ui';
 import { BaselineDTO, StoreState } from 'app/types';
-import { initBaselineEntryPage, submitBaselineEntry, updateBaselineEntry, updateModalOpen } from './state/actions';
+import {
+  initBaselineEntryPage,
+  submitBaselineEntry,
+  updateBaselineEntry,
+  openEditModal,
+  closeEditModal,
+} from './state/actions';
 import BaselineEntryForm from './BaselineEntryForm';
 import EditBaselineEntryForm from './EditBaselineEntryForm';
 import { getLoginStyles } from 'app/core/components/Login/LoginLayout';
@@ -16,10 +22,17 @@ export interface OwnProps {
 
 function mapStateToProps(state: StoreState) {
   const baselineEntryState = state.baseline;
-  const { isUpdating, isModalOpen, baselineEntries, baselineEntriesAreLoading } = baselineEntryState;
+  const {
+    isUpdating,
+    isModalOpen,
+    editBaselineEntryId,
+    baselineEntries,
+    baselineEntriesAreLoading,
+  } = baselineEntryState;
   return {
     isUpdating,
     isModalOpen,
+    editBaselineEntryId,
     baselineEntries,
     baselineEntriesAreLoading,
   };
@@ -29,7 +42,8 @@ const mapDispatchToProps = {
   initBaselineEntryPage,
   submitBaselineEntry,
   updateBaselineEntry,
-  updateModalOpen,
+  openEditModal,
+  closeEditModal,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -39,13 +53,15 @@ export type Props = OwnProps & ConnectedProps<typeof connector>;
 export function BaselineEntryPage({
   isUpdating,
   isModalOpen,
+  editBaselineEntryId,
   baselineEntries,
   baselineEntriesAreLoading,
   onDismiss,
   initBaselineEntryPage,
   submitBaselineEntry,
   updateBaselineEntry,
-  updateModalOpen,
+  openEditModal,
+  closeEditModal,
 }: Props) {
   useMount(() => initBaselineEntryPage());
 
@@ -99,7 +115,7 @@ export function BaselineEntryPage({
           </thead>
           <tbody>
             {baselineEntries.map((p: BaselineDTO) => {
-              return renderBaselineRecord(p, updateModalOpen);
+              return renderBaselineRecord(p, openEditModal);
             })}
           </tbody>
         </table>
@@ -109,9 +125,12 @@ export function BaselineEntryPage({
         baselineEntriesAreLoading,
         isUpdating,
         isModalOpen,
+        editBaselineEntryId,
         baselineEntries,
         onDismiss,
-        updateModalOpen
+        openEditModal,
+        closeEditModal,
+        updateBaselineEntry
       )}
     </div>
   );
@@ -136,26 +155,27 @@ const renderEditBaselineEntryModal = (
   isLoading: boolean,
   isUpdating: boolean,
   isModalOpen: boolean,
+  editBaselineEntryId: number,
   baselineEntries: BaselineDTO[],
   onDismiss: any,
-  updateModalOpen: any
+  openEditModal: any,
+  closeEditModal: any,
+  updateBaselineEntry: any
 ) => {
   let el;
-  console.log(isLoading);
 
-  if (isLoading === true || baselineEntries.length <= 0) {
-    el = (
-      <div className="baseline-data-loading-container">
-        <div className="baseline-data-loading-msg">Loading...</div>
-      </div>
-    );
+  if (isLoading === true || baselineEntries.length <= 0 || editBaselineEntryId <= 0) {
+    el = null;
   } else {
-    console.log(baselineEntries);
     el = (
       <Modal title="Edit Baseline Entry" icon="save" onDismiss={onDismiss} isOpen={isModalOpen}>
         <div>
           <EditBaselineEntryForm
-            existingBaseline={baselineEntries[0]}
+            existingBaseline={
+              baselineEntries.find((p) => {
+                return p.id?.toString() === editBaselineEntryId.toString();
+              }) as BaselineDTO
+            }
             updateBaselineEntry={updateBaselineEntry}
             isSavingBaselineEntry={isUpdating}
           />
@@ -163,7 +183,7 @@ const renderEditBaselineEntryModal = (
             <Button
               variant="secondary"
               onClick={() => {
-                updateModalOpen(false);
+                closeEditModal();
               }}
               fill="outline"
             >
@@ -186,7 +206,7 @@ const renderEditBaselineEntryModal = (
   return el;
 };
 
-const renderBaselineRecord = (baselineEntry: BaselineDTO, updateModalOpen: any) => {
+const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any) => {
   return (
     <tr key={baselineEntry.id}>
       <td className="link-td max-width-10">
@@ -318,7 +338,7 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO, updateModalOpen: any) 
         <Icon
           name="shield"
           onClick={() => {
-            updateModalOpen(true);
+            openEditModal(baselineEntry.id);
           }}
         />
       </td>

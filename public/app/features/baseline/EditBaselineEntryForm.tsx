@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { format } from 'date-fns';
-import { Button, DatePickerWithInput, Field, FieldSet, Form, Icon, Input, Tooltip } from '@grafana/ui';
-import config from 'app/core/config';
+import { Button, DatePickerWithInput, Field, FieldSet, Form, Input } from '@grafana/ui';
 import { BaselineDTO } from 'app/types';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
@@ -11,8 +10,6 @@ export interface Props {
   isSavingBaselineEntry: boolean;
   updateBaselineEntry: (payload: BaselineDTO) => void;
 }
-
-const { disableLoginForm } = config;
 
 export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBaselineEntry, updateBaselineEntry }) => {
   // console.log(existingBaseline);
@@ -43,7 +40,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-id"
                   placeholder="ID"
                   defaultValue={existingBaseline.id}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -57,18 +53,21 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-start-date"
                   placeholder="Start Date"
                   closeOnSelect={true}
-                  {...register('startDate', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
+                  value={existingBaseline.startDate}
+                  {...register('startDate', {
+                    required: true,
+                    pattern: /\d{4}\-\d{2}\-\d{2}/g,
+                    setValueAs: (v) => format(new Date(v.toString()), DATE_FORMAT),
+                  })}
                   onChange={(val) => {
                     const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
                     const el = document.getElementById('edit-baseline-start-date') as HTMLInputElement;
                     el.value = formattedValue;
-                    setValue('startDate', formattedValue, { shouldValidate: true });
+                    // setValue('startDate', formattedValue, { shouldValidate: true });
                   }}
-                  defaultValue={format(new Date(existingBaseline.startDate), DATE_FORMAT)}
-                  suffix={<InputSuffix />}
                 />
               </Field>
-              <Field
+              {/* <Field
                 className="baseline-field"
                 label="End Date"
                 invalid={!!errors.endDate}
@@ -87,9 +86,8 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                     setValue('endDate', formattedValue, { shouldValidate: true });
                   }}
                   defaultValue={format(new Date(existingBaseline.endDate), DATE_FORMAT)}
-                  suffix={<InputSuffix />}
                 />
-              </Field>
+              </Field> */}
               <Field
                 className="baseline-field"
                 label="No. Of Days"
@@ -102,10 +100,9 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-no-of-days"
                   placeholder="No. Of Days"
                   defaultValue={existingBaseline.noOfDays}
-                  suffix={<InputSuffix />}
                 />
               </Field>
-              <Field
+              {/* <Field
                 className="baseline-field"
                 label="Invoice Date"
                 invalid={!!errors.invoiceDate}
@@ -124,9 +121,8 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                     setValue('invoiceDate', formattedValue, { shouldValidate: true });
                   }}
                   defaultValue={format(new Date(existingBaseline.startDate), DATE_FORMAT)}
-                  suffix={<InputSuffix />}
                 />
-              </Field>
+              </Field> */}
             </div>
             <div className="baseline-field-group">
               <Field
@@ -141,7 +137,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-kwh"
                   placeholder="kWh"
                   defaultValue={existingBaseline.kwh}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -156,7 +151,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-min-kw"
                   placeholder="Min. kW"
                   defaultValue={existingBaseline.minKw}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -171,7 +165,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-max-kw"
                   placeholder="Max. kW"
                   defaultValue={existingBaseline.maxKw}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -186,7 +179,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-avg-kw"
                   placeholder="Average kW"
                   defaultValue={existingBaseline.avgKw}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -201,7 +193,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-avg-kva"
                   placeholder="Average kVA"
                   defaultValue={existingBaseline.avgKva}
-                  suffix={<InputSuffix />}
                 />
               </Field>
             </div>
@@ -218,7 +209,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-pf"
                   placeholder="PF"
                   defaultValue={existingBaseline.pf}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -233,7 +223,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-min-pf"
                   placeholder="Min. PF"
                   defaultValue={existingBaseline.minPf}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -248,7 +237,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-max-pf"
                   placeholder="Max. PF"
                   defaultValue={existingBaseline.maxPf}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -263,7 +251,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-rate"
                   placeholder="Rate"
                   defaultValue={existingBaseline.rate}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -278,7 +265,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-energy-rate"
                   placeholder="Energy Rate"
                   defaultValue={existingBaseline.energyRate}
-                  suffix={<InputSuffix />}
                 />
               </Field>
             </div>
@@ -295,7 +281,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-fuel-rate"
                   placeholder="Fuel Rate"
                   defaultValue={existingBaseline.fuelRate}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -310,7 +295,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-kva-rate"
                   placeholder="KVA Rate"
                   defaultValue={existingBaseline.kvaRate}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -325,7 +309,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-ipp-rate"
                   placeholder="Fuel & IPP Rate"
                   defaultValue={existingBaseline.ippRate}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -340,7 +323,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-ipp-variable-rate"
                   placeholder="IPP Variable Rate"
                   defaultValue={existingBaseline.ippVariableRate}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -355,7 +337,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-energy-charge"
                   placeholder="Energy Charge"
                   defaultValue={existingBaseline.energyCharge}
-                  suffix={<InputSuffix />}
                 />
               </Field>
             </div>
@@ -372,7 +353,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-ipp-charge"
                   placeholder="Fuel & IPP charge"
                   defaultValue={existingBaseline.ippCharge}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -387,7 +367,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-ipp-variable-charge"
                   placeholder="IPP Variable Charge"
                   defaultValue={existingBaseline.ippVariableCharge}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -402,7 +381,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-kva-charge"
                   placeholder="KVA Charge"
                   defaultValue={existingBaseline.kvaCharge}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -417,7 +395,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-current-charge"
                   placeholder="Current Charges"
                   defaultValue={existingBaseline.currentCharges}
-                  suffix={<InputSuffix />}
                 />
               </Field>
               <Field
@@ -432,7 +409,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-current-charge"
                   placeholder="Sales Tax"
                   defaultValue={existingBaseline.salesTax}
-                  suffix={<InputSuffix />}
                 />
               </Field>
             </div>
@@ -454,11 +430,3 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
 };
 
 export default EditBaselineEntryForm;
-
-const InputSuffix: FC = () => {
-  return disableLoginForm ? (
-    <Tooltip content="Login details locked because they are managed in another system.">
-      <Icon name="lock" />
-    </Tooltip>
-  ) : null;
-};

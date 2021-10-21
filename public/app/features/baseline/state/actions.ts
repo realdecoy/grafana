@@ -1,6 +1,12 @@
 import { BaselineEntryFields } from '../types';
 import { BaselineDTO, ThunkResult } from '../../../types';
-import { setUpdating, initLoadingBaselineEntries, baselineEntriesLoaded, setModalOpen } from './reducers';
+import {
+  setUpdating,
+  initLoadingBaselineEntries,
+  baselineEntriesLoaded,
+  setModalOpen,
+  setEditBaselineModal,
+} from './reducers';
 import { api } from '../api';
 
 export function initBaselineEntryPage(): ThunkResult<void> {
@@ -38,8 +44,16 @@ export function updateBaselineEntry(payload: BaselineDTO): ThunkResult<void> {
   };
 }
 
-export function updateModalOpen(payload: boolean): ThunkResult<void> {
+export function openEditModal(payload: number): ThunkResult<void> {
   return async function (dispatch) {
-    dispatch(setModalOpen({ open: payload }));
+    dispatch(setModalOpen({ open: true }));
+    dispatch(setEditBaselineModal({ id: payload }));
+  };
+}
+
+export function closeEditModal(): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(setModalOpen({ open: false }));
+    dispatch(setEditBaselineModal({ id: 0 }));
   };
 }
