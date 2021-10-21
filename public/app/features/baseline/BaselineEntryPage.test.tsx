@@ -10,6 +10,9 @@ const defaultProps: Props = {
   ...initialBaselineEntryState,
   initBaselineEntryPage: jest.fn().mockResolvedValue(undefined),
   submitBaselineEntry: jest.fn().mockResolvedValue(undefined),
+  updateBaselineEntry: jest.fn().mockResolvedValue(undefined),
+  updateModalOpen: jest.fn().mockResolvedValue(undefined),
+  onDismiss: jest.fn().mockResolvedValue(undefined),
 };
 
 function getSelectors() {

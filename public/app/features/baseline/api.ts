@@ -12,7 +12,13 @@ async function submitBaselineEntry(payload: BaselineEntryFields): Promise<void> 
   await baselineQuery._post('/api/baseline/', payload);
 }
 
+async function updateBaselineEntry(payload: BaselineDTO): Promise<void> {
+  console.log(payload);
+  await baselineQuery._post('/api/baseline/update', payload);
+}
+
 export const api = {
   loadBaselineEntries,
   submitBaselineEntry,
+  updateBaselineEntry,
 };

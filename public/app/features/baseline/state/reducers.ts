@@ -5,12 +5,14 @@ export interface BaselineEntryState {
   baselineEntries: BaselineDTO[];
   baselineEntriesAreLoading: boolean;
   isUpdating: boolean;
+  isModalOpen: boolean;
 }
 
 export const initialBaselineEntryState: BaselineEntryState = {
   baselineEntries: [],
   baselineEntriesAreLoading: false,
   isUpdating: false,
+  isModalOpen: false,
 };
 
 export const slice = createSlice({
@@ -20,6 +22,9 @@ export const slice = createSlice({
     setUpdating: (state, action: PayloadAction<{ updating: boolean }>) => {
       console.log(`[isUpdating] ${action.payload.updating}`);
       state.isUpdating = action.payload.updating;
+    },
+    setModalOpen: (state, action: PayloadAction<{ open: boolean }>) => {
+      state.isModalOpen = action.payload.open;
     },
     initLoadingBaselineEntries: (state, action: PayloadAction<undefined>) => {
       state.baselineEntriesAreLoading = true;
@@ -31,7 +36,7 @@ export const slice = createSlice({
   },
 });
 
-export const { setUpdating, initLoadingBaselineEntries, baselineEntriesLoaded } = slice.actions;
+export const { setUpdating, setModalOpen, initLoadingBaselineEntries, baselineEntriesLoaded } = slice.actions;
 
 export const baselineReducer = slice.reducer;
 export default { baseline: slice.reducer };

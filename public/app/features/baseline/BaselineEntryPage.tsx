@@ -2,20 +2,24 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
-import { PageToolbar, PageHeader, useStyles2 } from '@grafana/ui';
+import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button } from '@grafana/ui';
 import { BaselineDTO, StoreState } from 'app/types';
-import { initBaselineEntryPage, submitBaselineEntry } from './state/actions';
+import { initBaselineEntryPage, submitBaselineEntry, updateBaselineEntry, updateModalOpen } from './state/actions';
 import BaselineEntryForm from './BaselineEntryForm';
+import EditBaselineEntryForm from './EditBaselineEntryForm';
 import { getLoginStyles } from 'app/core/components/Login/LoginLayout';
 import { Branding } from 'app/core/components/Branding/Branding';
 
-export interface OwnProps {}
+export interface OwnProps {
+  onDismiss: () => void;
+}
 
 function mapStateToProps(state: StoreState) {
   const baselineEntryState = state.baseline;
-  const { isUpdating, baselineEntries, baselineEntriesAreLoading } = baselineEntryState;
+  const { isUpdating, isModalOpen, baselineEntries, baselineEntriesAreLoading } = baselineEntryState;
   return {
     isUpdating,
+    isModalOpen,
     baselineEntries,
     baselineEntriesAreLoading,
   };
@@ -24,6 +28,8 @@ function mapStateToProps(state: StoreState) {
 const mapDispatchToProps = {
   initBaselineEntryPage,
   submitBaselineEntry,
+  updateBaselineEntry,
+  updateModalOpen,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -32,10 +38,14 @@ export type Props = OwnProps & ConnectedProps<typeof connector>;
 
 export function BaselineEntryPage({
   isUpdating,
+  isModalOpen,
   baselineEntries,
   baselineEntriesAreLoading,
+  onDismiss,
   initBaselineEntryPage,
   submitBaselineEntry,
+  updateBaselineEntry,
+  updateModalOpen,
 }: Props) {
   useMount(() => initBaselineEntryPage());
 
@@ -84,18 +94,25 @@ export function BaselineEntryPage({
               <th>Energy Charge</th>
               <th>Current Charges</th>
               <th>Sales Tax</th>
-              {/* <th>
-                Seen&nbsp;
-                <Tooltip placement="top" content="Time since user was seen using Grafana">
-                  <Icon name="question-circle" />
-                </Tooltip>
-              </th> */}
+              <th>Actions</th>
             </tr>
           </thead>
-          <tbody>{baselineEntries.map(renderBaselineRecord)}</tbody>
+          <tbody>
+            {baselineEntries.map((p: BaselineDTO) => {
+              return renderBaselineRecord(p, updateModalOpen);
+            })}
+          </tbody>
         </table>
         {renderLoadingBaselineEntries(baselineEntriesAreLoading)}
       </div>
+      {renderEditBaselineEntryModal(
+        baselineEntriesAreLoading,
+        isUpdating,
+        isModalOpen,
+        baselineEntries,
+        onDismiss,
+        updateModalOpen
+      )}
     </div>
   );
 }
@@ -115,7 +132,61 @@ const renderLoadingBaselineEntries = (isLoading: boolean) => {
   return el;
 };
 
-const renderBaselineRecord = (baselineEntry: BaselineDTO) => {
+const renderEditBaselineEntryModal = (
+  isLoading: boolean,
+  isUpdating: boolean,
+  isModalOpen: boolean,
+  baselineEntries: BaselineDTO[],
+  onDismiss: any,
+  updateModalOpen: any
+) => {
+  let el;
+  console.log(isLoading);
+
+  if (isLoading === true || baselineEntries.length <= 0) {
+    el = (
+      <div className="baseline-data-loading-container">
+        <div className="baseline-data-loading-msg">Loading...</div>
+      </div>
+    );
+  } else {
+    console.log(baselineEntries);
+    el = (
+      <Modal title="Edit Baseline Entry" icon="save" onDismiss={onDismiss} isOpen={isModalOpen}>
+        <div>
+          <EditBaselineEntryForm
+            existingBaseline={baselineEntries[0]}
+            updateBaselineEntry={updateBaselineEntry}
+            isSavingBaselineEntry={isUpdating}
+          />
+          <Modal.ButtonRow>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                updateModalOpen(false);
+              }}
+              fill="outline"
+            >
+              Cancel
+            </Button>
+            {/* <Button
+              onClick={() => {
+                updateBaselineEntry(panel, ).then(() => {
+                  onConfirm();
+                });
+              }}
+            >
+              Update all
+            </Button> */}
+          </Modal.ButtonRow>
+        </div>
+      </Modal>
+    );
+  }
+  return el;
+};
+
+const renderBaselineRecord = (baselineEntry: BaselineDTO, updateModalOpen: any) => {
   return (
     <tr key={baselineEntry.id}>
       <td className="link-td max-width-10">
@@ -243,15 +314,14 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO) => {
           {baselineEntry.salesTax}
         </a>
       </td>
-      {/* <td className="link-td">
-        {baselineEntry.isAdmin && (
-          <a href={editUrl}>
-            <Tooltip placement="top" content="Grafana Admin">
-              <Icon name="shield" />
-            </Tooltip>
-          </a>
-        )}
-      </td> */}
+      <td className="link-td">
+        <Icon
+          name="shield"
+          onClick={() => {
+            updateModalOpen(true);
+          }}
+        />
+      </td>
     </tr>
   );
 };
