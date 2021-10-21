@@ -344,7 +344,7 @@ export class UnthemedDashboardPage extends PureComponent<Props, State> {
           <header aria-label={selectors.pages.Dashboard.DashNav.nav}>
             <DashNav
               dashboard={dashboard}
-              title="HELLO WORLD"
+              title={dashboard.title}
               folderTitle={dashboard.meta.folderTitle}
               isFullscreen={!!viewPanel}
               onAddPanel={this.onAddPanel}
