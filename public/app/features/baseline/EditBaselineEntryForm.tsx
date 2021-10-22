@@ -46,28 +46,30 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 className="baseline-field"
                 label="Start Date"
                 invalid={!!errors.startDate}
-                error="Start Date is required [format: yyyy-mm-dd]"
+                error="Start Date is required [yyyy-mm-dd]"
                 disabled={isSavingBaselineEntry}
               >
                 <DatePickerWithInput
                   id="edit-baseline-start-date"
                   placeholder="Start Date"
                   closeOnSelect={true}
-                  value={existingBaseline.startDate}
+                  defaultValue={existingBaseline.startDate}
                   {...register('startDate', {
                     required: true,
                     pattern: /\d{4}\-\d{2}\-\d{2}/g,
-                    setValueAs: (v) => format(new Date(v.toString()), DATE_FORMAT),
                   })}
                   onChange={(val) => {
-                    const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
-                    const el = document.getElementById('edit-baseline-start-date') as HTMLInputElement;
-                    el.value = formattedValue;
-                    // setValue('startDate', formattedValue, { shouldValidate: true });
+                    console.log(`[change] ${val}`);
+                    if (val) {
+                      const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
+                      const el = document.getElementById('edit-baseline-start-date') as HTMLInputElement;
+                      el.value = formattedValue;
+                      setValue('startDate', formattedValue, { shouldValidate: true });
+                    }
                   }}
                 />
               </Field>
-              {/* <Field
+              <Field
                 className="baseline-field"
                 label="End Date"
                 invalid={!!errors.endDate}
@@ -78,16 +80,22 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-end-date"
                   placeholder="End Date"
                   closeOnSelect={true}
-                  {...register('endDate', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
+                  defaultValue={existingBaseline.endDate}
+                  {...register('endDate', {
+                    required: true,
+                    pattern: /\d{4}\-\d{2}\-\d{2}/g,
+                  })}
                   onChange={(val) => {
-                    const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
-                    const el = document.getElementById('edit-baseline-end-date') as HTMLInputElement;
-                    el.value = formattedValue;
-                    setValue('endDate', formattedValue, { shouldValidate: true });
+                    console.log(`[change] ${val}`);
+                    if (val) {
+                      const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
+                      const el = document.getElementById('edit-baseline-end-date') as HTMLInputElement;
+                      el.value = formattedValue;
+                      setValue('endDate', formattedValue, { shouldValidate: true });
+                    }
                   }}
-                  defaultValue={format(new Date(existingBaseline.endDate), DATE_FORMAT)}
                 />
-              </Field> */}
+              </Field>
               <Field
                 className="baseline-field"
                 label="No. Of Days"
@@ -102,7 +110,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   defaultValue={existingBaseline.noOfDays}
                 />
               </Field>
-              {/* <Field
+              <Field
                 className="baseline-field"
                 label="Invoice Date"
                 invalid={!!errors.invoiceDate}
@@ -113,16 +121,22 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="edit-baseline-invoice-date"
                   placeholder="Invoice Date"
                   closeOnSelect={true}
-                  {...register('invoiceDate', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
+                  defaultValue={existingBaseline.invoiceDate}
+                  {...register('invoiceDate', {
+                    required: true,
+                    pattern: /\d{4}\-\d{2}\-\d{2}/g,
+                  })}
                   onChange={(val) => {
-                    const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
-                    const el = document.getElementById('edit-baseline-invoice-date') as HTMLInputElement;
-                    el.value = formattedValue;
-                    setValue('invoiceDate', formattedValue, { shouldValidate: true });
+                    console.log(`[change] ${val}`);
+                    if (val) {
+                      const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
+                      const el = document.getElementById('edit-baseline-invoice-date') as HTMLInputElement;
+                      el.value = formattedValue;
+                      setValue('invoiceDate', formattedValue, { shouldValidate: true });
+                    }
                   }}
-                  defaultValue={format(new Date(existingBaseline.startDate), DATE_FORMAT)}
                 />
-              </Field> */}
+              </Field>
             </div>
             <div className="baseline-field-group">
               <Field

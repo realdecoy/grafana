@@ -40,13 +40,13 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                 disabled={isSavingBaselineEntry}
               >
                 <DatePickerWithInput
-                  id="edit-baseline-start-date"
+                  id="baseline-start-date"
                   placeholder="Start Date"
                   closeOnSelect={true}
                   {...register('startDate', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
                   onChange={(val) => {
                     const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
-                    const el = document.getElementById('edit-baseline-start-date') as HTMLInputElement;
+                    const el = document.getElementById('baseline-start-date') as HTMLInputElement;
                     el.value = formattedValue;
                     setValue('startDate', formattedValue, { shouldValidate: true });
                   }}
@@ -61,13 +61,13 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                 disabled={isSavingBaselineEntry}
               >
                 <DatePickerWithInput
-                  id="edit-baseline-end-date"
+                  id="baseline-end-date"
                   placeholder="End Date"
                   closeOnSelect={true}
                   {...register('endDate', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
                   onChange={(val) => {
                     const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
-                    const el = document.getElementById('edit-baseline-end-date') as HTMLInputElement;
+                    const el = document.getElementById('baseline-end-date') as HTMLInputElement;
                     el.value = formattedValue;
                     setValue('endDate', formattedValue, { shouldValidate: true });
                   }}
@@ -83,7 +83,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('noOfDays', { required: false, pattern: /^[0-9]+$/g })}
-                  id="edit-baseline-no-of-days"
+                  id="baseline-no-of-days"
                   placeholder="No. Of Days"
                   defaultValue={''}
                 />
@@ -96,13 +96,13 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                 disabled={isSavingBaselineEntry}
               >
                 <DatePickerWithInput
-                  id="edit-baseline-invoice-date"
+                  id="baseline-invoice-date"
                   placeholder="Invoice Date"
                   closeOnSelect={true}
                   {...register('invoiceDate', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
                   onChange={(val) => {
                     const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
-                    const el = document.getElementById('edit-baseline-invoice-date') as HTMLInputElement;
+                    const el = document.getElementById('baseline-invoice-date') as HTMLInputElement;
                     el.value = formattedValue;
                     setValue('invoiceDate', formattedValue, { shouldValidate: true });
                   }}
@@ -118,7 +118,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('kwh', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-kwh"
+                  id="baseline-kwh"
                   placeholder="kWh"
                   defaultValue={''}
                 />
@@ -134,7 +134,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('minKw', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-min-kw"
+                  id="baseline-min-kw"
                   placeholder="Min. kW"
                   defaultValue={''}
                 />
@@ -148,7 +148,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('maxKw', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-max-kw"
+                  id="baseline-max-kw"
                   placeholder="Max. kW"
                   defaultValue={''}
                 />
@@ -162,7 +162,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('avgKw', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-avg-kw"
+                  id="baseline-avg-kw"
                   placeholder="Average kW"
                   defaultValue={''}
                 />
@@ -176,7 +176,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('avgKva', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-avg-kva"
+                  id="baseline-avg-kva"
                   placeholder="Average kVA"
                   defaultValue={''}
                 />
@@ -190,7 +190,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('pf', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-pf"
+                  id="baseline-pf"
                   placeholder="PF"
                   defaultValue={''}
                 />
@@ -206,7 +206,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('minPf', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-min-pf"
+                  id="baseline-min-pf"
                   placeholder="Min. PF"
                   defaultValue={''}
                 />
@@ -220,7 +220,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('maxPf', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-max-pf"
+                  id="baseline-max-pf"
                   placeholder="Max. PF"
                   defaultValue={''}
                 />
@@ -234,7 +234,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('rate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-rate"
+                  id="baseline-rate"
                   placeholder="Rate"
                   defaultValue={''}
                 />
@@ -248,7 +248,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('energyRate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-energy-rate"
+                  id="baseline-energy-rate"
                   placeholder="Energy Rate"
                   defaultValue={''}
                 />
@@ -262,7 +262,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('fuelRate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-fuel-rate"
+                  id="baseline-fuel-rate"
                   placeholder="Fuel Rate"
                   defaultValue={''}
                 />
@@ -278,7 +278,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('kvaRate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-kva-rate"
+                  id="baseline-kva-rate"
                   placeholder="KVA Rate"
                   defaultValue={''}
                 />
@@ -292,7 +292,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('ippRate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-ipp-rate"
+                  id="baseline-ipp-rate"
                   placeholder="Fuel & IPP Rate"
                   defaultValue={''}
                 />
@@ -306,7 +306,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('ippVariableRate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-ipp-variable-rate"
+                  id="baseline-ipp-variable-rate"
                   placeholder="IPP Variable Rate"
                   defaultValue={''}
                 />
@@ -320,7 +320,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('energyCharge', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-energy-charge"
+                  id="baseline-energy-charge"
                   placeholder="Energy Charge"
                   defaultValue={''}
                 />
@@ -334,7 +334,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('ippCharge', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-ipp-charge"
+                  id="baseline-ipp-charge"
                   placeholder="Fuel & IPP charge"
                   defaultValue={''}
                 />
@@ -350,7 +350,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('ippVariableCharge', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-ipp-variable-charge"
+                  id="baseline-ipp-variable-charge"
                   placeholder="IPP Variable Charge"
                   defaultValue={''}
                 />
@@ -364,7 +364,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('kvaCharge', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-kva-charge"
+                  id="baseline-kva-charge"
                   placeholder="KVA Charge"
                   defaultValue={''}
                 />
@@ -378,7 +378,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('currentCharges', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-current-charge"
+                  id="baseline-current-charge"
                   placeholder="Current Charges"
                   defaultValue={''}
                 />
@@ -392,7 +392,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               >
                 <Input
                   {...register('salesTax', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-current-charge"
+                  id="baseline-current-charge"
                   placeholder="Sales Tax"
                   defaultValue={''}
                 />
