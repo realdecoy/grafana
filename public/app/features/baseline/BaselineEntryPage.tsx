@@ -168,13 +168,13 @@ const renderEditBaselineEntryModal = (
     el = null;
   } else {
     el = (
-      <Modal title="Edit Baseline Entry" icon="save" onDismiss={onDismiss} isOpen={isModalOpen}>
+      <Modal title="Edit Baseline Entry" icon="save" onDismiss={closeEditModal} isOpen={isModalOpen}>
         <div>
           <EditBaselineEntryForm
             existingBaseline={
-              baselineEntries.find((p) => {
+              (baselineEntries.find((p) => {
                 return p.id?.toString() === editBaselineEntryId.toString();
-              }) as BaselineDTO
+              }) ?? {}) as BaselineDTO
             }
             updateBaselineEntry={updateBaselineEntry}
             isSavingBaselineEntry={isUpdating}

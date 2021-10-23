@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { Button, DatePickerWithInput, Field, FieldSet, Form, Input } from '@grafana/ui';
 import { BaselineDTO } from 'app/types';
@@ -12,6 +12,32 @@ export interface Props {
 }
 
 export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBaselineEntry, updateBaselineEntry }) => {
+  const [id, setId] = useState({ value: '' });
+  const [startDate, setStartDate] = useState({ value: '' });
+  const [endDate, setEndDate] = useState({ value: '' });
+  const [noOfDays, setNoOfDays] = useState({ value: '' });
+  const [invoiceDate, setInvoiceDate] = useState({ value: '' });
+  const [kwh, setKwh] = useState({ value: '' });
+  const [minKw, setMinKw] = useState({ value: '' });
+  const [maxKw, setMaxKw] = useState({ value: '' });
+  const [avgKw, setAvgKw] = useState({ value: '' });
+  const [avgKva, setAvgKva] = useState({ value: '' });
+  const [pf, setPf] = useState({ value: '' });
+  const [minPf, setMinPf] = useState({ value: '' });
+  const [maxPf, setMaxPf] = useState({ value: '' });
+  const [rate, setRate] = useState({ value: '' });
+  const [energyRate, setEnergyRate] = useState({ value: '' });
+  const [fuelRate, setFuelRate] = useState({ value: '' });
+  const [kvaRate, setKvaRate] = useState({ value: '' });
+  const [ippRate, setIppRate] = useState({ value: '' });
+  const [ippVariableRate, setIppVariableRate] = useState({ value: '' });
+  const [energyCharge, setEnergyCharge] = useState({ value: '' });
+  const [ippCharge, setIppCharge] = useState({ value: '' });
+  const [ippVariableCharge, setIppVariableCharge] = useState({ value: '' });
+  const [kvaCharge, setKvaCharge] = useState({ value: '' });
+  const [currentCharges, setCurrentCharges] = useState({ value: '' });
+  const [salesTax, setSalesTax] = useState({ value: '' });
+
   // console.log(existingBaseline);
   const onSubmitBaselineEntry = (data: BaselineDTO) => {
     updateBaselineEntry(data);
@@ -28,43 +54,110 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
     onSubmitBaselineEntry(data);
   };
 
+  useEffect(() => {
+    const isValidStartDate = new Date(existingBaseline.startDate).toString() !== 'Invalid Date';
+    const isValidEndDate = new Date(existingBaseline.endDate).toString() !== 'Invalid Date';
+    const isValidInvoiceDate = new Date(existingBaseline.invoiceDate).toString() !== 'Invalid Date';
+    console.log(existingBaseline);
+    setId({ value: existingBaseline.id as string });
+    setStartDate({ value: isValidStartDate ? format(new Date(existingBaseline.startDate), DATE_FORMAT) : '' });
+    setEndDate({ value: isValidEndDate ? format(new Date(existingBaseline.endDate), DATE_FORMAT) : '' });
+    setNoOfDays({ value: existingBaseline.noOfDays as string });
+    setInvoiceDate({ value: isValidInvoiceDate ? format(new Date(existingBaseline.invoiceDate), DATE_FORMAT) : '' });
+    setKwh({ value: existingBaseline.kwh as string });
+    setMinKw({ value: existingBaseline.minKw as string });
+    setMaxKw({ value: existingBaseline.maxKw as string });
+    setAvgKw({ value: existingBaseline.avgKw as string });
+    setAvgKva({ value: existingBaseline.avgKva as string });
+    setPf({ value: existingBaseline.pf as string });
+    setMinPf({ value: existingBaseline.minPf as string });
+    setMaxPf({ value: existingBaseline.maxPf as string });
+    setRate({ value: existingBaseline.rate as string });
+    setEnergyRate({ value: existingBaseline.energyRate as string });
+    setFuelRate({ value: existingBaseline.fuelRate as string });
+    setKvaRate({ value: existingBaseline.kvaRate as string });
+    setIppRate({ value: existingBaseline.ippRate as string });
+    setIppVariableRate({ value: existingBaseline.ippVariableRate as string });
+    setEnergyCharge({ value: existingBaseline.energyCharge as string });
+    setIppCharge({ value: existingBaseline.ippCharge as string });
+    setIppVariableCharge({ value: existingBaseline.ippVariableCharge as string });
+    setKvaCharge({ value: existingBaseline.kvaCharge as string });
+    setCurrentCharges({ value: existingBaseline.currentCharges as string });
+    setSalesTax({ value: existingBaseline.salesTax as string });
+  }, [existingBaseline]);
+
   return (
     <Form id="edit-baseline-entry-form" className="edit-baseline-entry-form" onSubmit={onSubmit} validateOn="onBlur">
       {({ register, errors, clearErrors, setValue }) => {
+        const isValidStartDate = new Date(existingBaseline.startDate).toString() !== 'Invalid Date';
+        const isValidEndDate = new Date(existingBaseline.endDate).toString() !== 'Invalid Date';
+        const isValidInvoiceDate = new Date(existingBaseline.invoiceDate).toString() !== 'Invalid Date';
+        setValue('id', id.value);
+        setValue('startDate', isValidStartDate ? format(new Date(existingBaseline.startDate), DATE_FORMAT) : '');
+        setValue('endDate', isValidEndDate ? format(new Date(existingBaseline.endDate), DATE_FORMAT) : '');
+        setValue('noOfDays', noOfDays.value);
+        setValue('invoiceDate', isValidInvoiceDate ? format(new Date(existingBaseline.invoiceDate), DATE_FORMAT) : '');
+        setValue('kwh', kwh.value);
+        setValue('minKw', minKw.value);
+        setValue('maxKw', maxKw.value);
+        setValue('avgKw', avgKw.value);
+        setValue('avgKva', avgKva.value);
+        setValue('pf', pf.value);
+        setValue('minPf', minPf.value);
+        setValue('maxPf', maxPf.value);
+        setValue('rate', rate.value);
+        setValue('energyRate', energyRate.value);
+        setValue('fuelRate', fuelRate.value);
+        setValue('kvaRate', kvaRate.value);
+        setValue('ippRate', ippRate.value);
+        setValue('ippVariableRate', ippVariableRate.value);
+        setValue('energyCharge', energyCharge.value);
+        setValue('ippCharge', ippCharge.value);
+        setValue('ippVariableCharge', ippVariableCharge.value);
+        setValue('kvaCharge', kvaCharge.value);
+        setValue('currentCharges', currentCharges.value);
+        setValue('salesTax', salesTax.value);
         return (
-          <FieldSet className="baseline-field-set">
+          <FieldSet className="edit-baseline-field-set">
             <div className="baseline-field-group">
-              <Field className="baseline-field" label="ID" invalid={!!errors.id} disabled={true}>
+              <Field className="baseline-field" label="ID" invalid={!!errors.id} disabled={false}>
                 <Input
                   {...register('id', { required: true })}
                   id="edit-baseline-id"
                   placeholder="ID"
-                  defaultValue={existingBaseline.id}
+                  value={id.value}
+                  onChange={(event) => {
+                    console.log(event);
+                    const value = event?.currentTarget.value;
+                    alert(value);
+                    setId({ value });
+                    setValue('id', value);
+                  }}
                 />
               </Field>
               <Field
                 className="baseline-field"
                 label="Start Date"
                 invalid={!!errors.startDate}
-                error="Start Date is required [yyyy-mm-dd]"
+                error="Start Date is required"
                 disabled={isSavingBaselineEntry}
               >
                 <DatePickerWithInput
                   id="edit-baseline-start-date"
                   placeholder="Start Date"
                   closeOnSelect={true}
-                  defaultValue={existingBaseline.startDate}
+                  value={startDate.value}
                   {...register('startDate', {
                     required: true,
-                    pattern: /\d{4}\-\d{2}\-\d{2}/g,
                   })}
                   onChange={(val) => {
                     console.log(`[change] ${val}`);
                     if (val) {
-                      const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
+                      const formattedValue = format(new Date(val), DATE_FORMAT);
                       const el = document.getElementById('edit-baseline-start-date') as HTMLInputElement;
                       el.value = formattedValue;
-                      setValue('startDate', formattedValue, { shouldValidate: true });
+                      setStartDate({ value: formattedValue });
+                      setValue('startDate', formattedValue);
                     }
                   }}
                 />
@@ -73,25 +166,25 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 className="baseline-field"
                 label="End Date"
                 invalid={!!errors.endDate}
-                error="End Date is required [format: yyyy-mm-dd]"
+                error="End Date is required"
                 disabled={isSavingBaselineEntry}
               >
                 <DatePickerWithInput
                   id="edit-baseline-end-date"
                   placeholder="End Date"
                   closeOnSelect={true}
-                  defaultValue={existingBaseline.endDate}
+                  value={endDate.value}
                   {...register('endDate', {
                     required: true,
-                    pattern: /\d{4}\-\d{2}\-\d{2}/g,
                   })}
                   onChange={(val) => {
                     console.log(`[change] ${val}`);
                     if (val) {
-                      const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
+                      const formattedValue = format(new Date(val), DATE_FORMAT);
                       const el = document.getElementById('edit-baseline-end-date') as HTMLInputElement;
                       el.value = formattedValue;
-                      setValue('endDate', formattedValue, { shouldValidate: true });
+                      setEndDate({ value: formattedValue });
+                      setValue('endDate', formattedValue);
                     }
                   }}
                 />
@@ -104,35 +197,41 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('noOfDays', { required: false, pattern: /^[0-9]+$/g })}
+                  {...register('noOfDays', { required: true, pattern: /^[0-9]+$/g })}
                   id="edit-baseline-no-of-days"
                   placeholder="No. Of Days"
-                  defaultValue={existingBaseline.noOfDays}
+                  value={noOfDays.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfDays({ value });
+                    setValue('noOfDays', value);
+                  }}
                 />
               </Field>
               <Field
                 className="baseline-field"
                 label="Invoice Date"
                 invalid={!!errors.invoiceDate}
-                error="Invoice Date is required [format: yyyy-mm-dd]"
+                error="Invoice Date is required"
                 disabled={isSavingBaselineEntry}
               >
                 <DatePickerWithInput
                   id="edit-baseline-invoice-date"
                   placeholder="Invoice Date"
                   closeOnSelect={true}
-                  defaultValue={existingBaseline.invoiceDate}
+                  value={invoiceDate.value}
                   {...register('invoiceDate', {
                     required: true,
-                    pattern: /\d{4}\-\d{2}\-\d{2}/g,
                   })}
                   onChange={(val) => {
                     console.log(`[change] ${val}`);
                     if (val) {
-                      const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
+                      const formattedValue = format(new Date(val), DATE_FORMAT);
                       const el = document.getElementById('edit-baseline-invoice-date') as HTMLInputElement;
                       el.value = formattedValue;
-                      setValue('invoiceDate', formattedValue, { shouldValidate: true });
+                      console.log(formattedValue);
+                      setInvoiceDate({ value: formattedValue });
+                      setValue('invoiceDate', formattedValue);
                     }
                   }}
                 />
@@ -150,7 +249,13 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('kwh', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-kwh"
                   placeholder="kWh"
-                  defaultValue={existingBaseline.kwh}
+                  value={kwh.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    alert(value);
+                    setKwh({ value });
+                    setValue('kwh', value);
+                  }}
                 />
               </Field>
               <Field
@@ -164,7 +269,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('minKw', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-min-kw"
                   placeholder="Min. kW"
-                  defaultValue={existingBaseline.minKw}
+                  value={minKw.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setMinKw({ value });
+                    setValue('minKw', value);
+                  }}
                 />
               </Field>
               <Field
@@ -178,7 +288,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('maxKw', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-max-kw"
                   placeholder="Max. kW"
-                  defaultValue={existingBaseline.maxKw}
+                  value={maxKw.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setMaxKw({ value });
+                    setValue('maxKw', value);
+                  }}
                 />
               </Field>
               <Field
@@ -192,7 +307,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('avgKw', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-avg-kw"
                   placeholder="Average kW"
-                  defaultValue={existingBaseline.avgKw}
+                  value={avgKw.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setAvgKw({ value });
+                    setValue('avgKw', value);
+                  }}
                 />
               </Field>
               <Field
@@ -206,7 +326,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('avgKva', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-avg-kva"
                   placeholder="Average kVA"
-                  defaultValue={existingBaseline.avgKva}
+                  value={avgKva.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setAvgKva({ value });
+                    setValue('avgKva', value);
+                  }}
                 />
               </Field>
             </div>
@@ -222,7 +347,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('pf', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-pf"
                   placeholder="PF"
-                  defaultValue={existingBaseline.pf}
+                  value={pf.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setPf({ value });
+                    setValue('pf', value);
+                  }}
                 />
               </Field>
               <Field
@@ -236,7 +366,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('minPf', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-min-pf"
                   placeholder="Min. PF"
-                  defaultValue={existingBaseline.minPf}
+                  value={minPf.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setMinPf({ value });
+                    setValue('minPf', value);
+                  }}
                 />
               </Field>
               <Field
@@ -250,7 +385,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('maxPf', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-max-pf"
                   placeholder="Max. PF"
-                  defaultValue={existingBaseline.maxPf}
+                  value={maxPf.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setMaxPf({ value });
+                    setValue('maxPf', value);
+                  }}
                 />
               </Field>
               <Field
@@ -264,7 +404,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('rate', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-rate"
                   placeholder="Rate"
-                  defaultValue={existingBaseline.rate}
+                  value={rate.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setRate({ value });
+                    setValue('rate', value);
+                  }}
                 />
               </Field>
               <Field
@@ -278,7 +423,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('energyRate', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-energy-rate"
                   placeholder="Energy Rate"
-                  defaultValue={existingBaseline.energyRate}
+                  value={energyRate.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setEnergyRate({ value });
+                    setValue('energyRate', value);
+                  }}
                 />
               </Field>
             </div>
@@ -294,7 +444,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('fuelRate', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-fuel-rate"
                   placeholder="Fuel Rate"
-                  defaultValue={existingBaseline.fuelRate}
+                  value={fuelRate.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setFuelRate({ value });
+                    setValue('fuelRate', value);
+                  }}
                 />
               </Field>
               <Field
@@ -308,7 +463,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('kvaRate', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-kva-rate"
                   placeholder="KVA Rate"
-                  defaultValue={existingBaseline.kvaRate}
+                  value={kvaRate.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setKvaRate({ value });
+                    setValue('kvaRate', value);
+                  }}
                 />
               </Field>
               <Field
@@ -322,7 +482,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('ippRate', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-ipp-rate"
                   placeholder="Fuel & IPP Rate"
-                  defaultValue={existingBaseline.ippRate}
+                  value={ippRate.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setIppRate({ value });
+                    setValue('ippRate', value);
+                  }}
                 />
               </Field>
               <Field
@@ -336,7 +501,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('ippVariableRate', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-ipp-variable-rate"
                   placeholder="IPP Variable Rate"
-                  defaultValue={existingBaseline.ippVariableRate}
+                  value={ippVariableRate.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setIppVariableRate({ value });
+                    setValue('ippVariableRate', value);
+                  }}
                 />
               </Field>
               <Field
@@ -350,7 +520,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('energyCharge', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-energy-charge"
                   placeholder="Energy Charge"
-                  defaultValue={existingBaseline.energyCharge}
+                  value={energyCharge.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setEnergyCharge({ value });
+                    setValue('energyCharge', value);
+                  }}
                 />
               </Field>
             </div>
@@ -366,7 +541,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('ippCharge', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-ipp-charge"
                   placeholder="Fuel & IPP charge"
-                  defaultValue={existingBaseline.ippCharge}
+                  value={ippCharge.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setIppCharge({ value });
+                    setValue('ippCharge', value);
+                  }}
                 />
               </Field>
               <Field
@@ -380,7 +560,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('ippVariableCharge', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-ipp-variable-charge"
                   placeholder="IPP Variable Charge"
-                  defaultValue={existingBaseline.ippVariableCharge}
+                  value={ippVariableCharge.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setIppVariableCharge({ value });
+                    setValue('ippVariableCharge', value);
+                  }}
                 />
               </Field>
               <Field
@@ -394,7 +579,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('kvaCharge', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-kva-charge"
                   placeholder="KVA Charge"
-                  defaultValue={existingBaseline.kvaCharge}
+                  value={kvaCharge.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setKvaCharge({ value });
+                    setValue('kvaCharge', value);
+                  }}
                 />
               </Field>
               <Field
@@ -408,7 +598,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('currentCharges', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-current-charge"
                   placeholder="Current Charges"
-                  defaultValue={existingBaseline.currentCharges}
+                  value={currentCharges.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setCurrentCharges({ value });
+                    setValue('currentCharges', value);
+                  }}
                 />
               </Field>
               <Field
@@ -422,7 +617,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   {...register('salesTax', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="edit-baseline-current-charge"
                   placeholder="Sales Tax"
-                  defaultValue={existingBaseline.salesTax}
+                  value={salesTax.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setSalesTax({ value });
+                    setValue('salesTax', value);
+                  }}
                 />
               </Field>
             </div>

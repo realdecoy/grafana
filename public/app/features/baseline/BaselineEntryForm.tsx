@@ -50,7 +50,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     el.value = formattedValue;
                     setValue('startDate', formattedValue, { shouldValidate: true });
                   }}
-                  defaultValue={''}
                 />
               </Field>
               <Field
@@ -71,7 +70,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     el.value = formattedValue;
                     setValue('endDate', formattedValue, { shouldValidate: true });
                   }}
-                  defaultValue={''}
                 />
               </Field>
               <Field
@@ -106,7 +104,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     el.value = formattedValue;
                     setValue('invoiceDate', formattedValue, { shouldValidate: true });
                   }}
-                  defaultValue={''}
                 />
               </Field>
               <Field
