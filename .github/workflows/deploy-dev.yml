@@ -1,29 +1,80 @@
-name: Deploy Dev
+name: Deploy
 #on a push to tags to trigger GitHub action workflow
 on:
   push:
     tags:
       - 'dev-**'
+      - 'temp-**'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      # validate input
+      - name: validate stage
+        if: |
+          github.event_name == 'workflow_dispatch' &&
+          github.event.inputs.stage != 'dev' &&
+          github.event.inputs.stage != 'temp'
+        run: |
+          echo "Stage must be: 'dev' or 'temp'" 2>&1
+          exit 1
+
       - name: configure environment
         uses: actions/checkout@v1
+
+      # configure environment
+      - name: set environment for deployment (dev)
+        if: |
+          ( github.event_name == 'workflow_dispatch' && github.event.inputs.stage == 'dev' ) ||
+          ( github.event_name != 'workflow_dispatch' && contains(github.ref, 'refs/tags/dev') )
+        run: |
+          echo "STAGE=dev" >> $GITHUB_ENV
+          echo "API_ENDPOINT=${{ secrets.ENDPOINT_DEV }}" >> $GITHUB_ENV
+          echo "SSH_KEY=${{ secrets.SSH_KEY_DEV }}" >> $GITHUB_ENV
+          echo "SSH_HOST=${{ secrets.SSH_HOST_DEV }}" >> $GITHUB_ENV
+
+      - name: set environment for deployment (temp)
+        if: |
+          ( github.event_name == 'workflow_dispatch' && github.event.inputs.stage == 'temp' ) ||
+          ( github.event_name != 'workflow_dispatch' && contains(github.ref, 'refs/tags/temp') )
+        run: |
+          echo "STAGE=temp" >> $GITHUB_ENV
+          echo "API_ENDPOINT=${{ secrets.API_ENDPOINT }}" >> $GITHUB_ENV
+          SSH_KEY=$(cat << EOF
+          ${{ secrets.SSH_KEY }}
+          EOF
+          )
+          echo "SSH_KEY<<EOF" >> $GITHUB_ENV
+          echo "$SSH_KEY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
+
       - name: branch name
-        run: echo running on branch dev
-      - name: deploy 
+        run: echo running on ${{ env.STAGE }}
+
+      - name: Get Branch
+        run: |
+          raw=$(git branch -r --contains ${{ github.ref }})
+          branch=${raw/origin\/}
+          echo "BRANCH=$branch" >> $GITHUB_ENV
+     
+      - run: echo ${{ env.BRANCH }}
+
+      - name: deploy ${{ env.STAGE }}
         uses: appleboy/ssh-action@master
+        timeout-minutes: 30
         with:
-          host: ${{ secrets.SSH_HOST }}
+          host: ${{ env.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          key: ${{ env.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /home/${{ secrets.SSH_USERNAME }}/grafana
-            git fetch
-            git checkout dev
-            git pull
-            echo "export const API_ENDPOINT = 'https://um9jop66u4.execute-api.us-east-1.amazonaws.com/dev';" > './public/app/core/env.ts'
+            cd /grafana
+            sudo git fetch
+            sudo git checkout ${{ env.BRANCH }}
+            sudo git pull
+            sudo chmod 777 ./public/app/core/env.ts
+            sudo echo "export const API_ENDPOINT = '${{ env.API_ENDPOINT }}';" > './public/app/core/env.ts'
+            sudo bash grafana-deploy-script.sh
