@@ -22,7 +22,6 @@ export const slice = createSlice({
   initialState: initialBaselineEntryState,
   reducers: {
     setUpdating: (state, action: PayloadAction<{ updating: boolean }>) => {
-      console.log(`[isUpdating] ${action.payload.updating}`);
       state.isUpdating = action.payload.updating;
     },
     setModalOpen: (state, action: PayloadAction<{ open: boolean }>) => {

@@ -1,9 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
-import { format } from 'date-fns';
-import { Button, DatePickerWithInput, Field, FieldSet, Form, Input } from '@grafana/ui';
+import { Button, Field, FieldSet, Form, Input } from '@grafana/ui';
 import { BaselineDTO } from 'app/types';
-
-const DATE_FORMAT = 'yyyy-MM-dd';
 
 export interface Props {
   existingBaseline: BaselineDTO;
@@ -12,6 +9,7 @@ export interface Props {
 }
 
 export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBaselineEntry, updateBaselineEntry }) => {
+  const [isSaving, setIsSaving] = useState({ value: false });
   const [id, setId] = useState({ value: '' });
   const [startDate, setStartDate] = useState({ value: '' });
   const [endDate, setEndDate] = useState({ value: '' });
@@ -38,7 +36,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
   const [currentCharges, setCurrentCharges] = useState({ value: '' });
   const [salesTax, setSalesTax] = useState({ value: '' });
 
-  // console.log(existingBaseline);
   const onSubmitBaselineEntry = (data: BaselineDTO) => {
     updateBaselineEntry(data);
     clearForm();
@@ -50,20 +47,44 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
   };
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    onSubmitBaselineEntry(data);
+    // TODO: get the form data to be updated with the correct values instead of
+    // needing to create this data object form state
+    const trueData = {
+      id: id.value,
+      startDate: startDate.value,
+      endDate: endDate.value,
+      noOfDays: noOfDays.value,
+      invoiceDate: invoiceDate.value,
+      kwh: kwh.value,
+      minKw: minKw.value,
+      maxKw: maxKw.value,
+      avgKw: avgKw.value,
+      avgKva: avgKva.value,
+      pf: pf.value,
+      minPf: minPf.value,
+      maxPf: maxPf.value,
+      rate: rate.value,
+      energyRate: energyRate.value,
+      fuelRate: fuelRate.value,
+      kvaRate: kvaRate.value,
+      ippRate: ippRate.value,
+      ippVariableRate: ippVariableRate.value,
+      energyCharge: energyCharge.value,
+      ippCharge: ippCharge.value,
+      ippVariableCharge: ippVariableCharge.value,
+      kvaCharge: kvaCharge.value,
+      currentCharges: currentCharges.value,
+      salesTax: salesTax.value,
+    };
+    onSubmitBaselineEntry(trueData);
   };
 
   useEffect(() => {
-    const isValidStartDate = new Date(existingBaseline.startDate).toString() !== 'Invalid Date';
-    const isValidEndDate = new Date(existingBaseline.endDate).toString() !== 'Invalid Date';
-    const isValidInvoiceDate = new Date(existingBaseline.invoiceDate).toString() !== 'Invalid Date';
-    console.log(existingBaseline);
     setId({ value: existingBaseline.id as string });
-    setStartDate({ value: isValidStartDate ? format(new Date(existingBaseline.startDate), DATE_FORMAT) : '' });
-    setEndDate({ value: isValidEndDate ? format(new Date(existingBaseline.endDate), DATE_FORMAT) : '' });
+    setStartDate({ value: existingBaseline.startDate });
+    setEndDate({ value: existingBaseline.endDate });
     setNoOfDays({ value: existingBaseline.noOfDays as string });
-    setInvoiceDate({ value: isValidInvoiceDate ? format(new Date(existingBaseline.invoiceDate), DATE_FORMAT) : '' });
+    setInvoiceDate({ value: existingBaseline.invoiceDate });
     setKwh({ value: existingBaseline.kwh as string });
     setMinKw({ value: existingBaseline.minKw as string });
     setMaxKw({ value: existingBaseline.maxKw as string });
@@ -86,17 +107,21 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
     setSalesTax({ value: existingBaseline.salesTax as string });
   }, [existingBaseline]);
 
+  useEffect(() => {
+    setIsSaving({ value: isSavingBaselineEntry });
+  }, [isSavingBaselineEntry]);
+
   return (
     <Form id="edit-baseline-entry-form" className="edit-baseline-entry-form" onSubmit={onSubmit} validateOn="onBlur">
       {({ register, errors, clearErrors, setValue }) => {
-        const isValidStartDate = new Date(existingBaseline.startDate).toString() !== 'Invalid Date';
-        const isValidEndDate = new Date(existingBaseline.endDate).toString() !== 'Invalid Date';
-        const isValidInvoiceDate = new Date(existingBaseline.invoiceDate).toString() !== 'Invalid Date';
+        // const isValidStartDate = new Date(existingBaseline.startDate).toString() !== 'Invalid Date';
+        // const isValidEndDate = new Date(existingBaseline.endDate).toString() !== 'Invalid Date';
+        // const isValidInvoiceDate = new Date(existingBaseline.invoiceDate).toString() !== 'Invalid Date';
         setValue('id', id.value);
-        setValue('startDate', isValidStartDate ? format(new Date(existingBaseline.startDate), DATE_FORMAT) : '');
-        setValue('endDate', isValidEndDate ? format(new Date(existingBaseline.endDate), DATE_FORMAT) : '');
+        setValue('startDate', existingBaseline.startDate);
+        setValue('endDate', existingBaseline.endDate);
         setValue('noOfDays', noOfDays.value);
-        setValue('invoiceDate', isValidInvoiceDate ? format(new Date(existingBaseline.invoiceDate), DATE_FORMAT) : '');
+        setValue('invoiceDate', existingBaseline.invoiceDate);
         setValue('kwh', kwh.value);
         setValue('minKw', minKw.value);
         setValue('maxKw', maxKw.value);
@@ -127,9 +152,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   placeholder="ID"
                   value={id.value}
                   onChange={(event) => {
-                    console.log(event);
                     const value = event?.currentTarget.value;
-                    alert(value);
                     setId({ value });
                     setValue('id', value);
                   }}
@@ -140,25 +163,17 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Start Date"
                 invalid={!!errors.startDate}
                 error="Start Date is required"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
-                <DatePickerWithInput
+                <Input
+                  {...register('startDate', { required: true })}
                   id="edit-baseline-start-date"
                   placeholder="Start Date"
-                  closeOnSelect={true}
                   value={startDate.value}
-                  {...register('startDate', {
-                    required: true,
-                  })}
-                  onChange={(val) => {
-                    console.log(`[change] ${val}`);
-                    if (val) {
-                      const formattedValue = format(new Date(val), DATE_FORMAT);
-                      const el = document.getElementById('edit-baseline-start-date') as HTMLInputElement;
-                      el.value = formattedValue;
-                      setStartDate({ value: formattedValue });
-                      setValue('startDate', formattedValue);
-                    }
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setStartDate({ value });
+                    setValue('startDate', value);
                   }}
                 />
               </Field>
@@ -167,25 +182,17 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="End Date"
                 invalid={!!errors.endDate}
                 error="End Date is required"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
-                <DatePickerWithInput
+                <Input
+                  {...register('endDate', { required: true })}
                   id="edit-baseline-end-date"
                   placeholder="End Date"
-                  closeOnSelect={true}
                   value={endDate.value}
-                  {...register('endDate', {
-                    required: true,
-                  })}
-                  onChange={(val) => {
-                    console.log(`[change] ${val}`);
-                    if (val) {
-                      const formattedValue = format(new Date(val), DATE_FORMAT);
-                      const el = document.getElementById('edit-baseline-end-date') as HTMLInputElement;
-                      el.value = formattedValue;
-                      setEndDate({ value: formattedValue });
-                      setValue('endDate', formattedValue);
-                    }
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setEndDate({ value });
+                    setValue('endDate', value);
                   }}
                 />
               </Field>
@@ -194,7 +201,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="No. Of Days"
                 invalid={!!errors.noOfDays}
                 error="No. of Days nust me a number [e.g. 30]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('noOfDays', { required: true, pattern: /^[0-9]+$/g })}
@@ -213,26 +220,17 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Invoice Date"
                 invalid={!!errors.invoiceDate}
                 error="Invoice Date is required"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
-                <DatePickerWithInput
+                <Input
+                  {...register('invoiceDate', { required: true })}
                   id="edit-baseline-invoice-date"
                   placeholder="Invoice Date"
-                  closeOnSelect={true}
                   value={invoiceDate.value}
-                  {...register('invoiceDate', {
-                    required: true,
-                  })}
-                  onChange={(val) => {
-                    console.log(`[change] ${val}`);
-                    if (val) {
-                      const formattedValue = format(new Date(val), DATE_FORMAT);
-                      const el = document.getElementById('edit-baseline-invoice-date') as HTMLInputElement;
-                      el.value = formattedValue;
-                      console.log(formattedValue);
-                      setInvoiceDate({ value: formattedValue });
-                      setValue('invoiceDate', formattedValue);
-                    }
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setInvoiceDate({ value });
+                    setValue('invoiceDate', value);
                   }}
                 />
               </Field>
@@ -243,7 +241,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Kilowatt-hour (kWh)"
                 invalid={!!errors.kwh}
                 error="kWh is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('kwh', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -252,7 +250,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   value={kwh.value}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
-                    alert(value);
                     setKwh({ value });
                     setValue('kwh', value);
                   }}
@@ -263,7 +260,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Minimum kW"
                 invalid={!!errors.minKw}
                 error="Min. kW is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('minKw', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -282,7 +279,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Maximum kW"
                 invalid={!!errors.maxKw}
                 error="Max. kW is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('maxKw', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -301,7 +298,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Average kW"
                 invalid={!!errors.avgKw}
                 error="Average kW is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('avgKw', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -320,7 +317,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Average kVA"
                 invalid={!!errors.avgKva}
                 error="Average kVA is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('avgKva', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -341,7 +338,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Power Factor (PF)"
                 invalid={!!errors.pf}
                 error="PF is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('pf', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -360,7 +357,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Minimum PF"
                 invalid={!!errors.minPf}
                 error="Min. PF is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('minPf', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -379,7 +376,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Maximum PF"
                 invalid={!!errors.maxPf}
                 error="Max. PF is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('maxPf', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -398,7 +395,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Rate"
                 invalid={!!errors.rate}
                 error="Rate is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('rate', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -417,7 +414,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Energy Rate"
                 invalid={!!errors.energyRate}
                 error="Energy Rate is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('energyRate', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -438,7 +435,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Fuel Rate"
                 invalid={!!errors.fuelRate}
                 error="Fuel Rate is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('fuelRate', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -457,7 +454,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="KVA Rate"
                 invalid={!!errors.kvaRate}
                 error="KVA Rate is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('kvaRate', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -476,7 +473,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Fuel & IPP Rate"
                 invalid={!!errors.ippRate}
                 error="Fuel & IPP Rate is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('ippRate', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -495,7 +492,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="IPP Variable Rate"
                 invalid={!!errors.ippVariableRate}
                 error="IPP Variable Rate is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('ippVariableRate', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -514,7 +511,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Energy Charge"
                 invalid={!!errors.energyCharge}
                 error="Energy Charge is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('energyCharge', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -535,7 +532,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Fuel & IPP Charge"
                 invalid={!!errors.ippCharge}
                 error="Fuel & IPP Charge is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('ippCharge', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -554,7 +551,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="IPP Variable Charge"
                 invalid={!!errors.ippVariableCharge}
                 error="IPP Variable Charge is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('ippVariableCharge', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -573,7 +570,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="KVA Charge"
                 invalid={!!errors.kvaCharge}
                 error="KVA Charge is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('kvaCharge', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -592,7 +589,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Current Charges"
                 invalid={!!errors.currentCharges}
                 error="Current Charges is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('currentCharges', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -611,7 +608,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 label="Sales Tax"
                 invalid={!!errors.salesTax}
                 error="Sales Tax is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+                disabled={isSaving.value}
               >
                 <Input
                   {...register('salesTax', { required: true, pattern: /^[0-9.-]+$/g })}
@@ -631,7 +628,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
               <div className="baseline-field"></div>
               <div className="baseline-field"></div>
               <div className="gf-form-button-row">
-                <Button variant="primary" disabled={isSavingBaselineEntry} aria-label="Baseline entry submit button">
+                <Button variant="primary" disabled={isSaving.value} aria-label="Baseline entry submit button">
                   Submit
                 </Button>
               </div>

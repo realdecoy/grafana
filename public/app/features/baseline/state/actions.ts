@@ -36,11 +36,17 @@ export function submitBaselineEntry(payload: BaselineEntryFields): ThunkResult<v
 
 export function updateBaselineEntry(payload: BaselineDTO): ThunkResult<void> {
   return async function (dispatch) {
-    console.log(`[ update ]`, payload);
     dispatch(setUpdating({ updating: true }));
-    await api.updateBaselineEntry(payload);
-    dispatch(loadBaselineEntries());
-    dispatch(setUpdating({ updating: false }));
+    try {
+      await api.updateBaselineEntry(payload);
+      dispatch(setModalOpen({ open: false }));
+      dispatch(setEditBaselineModal({ id: 0 }));
+    } catch (err) {
+      console.log(`[err]`);
+    } finally {
+      dispatch(loadBaselineEntries());
+      dispatch(setUpdating({ updating: false }));
+    }
   };
 }
 

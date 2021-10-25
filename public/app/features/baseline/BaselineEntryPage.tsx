@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
-import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button } from '@grafana/ui';
+import { PageToolbar, PageHeader, useStyles2, Icon, Modal } from '@grafana/ui';
 import { BaselineDTO, StoreState } from 'app/types';
 import {
   initBaselineEntryPage,
@@ -127,8 +127,6 @@ export function BaselineEntryPage({
         isModalOpen,
         editBaselineEntryId,
         baselineEntries,
-        onDismiss,
-        openEditModal,
         closeEditModal,
         updateBaselineEntry
       )}
@@ -157,8 +155,6 @@ const renderEditBaselineEntryModal = (
   isModalOpen: boolean,
   editBaselineEntryId: number,
   baselineEntries: BaselineDTO[],
-  onDismiss: any,
-  openEditModal: any,
   closeEditModal: any,
   updateBaselineEntry: any
 ) => {
@@ -179,26 +175,6 @@ const renderEditBaselineEntryModal = (
             updateBaselineEntry={updateBaselineEntry}
             isSavingBaselineEntry={isUpdating}
           />
-          <Modal.ButtonRow>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                closeEditModal();
-              }}
-              fill="outline"
-            >
-              Cancel
-            </Button>
-            {/* <Button
-              onClick={() => {
-                updateBaselineEntry(panel, ).then(() => {
-                  onConfirm();
-                });
-              }}
-            >
-              Update all
-            </Button> */}
-          </Modal.ButtonRow>
         </div>
       </Modal>
     );
@@ -336,7 +312,8 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any) =>
       </td>
       <td className="link-td">
         <Icon
-          name="shield"
+          name="pen"
+          title="Edit Baseline"
           onClick={() => {
             openEditModal(baselineEntry.id);
           }}
