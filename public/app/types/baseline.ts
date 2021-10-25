@@ -29,7 +29,7 @@ export interface BaselineDTO {
 }
 
 export class BaselineDatasource {
-  _request(url: string) {
+  _get(url: string) {
     const options: BackendSrvRequest = {
       headers: {},
       method: 'GET',
@@ -42,6 +42,16 @@ export class BaselineDatasource {
     const options: BackendSrvRequest = {
       headers: {},
       method: 'POST',
+      data: paylod,
+      url: `${API_ENDPOINT}${url}`,
+    };
+    return getBackendSrv().fetch<any>(options).toPromise();
+  }
+
+  _put(url: string, paylod: BaselineDTO) {
+    const options: BackendSrvRequest = {
+      headers: {},
+      method: 'PUT',
       data: paylod,
       url: `${API_ENDPOINT}${url}`,
     };

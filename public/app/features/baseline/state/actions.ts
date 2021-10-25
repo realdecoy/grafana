@@ -1,6 +1,12 @@
 import { BaselineEntryFields } from '../types';
-import { ThunkResult } from '../../../types';
-import { setUpdating, initLoadingBaselineEntries, baselineEntriesLoaded } from './reducers';
+import { BaselineDTO, ThunkResult } from '../../../types';
+import {
+  setUpdating,
+  initLoadingBaselineEntries,
+  baselineEntriesLoaded,
+  setModalOpen,
+  setEditBaselineModal,
+} from './reducers';
 import { api } from '../api';
 
 export function initBaselineEntryPage(): ThunkResult<void> {
@@ -25,5 +31,35 @@ export function submitBaselineEntry(payload: BaselineEntryFields): ThunkResult<v
     await api.submitBaselineEntry(payload);
     dispatch(loadBaselineEntries());
     dispatch(setUpdating({ updating: false }));
+  };
+}
+
+export function updateBaselineEntry(payload: BaselineDTO): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(setUpdating({ updating: true }));
+    try {
+      await api.updateBaselineEntry(payload);
+      dispatch(setModalOpen({ open: false }));
+      dispatch(setEditBaselineModal({ id: 0 }));
+    } catch (err) {
+      console.log(`[err]`);
+    } finally {
+      dispatch(loadBaselineEntries());
+      dispatch(setUpdating({ updating: false }));
+    }
+  };
+}
+
+export function openEditModal(payload: number): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(setModalOpen({ open: true }));
+    dispatch(setEditBaselineModal({ id: payload }));
+  };
+}
+
+export function closeEditModal(): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(setModalOpen({ open: false }));
+    dispatch(setEditBaselineModal({ id: 0 }));
   };
 }
