@@ -105,8 +105,11 @@ export function BaselineEntryPage({
               <th>KVA Charge</th>
               <th>Fuel & IPP Rate</th>
               <th>Fuel & IPP Charge</th>
+              <th>Fuel Charge</th>
               <th>IPP Var. Rate</th>
+              <th>IPP Fixed Rate</th>
               <th>IPP Var. Charge</th>
+              <th>IPP Fixed Charge</th>
               <th>Energy Charge</th>
               <th>Current Charges</th>
               <th>Sales Tax</th>
@@ -286,13 +289,28 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any) =>
         </a>
       </td>
       <td className="link-td max-width-10">
+        <a className="ellipsis" title={baselineEntry.fuelCharge}>
+          {baselineEntry.fuelCharge}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
         <a className="ellipsis" title={baselineEntry.ippVariableRate}>
           {baselineEntry.ippVariableRate}
         </a>
       </td>
       <td className="link-td max-width-10">
+        <a className="ellipsis" title={baselineEntry.ippFixedRate}>
+          {baselineEntry.ippFixedRate}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
         <a className="ellipsis" title={baselineEntry.ippVariableCharge}>
           {baselineEntry.ippVariableCharge}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
+        <a className="ellipsis" title={baselineEntry.ippFixedCharge}>
+          {baselineEntry.ippFixedCharge}
         </a>
       </td>
       <td className="link-td max-width-10">

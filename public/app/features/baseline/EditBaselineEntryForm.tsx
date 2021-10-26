@@ -29,9 +29,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
   const [kvaRate, setKvaRate] = useState({ value: '' });
   const [ippRate, setIppRate] = useState({ value: '' });
   const [ippVariableRate, setIppVariableRate] = useState({ value: '' });
+  const [ippFixedRate, setIppFixedRate] = useState({ value: '' });
   const [energyCharge, setEnergyCharge] = useState({ value: '' });
+  const [fuelCharge, setFuelCharge] = useState({ value: '' });
   const [ippCharge, setIppCharge] = useState({ value: '' });
   const [ippVariableCharge, setIppVariableCharge] = useState({ value: '' });
+  const [ippFixedCharge, setIppFixedCharge] = useState({ value: '' });
   const [kvaCharge, setKvaCharge] = useState({ value: '' });
   const [currentCharges, setCurrentCharges] = useState({ value: '' });
   const [salesTax, setSalesTax] = useState({ value: '' });
@@ -69,9 +72,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
       kvaRate: kvaRate.value,
       ippRate: ippRate.value,
       ippVariableRate: ippVariableRate.value,
+      ippFixedRate: ippFixedRate.value,
       energyCharge: energyCharge.value,
+      fuelCharge: fuelCharge.value,
       ippCharge: ippCharge.value,
       ippVariableCharge: ippVariableCharge.value,
+      ippFixedCharge: ippFixedCharge.value,
       kvaCharge: kvaCharge.value,
       currentCharges: currentCharges.value,
       salesTax: salesTax.value,
@@ -99,9 +105,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
     setKvaRate({ value: existingBaseline.kvaRate as string });
     setIppRate({ value: existingBaseline.ippRate as string });
     setIppVariableRate({ value: existingBaseline.ippVariableRate as string });
+    setIppFixedRate({ value: existingBaseline.ippFixedRate as string });
     setEnergyCharge({ value: existingBaseline.energyCharge as string });
+    setFuelCharge({ value: existingBaseline.fuelCharge as string });
     setIppCharge({ value: existingBaseline.ippCharge as string });
     setIppVariableCharge({ value: existingBaseline.ippVariableCharge as string });
+    setIppFixedCharge({ value: existingBaseline.ippFixedCharge as string });
     setKvaCharge({ value: existingBaseline.kvaCharge as string });
     setCurrentCharges({ value: existingBaseline.currentCharges as string });
     setSalesTax({ value: existingBaseline.salesTax as string });
@@ -136,9 +145,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
         setValue('kvaRate', kvaRate.value);
         setValue('ippRate', ippRate.value);
         setValue('ippVariableRate', ippVariableRate.value);
+        setValue('ippFixedRate', ippFixedRate.value);
         setValue('energyCharge', energyCharge.value);
+        setValue('fuelCharge', fuelCharge.value);
         setValue('ippCharge', ippCharge.value);
         setValue('ippVariableCharge', ippVariableCharge.value);
+        setValue('ippFixedCharge', ippFixedCharge.value);
         setValue('kvaCharge', kvaCharge.value);
         setValue('currentCharges', currentCharges.value);
         setValue('salesTax', salesTax.value);
@@ -508,6 +520,27 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
               </Field>
               <Field
                 className="baseline-field"
+                label="IPP Fixed Rate"
+                invalid={!!errors.ippFixedRate}
+                error="IPP Fixed Rate is required [e.g. 24.53]"
+                disabled={isSaving.value}
+              >
+                <Input
+                  {...register('ippFixedRate', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="edit-baseline-ipp-Fixed-rate"
+                  placeholder="IPP Fixed Rate"
+                  value={ippFixedRate.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setIppFixedRate({ value });
+                    setValue('ippFixedRate', value);
+                  }}
+                />
+              </Field>
+            </div>
+            <div className="baseline-field-group">
+              <Field
+                className="baseline-field"
                 label="Energy Charge"
                 invalid={!!errors.energyCharge}
                 error="Energy Charge is required [e.g. 24.53]"
@@ -525,8 +558,25 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   }}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
+              <Field
+                className="baseline-field"
+                label="Fuel Charge"
+                invalid={!!errors.fuelCharge}
+                error="Fuel Charge is required [e.g. 24.53]"
+                disabled={isSaving.value}
+              >
+                <Input
+                  {...register('fuelCharge', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="edit-baseline-fuel-charge"
+                  placeholder="Fuel Charge"
+                  value={fuelCharge.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setFuelCharge({ value });
+                    setValue('fuelCharge', value);
+                  }}
+                />
+              </Field>
               <Field
                 className="baseline-field"
                 label="Fuel & IPP Charge"
@@ -565,6 +615,27 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   }}
                 />
               </Field>
+              <Field
+                className="baseline-field"
+                label="IPP Fixed Charge"
+                invalid={!!errors.ippFixedCharge}
+                error="IPP Fixed Charge is required [e.g. 24.53]"
+                disabled={isSaving.value}
+              >
+                <Input
+                  {...register('ippFixedCharge', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="edit-baseline-ipp-Fixed-charge"
+                  placeholder="IPP Fixed Charge"
+                  value={ippFixedCharge.value}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setIppFixedCharge({ value });
+                    setValue('ippFixedCharge', value);
+                  }}
+                />
+              </Field>
+            </div>
+            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="KVA Charge"
@@ -622,10 +693,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   }}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
-              <div className="baseline-field"></div>
-              <div className="baseline-field"></div>
               <div className="baseline-field"></div>
               <div className="gf-form-button-row">
                 <Button variant="primary" disabled={isSaving.value} aria-label="Baseline entry submit button">

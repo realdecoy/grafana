@@ -16,9 +16,12 @@ export interface BaselineEntryFields {
   fuelRate: string;
   ippRate: string;
   ippCharge: string;
+  fuelCharge: string;
   kvaRate: string;
   ippVariableRate: string;
+  ippFixedRate: string;
   ippVariableCharge: string;
+  ippFixedCharge: string;
   energyCharge: string;
   kvaCharge: string;
   currentCharges: string;
