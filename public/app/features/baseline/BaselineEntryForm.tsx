@@ -310,6 +310,20 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
               </Field>
               <Field
                 className="baseline-field"
+                label="IPP Fixed Rate"
+                invalid={!!errors.ippFixedRate}
+                error="IPP Fixed Rate is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('ippFixedRate', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-ipp-Fixed-rate"
+                  placeholder="IPP Fixed Rate"
+                  defaultValue={''}
+                />
+              </Field>
+              <Field
+                className="baseline-field"
                 label="Energy Charge"
                 invalid={!!errors.energyCharge}
                 error="Energy Charge is required [e.g. 24.53]"
@@ -322,6 +336,8 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
+            </div>
+            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Fuel & IPP Charge"
@@ -336,8 +352,20 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
+              <Field
+                className="baseline-field"
+                label="Fuel Charge"
+                invalid={!!errors.fuelCharge}
+                error="Fuel Charge is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('fuelCharge', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-fuel-charge"
+                  placeholder="Fuel Charge"
+                  defaultValue={''}
+                />
+              </Field>
               <Field
                 className="baseline-field"
                 label="IPP Variable Charge"
@@ -349,6 +377,20 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   {...register('ippVariableCharge', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="baseline-ipp-variable-charge"
                   placeholder="IPP Variable Charge"
+                  defaultValue={''}
+                />
+              </Field>
+              <Field
+                className="baseline-field"
+                label="IPP Fixed Charge"
+                invalid={!!errors.ippFixedCharge}
+                error="IPP Fixed Charge is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('ippFixedCharge', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-ipp-fixed-charge"
+                  placeholder="IPP Fixed Charge"
                   defaultValue={''}
                 />
               </Field>
@@ -366,6 +408,8 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
+            </div>
+            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Current Charges"
@@ -394,6 +438,8 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
+              <div className="baseline-field"></div>
+              <div className="baseline-field"></div>
               <div className="gf-form-button-row">
                 <Button variant="primary" disabled={isSavingBaselineEntry} aria-label="Baseline entry submit button">
                   Submit
