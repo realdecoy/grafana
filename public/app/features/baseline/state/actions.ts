@@ -46,6 +46,7 @@ export function updateBaselineEntry(payload: BaselineDTO): ThunkResult<void> {
     } finally {
       dispatch(loadBaselineEntries());
       dispatch(setUpdating({ updating: false }));
+      dispatch(setUpdating({ updating: false }));
     }
   };
 }
@@ -54,6 +55,25 @@ export function openEditModal(payload: number): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setModalOpen({ open: true }));
     dispatch(setEditBaselineModal({ id: payload }));
+  };
+}
+
+export function archiveBaseline(payload: number): ThunkResult<void> {
+  return async function (dispatch) {
+    console.log(`[ archive baseline ]`);
+    dispatch(setUpdating({ updating: true }));
+    try {
+      await api.archiveBaselineEntry(payload);
+      console.log(`[ archive baseline ]`);
+      dispatch(setModalOpen({ open: false }));
+      dispatch(setEditBaselineModal({ id: payload }));
+    } catch (err) {
+      console.log(`[err]`);
+    } finally {
+      dispatch(loadBaselineEntries());
+      dispatch(setUpdating({ updating: false }));
+      dispatch(setUpdating({ updating: false }));
+    }
   };
 }
 

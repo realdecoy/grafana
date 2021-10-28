@@ -10,6 +10,7 @@ import {
   updateBaselineEntry,
   openEditModal,
   closeEditModal,
+  archiveBaseline,
 } from './state/actions';
 import BaselineEntryForm from './BaselineEntryForm';
 import EditBaselineEntryForm from './EditBaselineEntryForm';
@@ -44,6 +45,7 @@ const mapDispatchToProps = {
   updateBaselineEntry,
   openEditModal,
   closeEditModal,
+  archiveBaseline,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -59,9 +61,9 @@ export function BaselineEntryPage({
   onDismiss,
   initBaselineEntryPage,
   submitBaselineEntry,
-  updateBaselineEntry,
   openEditModal,
   closeEditModal,
+  archiveBaseline,
 }: Props) {
   useMount(() => initBaselineEntryPage());
 
@@ -118,7 +120,7 @@ export function BaselineEntryPage({
           </thead>
           <tbody>
             {baselineEntries.map((p: BaselineDTO) => {
-              return renderBaselineRecord(p, openEditModal);
+              return renderBaselineRecord(p, openEditModal, archiveBaseline);
             })}
           </tbody>
         </table>
@@ -185,7 +187,7 @@ const renderEditBaselineEntryModal = (
   return el;
 };
 
-const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any) => {
+const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any, archiveBaseline: any) => {
   return (
     <tr key={baselineEntry.id}>
       <td className="link-td max-width-10">
@@ -334,6 +336,13 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any) =>
           title="Edit Baseline"
           onClick={() => {
             openEditModal(baselineEntry.id);
+          }}
+        />
+        <Icon
+          name="times"
+          title="Archive Baseline"
+          onClick={() => {
+            archiveBaseline(baselineEntry.id);
           }}
         />
       </td>
