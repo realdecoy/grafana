@@ -10,6 +10,7 @@ const defaultProps: Props = {
   ...initialBaselineEntryState,
   initBaselineEntryPage: jest.fn().mockResolvedValue(undefined),
   submitBaselineEntry: jest.fn().mockResolvedValue(undefined),
+  archiveBaseline: jest.fn().mockResolvedValue(undefined),
   updateBaselineEntry: jest.fn().mockResolvedValue(undefined),
   openEditModal: jest.fn().mockResolvedValue(undefined),
   closeEditModal: jest.fn().mockResolvedValue(undefined),

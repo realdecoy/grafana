@@ -58,7 +58,7 @@ export function BaselineEntryPage({
   editBaselineEntryId,
   baselineEntries,
   baselineEntriesAreLoading,
-  onDismiss,
+  updateBaselineEntry,
   initBaselineEntryPage,
   submitBaselineEntry,
   openEditModal,
@@ -78,11 +78,17 @@ export function BaselineEntryPage({
       <div className="sub-title">Possible microcopy providing high level explanation of the chart.</div>
       <BaselineEntryForm addBaselineEntry={submitBaselineEntry} isSavingBaselineEntry={isUpdating} />
       <hr className="spacious"></hr>
-      <div className="baseline-entry-table-container">
+      <div
+        className={
+          isUpdating || baselineEntriesAreLoading
+            ? 'baseline-no-scroll baseline-entry-table-container'
+            : 'baseline-entry-table-container'
+        }
+      >
         <table className="baseline-entry-table filter-table form-inline filter-table--hover">
           <thead>
             <tr>
-              <th>No</th>
+              <th>No.</th>
               <th>
                 Start Date&nbsp;
                 {/* <Tooltip placement="top" content="Start Date">
@@ -124,7 +130,7 @@ export function BaselineEntryPage({
             })}
           </tbody>
         </table>
-        {renderLoadingBaselineEntries(baselineEntriesAreLoading)}
+        {renderLoadingBaselineEntries(baselineEntriesAreLoading, isUpdating)}
       </div>
       {renderEditBaselineEntryModal(
         baselineEntriesAreLoading,
@@ -139,10 +145,10 @@ export function BaselineEntryPage({
   );
 }
 
-const renderLoadingBaselineEntries = (isLoading: boolean) => {
+const renderLoadingBaselineEntries = (isLoading: boolean, isUpdating: boolean) => {
   let el;
 
-  if (isLoading === true) {
+  if (isLoading === true || isUpdating === true) {
     el = (
       <div className="baseline-data-loading-container">
         <div className="baseline-data-loading-msg">Loading...</div>
@@ -339,7 +345,8 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any, ar
           }}
         />
         <Icon
-          name="times"
+          className="archive-link"
+          name="folder-upload"
           title="Archive Baseline"
           onClick={() => {
             archiveBaseline(baselineEntry.id);
