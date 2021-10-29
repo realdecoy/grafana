@@ -57,6 +57,20 @@ export function openEditModal(payload: number): ThunkResult<void> {
   };
 }
 
+export function archiveBaseline(payload: number): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(setUpdating({ updating: true }));
+    try {
+      await api.archiveBaselineEntry(payload);
+    } catch (err) {
+      console.log(`[err]`);
+    } finally {
+      dispatch(loadBaselineEntries());
+      dispatch(setUpdating({ updating: false }));
+    }
+  };
+}
+
 export function closeEditModal(): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setModalOpen({ open: false }));

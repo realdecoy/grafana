@@ -37,6 +37,9 @@ export const slice = createSlice({
       state.baselineEntries = action.payload.baselineEntries;
       state.baselineEntriesAreLoading = false;
     },
+    archiveBaselineEntry: (state, action: PayloadAction<{ id: number }>) => {
+      state.editBaselineEntryId = action.payload.id;
+    },
   },
 });
 
@@ -44,6 +47,7 @@ export const {
   setUpdating,
   setEditBaselineModal,
   setModalOpen,
+  archiveBaselineEntry,
   initLoadingBaselineEntries,
   baselineEntriesLoaded,
 } = slice.actions;

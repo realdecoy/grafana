@@ -16,8 +16,13 @@ async function updateBaselineEntry(payload: BaselineDTO): Promise<void> {
   await baselineQuery._put('/api/baseline/', payload);
 }
 
+async function archiveBaselineEntry(id: number): Promise<void> {
+  await baselineQuery._get(`/api/archiveBaselineById/${id}`);
+}
+
 export const api = {
   loadBaselineEntries,
   submitBaselineEntry,
   updateBaselineEntry,
+  archiveBaselineEntry,
 };
