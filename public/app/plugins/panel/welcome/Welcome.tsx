@@ -2,7 +2,8 @@ import React, { FC } from 'react';
 import { css } from '@emotion/css';
 import { GrafanaTheme } from '@grafana/data';
 import { stylesFactory, useTheme } from '@grafana/ui';
-
+import { config, locationService, navigationLogger } from '@grafana/runtime';
+import { getBackendSrv } from '@grafana/runtime';
 const helpOptions = [
   { value: 0, label: 'Documentation', href: 'https://grafana.com/docs/grafana/latest' },
   { value: 1, label: 'Tutorials', href: 'https://grafana.com/tutorials' },
@@ -10,8 +11,20 @@ const helpOptions = [
   { value: 3, label: 'Public Slack', href: 'http://slack.grafana.com' },
 ];
 
+const SREACH_KEY='db/energy-optimization-kwh';
+
 export const WelcomeBanner: FC = () => {
   const styles = getStyles(useTheme());
+
+  //Automatically navigate to the consumption dashboard
+  getBackendSrv()
+  .get('/api/search?dashboardIds=2&limit=30')
+  .then((res: any[]) => {
+    res.map((item, i) => {
+      if(item.uri=SREACH_KEY)
+       locationService.push(item.url);
+    }); 
+  });
 
   return (
     <div className={styles.container}>
