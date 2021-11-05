@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { format } from 'date-fns';
-import { Button, DatePickerWithInput, Field, FieldSet, Form, Input } from '@grafana/ui';
+import { Button, DatePickerWithInput, Field, FieldSet, Form, Input, PageToolbar } from '@grafana/ui';
 import { BaselineEntryFields } from './types';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
@@ -31,6 +31,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
       {({ register, errors, clearErrors, setValue }) => {
         return (
           <FieldSet className="baseline-field-set">
+            <PageToolbar title={`Date`} className="no-margin" />
             <div className="baseline-field-group">
               <Field
                 className="baseline-field"
@@ -106,6 +107,9 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   }}
                 />
               </Field>
+            </div>
+            <PageToolbar title={`Readings`} className="no-margin" />
+            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Kilowatt-hour (kWh)"
@@ -120,8 +124,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Minimum kW"
@@ -192,8 +194,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Minimum PF"
@@ -222,6 +222,9 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
+            </div>
+            <PageToolbar title={`Rates`} className="no-margin" />
+            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Rate"
@@ -264,8 +267,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="KVA Rate"
@@ -322,6 +323,9 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
+            </div>
+            <PageToolbar title={`Charges`} className="no-margin" />
+            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Energy Charge"
@@ -336,8 +340,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Fuel & IPP Charge"
@@ -408,8 +410,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Current Charges"
@@ -438,8 +438,8 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   defaultValue={''}
                 />
               </Field>
-              <div className="baseline-field"></div>
-              <div className="baseline-field"></div>
+            </div>
+            <div className="baseline-field-group">
               <div className="gf-form-button-row">
                 <Button variant="primary" disabled={isSavingBaselineEntry} aria-label="Baseline entry submit button">
                   Submit

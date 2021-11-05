@@ -14,6 +14,11 @@
     margin-bottom: $space-lg;
     color: $gray60;
   }
+  @media (max-width: 768px) {
+    .sub-title {
+      padding-left: 53px;
+    }
+  }
 
   hr {
     max-width: calc(100vw - (#{$side-menu-width + ($space-lg * 2)}));
@@ -37,6 +42,20 @@
 
 .baseline-entry-form {
   padding: $space-md $space-lg;
+
+  .page-toolbar {
+    &:nth-child(1) {
+      margin-top: 0px;
+    }
+    padding-left: 0px;
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .baseline-entry-form {
+    padding-left: 53px;
+  }
 }
 
 .archive-link {
@@ -50,7 +69,7 @@
 .baseline-field-group {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  // justify-content: space-between;
   gap: $space-md;
 
   legend {
@@ -59,7 +78,9 @@
 
   .baseline-field {
     width: 18%;
-    height: 80px;
+    min-width: 160px;
+    margin-top: 8px;
+    margin-bottom: 8px;
     position: relative;
     @media only screen and (max-width: 769px) {
       width: 100%;
@@ -67,12 +88,12 @@
 
     div[role="alert"] {
       position: absolute !important;
+      z-index: 2;
     }
   }
 
   .gf-form-button-row {
     display: flex;
-    justify-content: flex-end;
     align-items: flex-start;
     width: 18%;
     @media only screen and (max-width: 769px) {
