@@ -40,16 +40,23 @@
   }
 }
 
-.baseline-entry-form {
+.baseline-entry-form,
+.edit-baseline-entry-form {
   padding: $space-md $space-lg;
 
   .page-toolbar {
+    color: $gray60;
+
     &:nth-child(1) {
       margin-top: 0px;
     }
     padding-left: 0px;
     margin-top: 30px;
   }
+}
+
+.edit-baseline-entry-form {
+  padding: 0;
 }
 
 @media (max-width: 768px) {
@@ -77,7 +84,7 @@
   }
 
   .baseline-field {
-    width: 18%;
+    // width: 18%;
     min-width: 160px;
     margin-top: 8px;
     margin-bottom: 8px;
