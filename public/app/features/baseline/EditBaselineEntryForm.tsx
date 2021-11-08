@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Button, Field, FieldSet, Form, Input } from '@grafana/ui';
+import { Button, Field, FieldSet, Form, Input, PageToolbar } from '@grafana/ui';
 import { BaselineDTO } from 'app/types';
 
 export interface Props {
@@ -156,8 +156,9 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
         setValue('salesTax', salesTax.value);
         return (
           <FieldSet className="edit-baseline-field-set">
+            <PageToolbar title={`ID`} className="no-margin" />
             <div className="baseline-field-group">
-              <Field className="baseline-field" label="ID" invalid={!!errors.id} disabled={false}>
+              <Field className="baseline-field" label="ID" invalid={!!errors.id} disabled={true}>
                 <Input
                   {...register('id', { required: true })}
                   id="edit-baseline-id"
@@ -170,6 +171,9 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   }}
                 />
               </Field>
+            </div>
+            <PageToolbar title={`Date`} className="no-margin" />
+            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Start Date"
@@ -247,6 +251,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 />
               </Field>
             </div>
+            <PageToolbar title={`Readings`} className="no-margin" />
             <div className="baseline-field-group">
               <Field
                 className="baseline-field"
@@ -343,8 +348,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   }}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Power Factor (PF)"
@@ -402,6 +405,9 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   }}
                 />
               </Field>
+            </div>
+            <PageToolbar title={`Rates`} className="no-margin" />
+            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Rate"
@@ -440,8 +446,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   }}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="Fuel Rate"
@@ -538,6 +542,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 />
               </Field>
             </div>
+            <PageToolbar title={`Charges`} className="no-margin" />
             <div className="baseline-field-group">
               <Field
                 className="baseline-field"
@@ -634,8 +639,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   }}
                 />
               </Field>
-            </div>
-            <div className="baseline-field-group">
               <Field
                 className="baseline-field"
                 label="KVA Charge"
@@ -693,7 +696,8 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   }}
                 />
               </Field>
-              <div className="baseline-field"></div>
+            </div>
+            <div className="baseline-field-group">
               <div className="gf-form-button-row">
                 <Button variant="primary" disabled={isSaving.value} aria-label="Baseline entry submit button">
                   Submit

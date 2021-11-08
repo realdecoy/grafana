@@ -71,7 +71,7 @@ export function BaselineEntryPage({
 
   return (
     <div className="baseline-entry">
-      <PageHeader title={`H&L Energy Optimisation`} className="no-margin" pageIcon="graph-bar">
+      <PageHeader title={`HiPro Energy Baseline`} className="no-margin" pageIcon="graph-bar">
         <Branding.LoginLogo className={loginStyles.pageHeaderLogo} />
       </PageHeader>
       <PageToolbar title={`Baseline Entry`} className="no-margin" />
