@@ -4,6 +4,7 @@ export interface BaselineEntryFields {
   invoiceDate: string;
   noOfDays: string;
   kwh: string;
+  kwhNormalized: string;
   minKw: string;
   maxKw: string;
   avgKw: string;

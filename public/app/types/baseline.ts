@@ -5,8 +5,9 @@ export interface BaselineDTO {
   startDate: string;
   endDate: string;
   invoiceDate: string;
-  noOfDays?: string;
+  noOfDays: string;
   kwh: string;
+  kwhNormalized?: string;
   minKw: string;
   maxKw: string;
   avgKw: string;
