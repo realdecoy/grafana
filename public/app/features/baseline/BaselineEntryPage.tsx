@@ -99,6 +99,7 @@ export function BaselineEntryPage({
               <th>Invoice Date</th>
               <th>No. of Days</th>
               <th>Kilowatt-hour</th>
+              <th>KWh (Normalized)</th>
               <th>Min. kW</th>
               <th>Max. kW</th>
               <th>Avg. kW</th>
@@ -224,6 +225,11 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any, ar
       <td className="link-td max-width-10">
         <a className="ellipsis" title={baselineEntry.kwh}>
           {baselineEntry.kwh}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
+        <a className="ellipsis" title={baselineEntry.kwhNormalized}>
+          {baselineEntry.kwhNormalized}
         </a>
       </td>
       <td className="link-td max-width-10">
