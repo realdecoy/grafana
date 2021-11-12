@@ -157,7 +157,7 @@ func (hs *HTTPServer) getNavTree(c *models.ReqContext, hasEditPerm bool) ([]*dto
 
 	dashboardChildNavs := []*dtos.NavLink{}
 
-	if canSeeAll {
+	if canSeeAll {	
 		dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
 			Text: "Home",
 			Id: "home",
@@ -185,6 +185,36 @@ func (hs *HTTPServer) getNavTree(c *models.ReqContext, hasEditPerm bool) ([]*dto
 		})
 	}
 
+	// Include other KPI Dashboards
+	dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
+		Text: "Kilowatt-hour (kWh)",
+		Id: "kw",
+		Url: hs.Cfg.AppSubURL + "/d/EZYM7II7k",
+		Icon: "bolt",
+		HideFromTabs: true,
+	})
+	dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
+		Text: "Kilowatt (kW)",
+		Id: "kw",
+		Url: hs.Cfg.AppSubURL + "/d/oAhL_fdnk",
+		Icon: "bolt",
+		HideFromTabs: true,
+	})
+	dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
+		Text: "Kilovolt-Ampere (kVA)",
+		Id: "kw",
+		Url: hs.Cfg.AppSubURL + "/d/LxU1yz57z",
+		Icon: "bolt",
+		HideFromTabs: true,
+	})
+	dashboardChildNavs = append(dashboardChildNavs, &dtos.NavLink{
+		Text: "Power Factor",
+		Id: "kw",
+		Url: hs.Cfg.AppSubURL + "/d/h1dy07c7k",
+		Icon: "bolt",
+		HideFromTabs: true,
+	})
+
 	if c.IsSignedIn && canSeeAll {
 		dashboardChildNavs = append(dashboardChildNavs,
 			&dtos.NavLink{
@@ -202,27 +232,16 @@ func (hs *HTTPServer) getNavTree(c *models.ReqContext, hasEditPerm bool) ([]*dto
 		})
 	}
 
-	if canSeeAll {
-		navTree = append(navTree, &dtos.NavLink{
-			Text:       "Dashboard",
-			Id:         "dashboards",
-			SubTitle:   "Manage dashboards and folders",
-			Icon:       "home-alt",
-			Url:        hs.Cfg.AppSubURL + "/",
-			SortWeight: dtos.WeightDashboard,
-			Children:   dashboardChildNavs,
-		})
-	} else {
-		navTree = append(navTree, &dtos.NavLink{
-			Text:       "Dashboard",
-			Id:         "dashboards",
-			SubTitle:   "Manage dashboards and folders",
-			Icon:       "home-alt",
-			Url:        hs.Cfg.AppSubURL + "/dashboard/view",
-			SortWeight: dtos.WeightDashboard,
-			Children:   dashboardChildNavs,
-		})
-	}
+	navTree = append(navTree, &dtos.NavLink{
+		Text:       "Dashboard",
+		Id:         "dashboards",
+		SubTitle:   "Manage dashboards and folders",
+		Icon:       "home-alt",
+		Url:        hs.Cfg.AppSubURL + "/",
+		SortWeight: dtos.WeightDashboard,
+		Children:   dashboardChildNavs,
+	})
+
 
 	// canExplore := func(context *models.ReqContext) bool {
 	// 	return c.OrgRole == models.ROLE_ADMIN || c.OrgRole == models.ROLE_EDITOR || setting.ViewersCanEdit
