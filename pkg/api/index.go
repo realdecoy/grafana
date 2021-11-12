@@ -398,6 +398,16 @@ func (hs *HTTPServer) getNavTree(c *models.ReqContext, hasEditPerm bool) ([]*dto
 		Url:        hs.Cfg.AppSubURL + "/baseline",
 	})
 
+
+	navTree = append(navTree, &dtos.NavLink{
+		Text:       "Production Volume",
+		Id:         "production",
+		SubTitle:   "Production Volume Data Entry",
+		Icon:       "graph-bar",
+		SortWeight: dtos.WeightDashboard,
+		Url:        hs.Cfg.AppSubURL + "/production",
+	})
+
 	return navTree, nil
 }
 
