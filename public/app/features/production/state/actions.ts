@@ -1,50 +1,49 @@
-import { BaselineEntryFields } from '../types';
-import { BaselineDTO, ThunkResult } from '../../../types';
+import { ProductionVolumeDTO, ThunkResult } from '../../../types';
 import {
   setUpdating,
-  initLoadingBaselineEntries,
-  baselineEntriesLoaded,
+  initLoadingProductionEntries,
+  ProductionEntriesLoaded,
   setModalOpen,
-  setEditBaselineModal,
+  setEditProductionModal,
 } from './reducers';
 import { api } from '../api';
 
-export function initBaselineEntryPage(): ThunkResult<void> {
+export function initProductionEntryPage(): ThunkResult<void> {
   return async function (dispatch) {
-    dispatch(loadBaselineEntries());
+    dispatch(loadProductionEntries());
   };
 }
 
-function loadBaselineEntries(): ThunkResult<void> {
+function loadProductionEntries(): ThunkResult<void> {
   return async function (dispatch) {
-    dispatch(initLoadingBaselineEntries());
-    const baselineEntries = await api.loadBaselineEntries();
-    console.log(`[ baseine entries loaded ] ${baselineEntries.length}`);
-    dispatch(baselineEntriesLoaded({ baselineEntries }));
+    dispatch(initLoadingProductionEntries());
+    const ProductionEntries = await api.loadProductionEntries();
+    console.log(`[ production entries loaded ] ${ProductionEntries.length}`);
+    dispatch(ProductionEntriesLoaded({ ProductionEntries }));
   };
 }
 
-export function submitBaselineEntry(payload: BaselineEntryFields): ThunkResult<void> {
+export function submitProductionEntry(payload: ProductionVolumeDTO): ThunkResult<void> {
   return async function (dispatch) {
     console.log(`[ submit ]`, payload);
     dispatch(setUpdating({ updating: true }));
-    await api.submitBaselineEntry(payload);
-    dispatch(loadBaselineEntries());
+    await api.submitProductionEntry(payload);
+    dispatch(loadProductionEntries());
     dispatch(setUpdating({ updating: false }));
   };
 }
 
-export function updateBaselineEntry(payload: BaselineDTO): ThunkResult<void> {
+export function updateProductionEntry(payload: ProductionVolumeDTO): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setUpdating({ updating: true }));
     try {
-      await api.updateBaselineEntry(payload);
+      await api.updateProductionEntry(payload);
       dispatch(setModalOpen({ open: false }));
-      dispatch(setEditBaselineModal({ id: 0 }));
+      dispatch(setEditProductionModal({ id: 0 }));
     } catch (err) {
       console.log(`[err]`);
     } finally {
-      dispatch(loadBaselineEntries());
+      dispatch(loadProductionEntries());
       dispatch(setUpdating({ updating: false }));
     }
   };
@@ -53,19 +52,19 @@ export function updateBaselineEntry(payload: BaselineDTO): ThunkResult<void> {
 export function openEditModal(payload: number): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setModalOpen({ open: true }));
-    dispatch(setEditBaselineModal({ id: payload }));
+    dispatch(setEditProductionModal({ id: payload }));
   };
 }
 
-export function archiveBaseline(payload: number): ThunkResult<void> {
+export function archiveProduction(payload: number): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setUpdating({ updating: true }));
     try {
-      await api.archiveBaselineEntry(payload);
+      await api.archiveProductionEntry(payload);
     } catch (err) {
       console.log(`[err]`);
     } finally {
-      dispatch(loadBaselineEntries());
+      dispatch(loadProductionEntries());
       dispatch(setUpdating({ updating: false }));
     }
   };
@@ -74,6 +73,6 @@ export function archiveBaseline(payload: number): ThunkResult<void> {
 export function closeEditModal(): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setModalOpen({ open: false }));
-    dispatch(setEditBaselineModal({ id: 0 }));
+    dispatch(setEditProductionModal({ id: 0 }));
   };
 }

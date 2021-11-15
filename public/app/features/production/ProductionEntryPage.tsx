@@ -3,14 +3,14 @@ import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
 import { PageToolbar, PageHeader, useStyles2, Icon, Modal } from '@grafana/ui';
-import { BaselineDTO, StoreState } from 'app/types';
+import { ProductionVolumeDTO, StoreState } from 'app/types';
 import {
-  initBaselineEntryPage,
-  submitBaselineEntry,
-  updateBaselineEntry,
+  initProductionEntryPage,
+  submitProductionEntry,
+  updateProductionEntry,
   openEditModal,
   closeEditModal,
-  archiveBaseline,
+  archiveProduction,
 } from './state/actions';
 import ProductionEntryForm from './ProductionEntryForm';
 import EditBaselineEntryForm from './EditProductionEntryForm';
@@ -22,50 +22,50 @@ export interface OwnProps {
 }
 
 function mapStateToProps(state: StoreState) {
-  const baselineEntryState = state.baseline;
+  const productionEntryState = state.Production;
   const {
     isUpdating,
     isModalOpen,
-    editBaselineEntryId,
-    baselineEntries,
-    baselineEntriesAreLoading,
-  } = baselineEntryState;
+    editProductionEntryId,
+    productionEntries,
+    productionEntriesAreLoading,
+  } = productionEntryState;
   return {
     isUpdating,
     isModalOpen,
-    editBaselineEntryId,
-    baselineEntries,
-    baselineEntriesAreLoading,
+    editProductionEntryId,
+    productionEntries,
+    productionEntriesAreLoading,
   };
 }
 
 const mapDispatchToProps = {
-  initBaselineEntryPage,
-  submitBaselineEntry,
-  updateBaselineEntry,
+  initProductionEntryPage,
+  submitProductionEntry,
+  updateProductionEntry,
   openEditModal,
   closeEditModal,
-  archiveBaseline,
+  archiveProduction,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 export type Props = OwnProps & ConnectedProps<typeof connector>;
 
-export function BaselineEntryPage({
+export function ProductionEntryPage({
   isUpdating,
   isModalOpen,
-  editBaselineEntryId,
-  baselineEntries,
-  baselineEntriesAreLoading,
-  updateBaselineEntry,
-  initBaselineEntryPage,
-  submitBaselineEntry,
+  editProductionEntryId,
+  productionEntries,
+  productionEntriesAreLoading,
+  updateProductionEntry,
+  initProductionEntryPage,
+  submitProductionEntry,
   openEditModal,
   closeEditModal,
-  archiveBaseline,
+  archiveProduction,
 }: Props) {
-  useMount(() => initBaselineEntryPage());
+  useMount(() => initProductionEntryPage());
 
   const loginStyles = useStyles2(getLoginStyles);
 
@@ -76,11 +76,11 @@ export function BaselineEntryPage({
       </PageHeader>
       <PageToolbar title={`Production Entry`} className="no-margin" />
       <div className="sub-title">Possible microcopy providing high level explanation of the chart.</div>
-      <ProductionEntryForm addBaselineEntry={submitBaselineEntry} isSavingBaselineEntry={isUpdating} />
+      <ProductionEntryForm addBaselineEntry={submitProductionEntry} isSavingBaselineEntry={isUpdating} />
       <hr className="spacious"></hr>
       <div
         className={
-          isUpdating || baselineEntriesAreLoading
+          isUpdating || productionEntriesAreLoading
             ? 'baseline-no-scroll baseline-entry-table-container'
             : 'baseline-entry-table-container'
         }
@@ -90,57 +90,59 @@ export function BaselineEntryPage({
             <tr>
               <th>No.</th>
               <th>
-                Start Date&nbsp;
-                {/* <Tooltip placement="top" content="Start Date">
-                  <Icon name="shield" />
-                </Tooltip> */}
+                Date
               </th>
-              <th>End Date</th>
-              <th>Invoice Date</th>
-              <th>No. of Days</th>
-              <th>Kilowatt-hour</th>
-              <th>KWh (Normalized)</th>
-              <th>Min. kW</th>
-              <th>Max. kW</th>
-              <th>Avg. kW</th>
-              <th>Avg. kVA</th>
-              <th>PF</th>
-              <th>Min. PF</th>
-              <th>Max. PF</th>
-              <th>Rate</th>
-              <th>Energy Rate</th>
-              <th>Fuel Rate</th>
-              <th>KVA Rate</th>
-              <th>KVA Charge</th>
-              <th>Fuel & IPP Rate</th>
-              <th>Fuel & IPP Charge</th>
-              <th>Fuel Charge</th>
-              <th>IPP Var. Rate</th>
-              <th>IPP Fixed Rate</th>
-              <th>IPP Var. Charge</th>
-              <th>IPP Fixed Charge</th>
-              <th>Energy Charge</th>
-              <th>Current Charges</th>
-              <th>Sales Tax</th>
-              <th>Actions</th>
+              <th>Warehouse staff</th>
+              <th>Staff - Total  </th>
+              <th>HiPro store & office staff </th>
+              <th>No. of staff – Office - Sales  </th>
+              <th> No. of staff – Office - Accounts</th>
+              <th>No. of staff – Office - Group Purchasing  </th>
+              <th>No. of staff – Office - Store Purchasing   </th>
+              <th>No. of staff – Store - Customer Service  </th>
+              <th>No of Staff - Store - Cashiers </th>
+              <th>No of Staff - Store - Pharmacy </th>
+              <th>No of Staff - Store - Sales Floor</th>
+              <th>
+                No of Staff - Store - Receival</th>
+              <th>No of Staff - Store - Warehouse</th>
+              <th>
+                No. of customers - Total
+              </th>
+              <th>No. of customers - Store</th>
+              <th>No. of customers - Warehouse</th>
+              <th>
+                No. of transactions – Total
+              </th>
+              <th>No. of transactions Item/Department – A</th>
+              <th>No. of transactions Item/Department – B</th>
+              <th>No. of transactions Item/Department – C</th>
+              <th>
+
+                No. of transactions Item/Department – D</th>
+              <th>No. of transactions Item/Department - E</th>
+              <th>Truck deliveries – Type A</th>
+              <th>Truck deliveries – Type B</th>
+              <th>Truck deliveries – Type C</th>
+              <th>Truck deliveries – Type D</th>
             </tr>
           </thead>
           <tbody>
-            {baselineEntries.map((p: BaselineDTO) => {
-              return renderBaselineRecord(p, openEditModal, archiveBaseline);
+            {productionEntries.map((p: ProductionVolumeDTO) => {
+              return renderBaselineRecord(p, openEditModal, archiveProduction);
             })}
           </tbody>
         </table>
-        {renderLoadingBaselineEntries(baselineEntriesAreLoading, isUpdating)}
+        {renderLoadingBaselineEntries(productionEntriesAreLoading, isUpdating)}
       </div>
       {renderEditBaselineEntryModal(
-        baselineEntriesAreLoading,
+        productionEntriesAreLoading,
         isUpdating,
         isModalOpen,
-        editBaselineEntryId,
-        baselineEntries,
+        editProductionEntryId,
+        productionEntries,
         closeEditModal,
-        updateBaselineEntry
+        updateProductionEntry
       )}
     </div>
   );
@@ -166,13 +168,13 @@ const renderEditBaselineEntryModal = (
   isUpdating: boolean,
   isModalOpen: boolean,
   editBaselineEntryId: number,
-  baselineEntries: BaselineDTO[],
+  productionEntries: ProductionVolumeDTO[],
   closeEditModal: any,
   updateBaselineEntry: any
 ) => {
   let el;
 
-  if (isLoading === true || baselineEntries.length <= 0 || editBaselineEntryId <= 0) {
+  if (isLoading === true || productionEntries.length <= 0 || editBaselineEntryId <= 0) {
     el = null;
   } else {
     el = (
@@ -180,9 +182,9 @@ const renderEditBaselineEntryModal = (
         <div>
           <EditBaselineEntryForm
             existingBaseline={
-              (baselineEntries.find((p) => {
+              (productionEntries.find((p) => {
                 return p.id?.toString() === editBaselineEntryId.toString();
-              }) ?? {}) as BaselineDTO
+              }) ?? {}) as ProductionVolumeDTO
             }
             updateBaselineEntry={updateBaselineEntry}
             isSavingBaselineEntry={isUpdating}
@@ -194,7 +196,8 @@ const renderEditBaselineEntryModal = (
   return el;
 };
 
-const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any, archiveBaseline: any) => {
+const renderBaselineRecord = (baselineEntry: ProductionVolumeDTO, openEditModal: any, archiveBaseline: any) => {
+  console.log(baselineEntry)
   return (
     <tr key={baselineEntry.id}>
       <td className="link-td max-width-10">
@@ -203,143 +206,128 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any, ar
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.startDate}>
-          {baselineEntry.startDate}
+        <a className="ellipsis" title={baselineEntry.day}>
+          {baselineEntry.day}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.endDate}>
-          {baselineEntry.endDate}
+        <a className="ellipsis" title={baselineEntry.wareHouseStaff}>
+          {baselineEntry.wareHouseStaff}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.invoiceDate}>
-          {baselineEntry.invoiceDate}
+        <a className="ellipsis" title={baselineEntry.staffTotal}>
+          {baselineEntry.staffTotal}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfDays}>
-          {baselineEntry.noOfDays}
+        <a className="ellipsis" title={baselineEntry.noOfStaffOfficeAccounts}>
+          {baselineEntry.noOfStaffOfficeAccounts}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kwh}>
-          {baselineEntry.kwh}
+        <a className="ellipsis" title={baselineEntry.noOfStaffOfficeGroupPurchasing}>
+          {baselineEntry.noOfStaffOfficeGroupPurchasing}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kwhNormalized}>
-          {baselineEntry.kwhNormalized}
+        <a className="ellipsis" title={baselineEntry.noOfStaffOfficeStorePurchasing}>
+          {baselineEntry.noOfStaffOfficeStorePurchasing}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.minKw}>
-          {baselineEntry.minKw}
+        <a className="ellipsis" title={baselineEntry.noOfStaffStoreCustomerService}>
+          {baselineEntry.noOfStaffStoreCustomerService}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.maxKw}>
-          {baselineEntry.maxKw}
+        <a className="ellipsis" title={baselineEntry.noOfStaffStoreCashiers}>
+          {baselineEntry.noOfStaffStoreCashiers}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.avgKw}>
-          {baselineEntry.avgKw}
+        <a className="ellipsis" title={baselineEntry.noOfStaffStorePharmacy}>
+          {baselineEntry.noOfStaffStorePharmacy}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.avgKva}>
-          {baselineEntry.avgKva}
+        <a className="ellipsis" title={baselineEntry.noOfStaffStoreSalesFloor}>
+          {baselineEntry.noOfStaffStoreSalesFloor}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.pf}>
-          {baselineEntry.pf}
+        <a className="ellipsis" title={baselineEntry.noOfStaffStoreReceival}>
+          {baselineEntry.noOfStaffStoreReceival}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.minPf}>
-          {baselineEntry.minPf}
+        <a className="ellipsis" title={baselineEntry.wareHouseHiProStore}>
+          {baselineEntry.wareHouseHiProStore}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.maxPf}>
-          {baselineEntry.maxPf}
+        <a className="ellipsis" title={baselineEntry.noOfCustomersTotal}>
+          {baselineEntry.noOfCustomersTotal}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.rate}>
-          {baselineEntry.rate}
+        <a className="ellipsis" title={baselineEntry.noOfCustomersStore}>
+          {baselineEntry.noOfCustomersStore}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.energyRate}>
-          {baselineEntry.energyRate}
+        <a className="ellipsis" title={baselineEntry.noOftransactionstotal}>
+          {baselineEntry.noOftransactionstotal}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.fuelRate}>
-          {baselineEntry.fuelRate}
+        <a className="ellipsis" title={baselineEntry.nooftransactionsitemdepartmenta}>
+          {baselineEntry.nooftransactionsitemdepartmenta}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kvaRate}>
-          {baselineEntry.kvaRate}
+        <a className="ellipsis" title={baselineEntry.nooftransactionsitemdepartmentb}>
+          {baselineEntry.nooftransactionsitemdepartmentb}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kvaCharge}>
-          {baselineEntry.kvaCharge}
+        <a className="ellipsis" title={baselineEntry.nooftransactionsitemdepartmentc}>
+          {baselineEntry.nooftransactionsitemdepartmentc}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippRate}>
-          {baselineEntry.ippRate}
+        <a className="ellipsis" title={baselineEntry.nooftransactionsitemdepartmentd}>
+          {baselineEntry.nooftransactionsitemdepartmentd}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippCharge}>
-          {baselineEntry.ippCharge}
+        <a className="ellipsis" title={baselineEntry.nooftransactionsitemdepartmente}>
+          {baselineEntry.nooftransactionsitemdepartmente}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.fuelCharge}>
-          {baselineEntry.fuelCharge}
+        <a className="ellipsis" title={baselineEntry.truckDeliveriesTotal}>
+          {baselineEntry.truckDeliveriesTotal}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippVariableRate}>
-          {baselineEntry.ippVariableRate}
+        <a className="ellipsis" title={baselineEntry.truckDeliveriesTypea}>
+          {baselineEntry.truckDeliveriesTypea}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippFixedRate}>
-          {baselineEntry.ippFixedRate}
+        <a className="ellipsis" title={baselineEntry.truckDeliveriesTypeb}>
+          {baselineEntry.truckDeliveriesTypeb}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippVariableCharge}>
-          {baselineEntry.ippVariableCharge}
+        <a className="ellipsis" title={baselineEntry.truckDeliveriesTypec}>
+          {baselineEntry.truckDeliveriesTypec}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippFixedCharge}>
-          {baselineEntry.ippFixedCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.energyCharge}>
-          {baselineEntry.energyCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.currentCharges}>
-          {baselineEntry.currentCharges}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.salesTax}>
-          {baselineEntry.salesTax}
+        <a className="ellipsis" title={baselineEntry.truckDeliveriesTyped}>
+          {baselineEntry.truckDeliveriesTyped}
         </a>
       </td>
       <td className="link-td">
@@ -363,4 +351,4 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any, ar
   );
 };
 
-export default hot(module)(connector(BaselineEntryPage));
+export default hot(module)(connector(ProductionEntryPage));

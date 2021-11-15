@@ -1,28 +1,28 @@
-import { BaselineEntryFields } from './types';
-import { BaselineDTO, BaselineDatasource } from '../../types';
 
-const baselineQuery = new BaselineDatasource();
+import { ProductionVolumeDTO, ProductionVolumeeDatasource } from '../../types';
 
-async function loadBaselineEntries(): Promise<BaselineDTO[]> {
-  const { data: baselineRecords } = await baselineQuery._get('/api/baseline/');
-  return baselineRecords;
+const productionQuery = new ProductionVolumeeDatasource();
+
+async function loadProductionEntries(): Promise<ProductionVolumeDTO[]> {
+  const { data: ProductionRecords } = await productionQuery._get('/api/production/');
+  return ProductionRecords;
 }
 
-async function submitBaselineEntry(payload: BaselineEntryFields): Promise<void> {
-  await baselineQuery._post('/api/baseline/', payload);
+async function submitProductionEntry(payload: ProductionVolumeDTO): Promise<void> {
+  await productionQuery._post('/api/production', payload);
 }
 
-async function updateBaselineEntry(payload: BaselineDTO): Promise<void> {
-  await baselineQuery._put('/api/baseline/', payload);
+async function updateProductionEntry(payload: ProductionVolumeDTO): Promise<void> {
+  await productionQuery._put('/api/production', payload);
 }
 
-async function archiveBaselineEntry(id: number): Promise<void> {
-  await baselineQuery._get(`/api/archiveBaselineById/${id}`);
+async function archiveProductionEntry(id: number): Promise<void> {
+  await productionQuery._get(`/api/archiveProductionById/${id}`);
 }
 
 export const api = {
-  loadBaselineEntries,
-  submitBaselineEntry,
-  updateBaselineEntry,
-  archiveBaselineEntry,
+  loadProductionEntries,
+  submitProductionEntry,
+  updateProductionEntry,
+  archiveProductionEntry,
 };

@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Button, Field, FieldSet, Form, Input, PageToolbar } from '@grafana/ui';
+import { Button, DatePickerWithInput, Field, FieldSet, Form, Input, PageToolbar } from '@grafana/ui';
 import { BaselineDTO } from 'app/types';
 
 export interface Props {
@@ -126,36 +126,36 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
         // const isValidStartDate = new Date(existingBaseline.startDate).toString() !== 'Invalid Date';
         // const isValidEndDate = new Date(existingBaseline.endDate).toString() !== 'Invalid Date';
         // const isValidInvoiceDate = new Date(existingBaseline.invoiceDate).toString() !== 'Invalid Date';
-        setValue('id', id.value);
-        setValue('startDate', existingBaseline.startDate);
-        setValue('endDate', existingBaseline.endDate);
-        setValue('noOfDays', noOfDays.value);
-        setValue('invoiceDate', existingBaseline.invoiceDate);
-        setValue('kwh', kwh.value);
-        setValue('minKw', minKw.value);
-        setValue('maxKw', maxKw.value);
-        setValue('avgKw', avgKw.value);
-        setValue('avgKva', avgKva.value);
-        setValue('pf', pf.value);
-        setValue('minPf', minPf.value);
-        setValue('maxPf', maxPf.value);
-        setValue('rate', rate.value);
-        setValue('energyRate', energyRate.value);
-        setValue('fuelRate', fuelRate.value);
-        setValue('kvaRate', kvaRate.value);
-        setValue('ippRate', ippRate.value);
-        setValue('ippVariableRate', ippVariableRate.value);
-        setValue('ippFixedRate', ippFixedRate.value);
-        setValue('energyCharge', energyCharge.value);
-        setValue('fuelCharge', fuelCharge.value);
-        setValue('ippCharge', ippCharge.value);
-        setValue('ippVariableCharge', ippVariableCharge.value);
-        setValue('ippFixedCharge', ippFixedCharge.value);
-        setValue('kvaCharge', kvaCharge.value);
-        setValue('currentCharges', currentCharges.value);
-        setValue('salesTax', salesTax.value);
+        // setValue('id', id.value);
+        // setValue('startDate', existingBaseline.startDate);
+        // setValue('endDate', existingBaseline.endDate);
+        // setValue('noOfDays', noOfDays.value);
+        // setValue('invoiceDate', existingBaseline.invoiceDate);
+        // setValue('kwh', kwh.value);
+        // setValue('minKw', minKw.value);
+        // setValue('maxKw', maxKw.value);
+        // setValue('avgKw', avgKw.value);
+        // setValue('avgKva', avgKva.value);
+        // setValue('pf', pf.value);
+        // setValue('minPf', minPf.value);
+        // setValue('maxPf', maxPf.value);
+        // setValue('rate', rate.value);
+        // setValue('energyRate', energyRate.value);
+        // setValue('fuelRate', fuelRate.value);
+        // setValue('kvaRate', kvaRate.value);
+        // setValue('ippRate', ippRate.value);
+        // setValue('ippVariableRate', ippVariableRate.value);
+        // setValue('ippFixedRate', ippFixedRate.value);
+        // setValue('energyCharge', energyCharge.value);
+        // setValue('fuelCharge', fuelCharge.value);
+        // setValue('ippCharge', ippCharge.value);
+        // setValue('ippVariableCharge', ippVariableCharge.value);
+        // setValue('ippFixedCharge', ippFixedCharge.value);
+        // setValue('kvaCharge', kvaCharge.value);
+        // setValue('currentCharges', currentCharges.value);
+        // setValue('salesTax', salesTax.value);
         return (
-          <FieldSet className="edit-baseline-field-set">
+         <FieldSet className="baseline-field-set">
             <PageToolbar title={`ID`} className="no-margin" />
             <div className="baseline-field-group">
               <Field className="baseline-field" label="ID" invalid={!!errors.id} disabled={true}>
@@ -176,530 +176,435 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
             <div className="baseline-field-group">
               <Field
                 className="baseline-field"
-                label="Start Date"
-                invalid={!!errors.startDate}
-                error="Start Date is required"
-                disabled={isSaving.value}
-              >
-                <Input
-                  {...register('startDate', { required: true })}
-                  id="edit-baseline-start-date"
-                  placeholder="Start Date"
-                  value={startDate.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setStartDate({ value });
-                    setValue('startDate', value);
-                  }}
-                />
-              </Field>
-              <Field
-                className="baseline-field"
-                label="End Date"
-                invalid={!!errors.endDate}
-                error="End Date is required"
-                disabled={isSaving.value}
-              >
-                <Input
-                  {...register('endDate', { required: true })}
-                  id="edit-baseline-end-date"
-                  placeholder="End Date"
-                  value={endDate.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setEndDate({ value });
-                    setValue('endDate', value);
-                  }}
-                />
-              </Field>
-              <Field
-                className="baseline-field"
-                label="No. Of Days"
-                invalid={!!errors.noOfDays}
-                error="No. of Days nust me a number [e.g. 30]"
-                disabled={isSaving.value}
-              >
-                <Input
-                  {...register('noOfDays', { required: true, pattern: /^[0-9]+$/g })}
-                  id="edit-baseline-no-of-days"
-                  placeholder="No. Of Days"
-                  value={noOfDays.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setNoOfDays({ value });
-                    setValue('noOfDays', value);
-                  }}
-                />
-              </Field>
-              <Field
-                className="baseline-field"
-                label="Invoice Date"
+                label="Day"
                 invalid={!!errors.invoiceDate}
-                error="Invoice Date is required"
-                disabled={isSaving.value}
+                error="Invoice Date is required [format: yyyy-mm-dd]"
+                disabled={isSavingBaselineEntry}
               >
-                <Input
-                  {...register('invoiceDate', { required: true })}
-                  id="edit-baseline-invoice-date"
-                  placeholder="Invoice Date"
-                  value={invoiceDate.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setInvoiceDate({ value });
-                    setValue('invoiceDate', value);
+                <DatePickerWithInput
+                  id="baseline-invoice-date"
+                  placeholder="Day"
+                  closeOnSelect={true}
+                  {...register('day', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
+                  onChange={(val) => {
+                    const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
+                    const el = document.getElementById('baseline-invoice-date') as HTMLInputElement;
+                    el.value = formattedValue;
+                    setValue('day', formattedValue, { shouldValidate: true });
                   }}
                 />
               </Field>
             </div>
-            <PageToolbar title={`Readings`} className="no-margin" />
+            <PageToolbar title={`Staff`} className="no-margin" />
             <div className="baseline-field-group">
               <Field
                 className="baseline-field"
-                label="Kilowatt-hour (kWh)"
-                invalid={!!errors.kwh}
-                error="kWh is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="Warehouse staff"
+                invalid={!!errors.wareHouseStaff}
+                error="Warehouse staff is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('kwh', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-kwh"
-                  placeholder="kWh"
-                  value={kwh.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setKwh({ value });
-                    setValue('kwh', value);
-                  }}
+                  {...register('wareHouseStaff', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="Production-warehouseStaff"
+                  placeholder="Warehouse Staff"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Minimum kW"
-                invalid={!!errors.minKw}
-                error="Min. kW is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="Store employees / staff"
+                invalid={!!errors.storeEmployees}
+                error="Store employees / staff is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('minKw', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-min-kw"
-                  placeholder="Min. kW"
-                  value={minKw.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setMinKw({ value });
-                    setValue('minKw', value);
-                  }}
+                  {...register('storeEmployees', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="Production-storeEmployees"
+                  placeholder="Store Employees"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Maximum kW"
-                invalid={!!errors.maxKw}
-                error="Max. kW is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="Staff - Total"
+                invalid={!!errors.staffTotal}
+                error="Staff - Total is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('maxKw', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-max-kw"
-                  placeholder="Max. kW"
-                  value={maxKw.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setMaxKw({ value });
-                    setValue('maxKw', value);
-                  }}
+                  {...register('staffTotal', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="Production-staffTotal"
+                  placeholder="Staff - Total"
+                  defaultValue={''}
+                />
+              </Field>
+              <br />
+              <Field
+                className="baseline-field"
+                label="HiPro store & office staff"
+                invalid={!!errors.hiproStore}
+                error="HiPro store & office staff is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('hiproStore', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="Production-hiproStore"
+                  placeholder="HiPro store & office staff"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Average kW"
-                invalid={!!errors.avgKw}
-                error="Average kW is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of staff – Office - Sales"
+                invalid={!!errors.noOfStaffOfficeSales}
+                error="staff – Office - Sale is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('avgKw', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-avg-kw"
-                  placeholder="Average kW"
-                  value={avgKw.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setAvgKw({ value });
-                    setValue('avgKw', value);
-                  }}
+                  {...register('noOfStaffOfficeSales', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfStaffOfficeSales"
+                  placeholder="staff – Office - Sale"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Average kVA"
-                invalid={!!errors.avgKva}
-                error="Average kVA is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of staff – Office - Accounts"
+                invalid={!!errors.noOfStaffOfficeAccounts}
+                error="staff – Office - Accounts is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('avgKva', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-avg-kva"
-                  placeholder="Average kVA"
-                  value={avgKva.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setAvgKva({ value });
-                    setValue('avgKva', value);
-                  }}
+                  {...register('noOfStaffOfficeAccounts', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfStaffOfficeAccounts"
+                  placeholder="staff – Office - Accounts"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Power Factor (PF)"
-                invalid={!!errors.pf}
-                error="PF is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of staff – Office - Group Purchasing"
+                invalid={!!errors.noOfStaffOfficeGroupPurchasing}
+                error="No. of staff – Office - Group Purchasing is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('pf', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-pf"
-                  placeholder="PF"
-                  value={pf.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setPf({ value });
-                    setValue('pf', value);
-                  }}
+                  {...register('noOfStaffOfficeGroupPurchasing', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfStaffOfficeGroupPurchasing"
+                  placeholder="No. of staff – Office - Group Purchasing                  "
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Minimum PF"
-                invalid={!!errors.minPf}
-                error="Min. PF is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of staff – Office - Store Purchasing"
+                invalid={!!errors.noOfStaffOfficeStorePurchasing}
+                error="No. of staff – Office - Group Purchasing is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('minPf', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-min-pf"
-                  placeholder="Min. PF"
-                  value={minPf.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setMinPf({ value });
-                    setValue('minPf', value);
-                  }}
+                  {...register('noOfStaffOfficeStorePurchasing', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfStaffOfficeStorePurchasing"
+                  placeholder="No. of staff – Office - Store Purchasing"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Maximum PF"
-                invalid={!!errors.maxPf}
-                error="Max. PF is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of staff – Store - Customer Service"
+                invalid={!!errors.noOfStaffStoreCustomerService}
+                error="Customer Service is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('maxPf', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-max-pf"
-                  placeholder="Max. PF"
-                  value={maxPf.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setMaxPf({ value });
-                    setValue('maxPf', value);
-                  }}
+                  {...register('noOfStaffStoreCustomerService', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfStaffStoreCustomerService"
+                  placeholder="No. of staff – Store - Customer Service"
+                  defaultValue={''}
+                />
+              </Field>
+              <Field
+                className="baseline-field"
+                label="No of Staff - Store - Cashiers"
+                invalid={!!errors.noOfStaffStoreCashiers}
+                error="No of Staff - Store - Cashiers is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('noOfStaffStoreCashiers', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfStaffStoreCashiers"
+                  placeholder="No of Staff - Store - Cashiers"
+                  defaultValue={''}
+                />
+              </Field>
+              <Field
+                className="baseline-field"
+                label="No of Staff - Store - Pharmacy"
+                invalid={!!errors.noOfStaffStorePharmacy}
+                error="No of Staff - Store - Pharmacy
+                is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('noOfStaffStorePharmacy', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfStaffStorePharmacy"
+                  placeholder="No of Staff - Store - Pharmacy"
+                  defaultValue={''}
+                />
+              </Field>
+              <Field
+                className="baseline-field"
+                label="No of Staff - Store - Sales Floor"
+                invalid={!!errors.noOfStaffStoreSalesFloor}
+                error="No of Staff - Store - Sales Floor is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('noOfStaffStoreSalesFloor', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfStaffStoreSalesFloor"
+                  placeholder="No of Staff - Store - Sales Floor"
+                  defaultValue={''}
+                />
+              </Field>
+
+              <Field
+                className="baseline-field"
+                label="No of Staff - Store - Warehouse HiPro store & office staff"
+                invalid={!!errors.wareHouseHiProStore}
+                error="Warehouse HiPro store  is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('wareHouseHiProStore', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-wareHouseHiProStore"
+                  placeholder=" Warehouse HiPro store & office staff"
+                  defaultValue={''}
+                />
+              </Field>
+              <Field
+                className="baseline-field"
+                label="No of Staff - Store - Receival"
+                invalid={!!errors.noOfStaffStoreReceival}
+                error="Store - Receival is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('noOfStaffStoreReceival', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baselinenoOfStaffStoreReceival"
+                  placeholder="Store - Receival"
+                  defaultValue={''}
                 />
               </Field>
             </div>
-            <PageToolbar title={`Rates`} className="no-margin" />
+            <PageToolbar title={`Customers`} className="no-margin" />
             <div className="baseline-field-group">
               <Field
                 className="baseline-field"
-                label="Rate"
-                invalid={!!errors.rate}
-                error="Rate is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label=" No. of customers - Total"
+                invalid={!!errors.noOfCustomersTotal}
+                error="No. of customers - Total is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('rate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-rate"
-                  placeholder="Rate"
-                  value={rate.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setRate({ value });
-                    setValue('rate', value);
-                  }}
+                  {...register('noOfCustomersTotal', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfCustomersTotal"
+                  placeholder="No. of customers - Total"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Energy Rate"
-                invalid={!!errors.energyRate}
-                error="Energy Rate is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of customers - Store"
+                invalid={!!errors.noOfCustomersStore}
+                error="No. of customers - Store is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('energyRate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-energy-rate"
-                  placeholder="Energy Rate"
-                  value={energyRate.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setEnergyRate({ value });
-                    setValue('energyRate', value);
-                  }}
+                  {...register('noOfCustomersStore', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfCustomersStore"
+                  placeholder="No. of customers - Store"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Fuel Rate"
-                invalid={!!errors.fuelRate}
-                error="Fuel Rate is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of customers - Warehouse"
+                invalid={!!errors.noOftransactionstotal}
+                error="No. of customers - Warehouse is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('fuelRate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-fuel-rate"
-                  placeholder="Fuel Rate"
-                  value={fuelRate.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setFuelRate({ value });
-                    setValue('fuelRate', value);
-                  }}
+                  {...register('noOftransactionstotal', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOftransactionstotal"
+                  placeholder="No. of customers"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="KVA Rate"
-                invalid={!!errors.kvaRate}
-                error="KVA Rate is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of transactions – Total"
+                invalid={!!errors.noOftransactionstotal}
+                error="No. of transactions is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('kvaRate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-kva-rate"
-                  placeholder="KVA Rate"
-                  value={kvaRate.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setKvaRate({ value });
-                    setValue('kvaRate', value);
-                  }}
-                />
-              </Field>
-              <Field
-                className="baseline-field"
-                label="Fuel & IPP Rate"
-                invalid={!!errors.ippRate}
-                error="Fuel & IPP Rate is required [e.g. 24.53]"
-                disabled={isSaving.value}
-              >
-                <Input
-                  {...register('ippRate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-ipp-rate"
-                  placeholder="Fuel & IPP Rate"
-                  value={ippRate.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setIppRate({ value });
-                    setValue('ippRate', value);
-                  }}
-                />
-              </Field>
-              <Field
-                className="baseline-field"
-                label="IPP Variable Rate"
-                invalid={!!errors.ippVariableRate}
-                error="IPP Variable Rate is required [e.g. 24.53]"
-                disabled={isSaving.value}
-              >
-                <Input
-                  {...register('ippVariableRate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-ipp-variable-rate"
-                  placeholder="IPP Variable Rate"
-                  value={ippVariableRate.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setIppVariableRate({ value });
-                    setValue('ippVariableRate', value);
-                  }}
-                />
-              </Field>
-              <Field
-                className="baseline-field"
-                label="IPP Fixed Rate"
-                invalid={!!errors.ippFixedRate}
-                error="IPP Fixed Rate is required [e.g. 24.53]"
-                disabled={isSaving.value}
-              >
-                <Input
-                  {...register('ippFixedRate', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-ipp-Fixed-rate"
-                  placeholder="IPP Fixed Rate"
-                  value={ippFixedRate.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setIppFixedRate({ value });
-                    setValue('ippFixedRate', value);
-                  }}
+                  {...register('noOftransactionstotal', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOftransactionstotal"
+                  placeholder="No. of transactions"
+                  defaultValue={''}
                 />
               </Field>
             </div>
-            <PageToolbar title={`Charges`} className="no-margin" />
+            <PageToolbar title={`Transactions`} className="no-margin" />
             <div className="baseline-field-group">
               <Field
                 className="baseline-field"
-                label="Energy Charge"
-                invalid={!!errors.energyCharge}
-                error="Energy Charge is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of transactions Item/Department – A"
+                invalid={!!errors.nooftransactionsitemdepartmenta}
+                error="No. of transactions Item/Department – A is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('energyCharge', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-energy-charge"
-                  placeholder="Energy Charge"
-                  value={energyCharge.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setEnergyCharge({ value });
-                    setValue('energyCharge', value);
-                  }}
+                  {...register('nooftransactionsitemdepartmenta', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-nooftransactionsitemdepartmenta"
+                  placeholder=" Item/Department – A Charge"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Fuel Charge"
-                invalid={!!errors.fuelCharge}
-                error="Fuel Charge is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of transactions Item/Department – B"
+                invalid={!!errors.nooftransactionsitemdepartmentb}
+                error="Item/Department – B is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('fuelCharge', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-fuel-charge"
-                  placeholder="Fuel Charge"
-                  value={fuelCharge.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setFuelCharge({ value });
-                    setValue('fuelCharge', value);
-                  }}
+                  {...register('nooftransactionsitemdepartmentb', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-nooftransactionsitemdepartmentb"
+                  placeholder="Item/Department – B"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Fuel & IPP Charge"
-                invalid={!!errors.ippCharge}
-                error="Fuel & IPP Charge is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of transactions Item/Department – C"
+                invalid={!!errors.nooftransactionsitemdepartmentc}
+                error=" Item/Department – c is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('ippCharge', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-ipp-charge"
-                  placeholder="Fuel & IPP charge"
-                  value={ippCharge.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setIppCharge({ value });
-                    setValue('ippCharge', value);
-                  }}
+                  {...register('nooftransactionsitemdepartmentc', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-nooftransactionsitemdepartmentc"
+                  placeholder="  Item/Department – C Charge"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="IPP Variable Charge"
-                invalid={!!errors.ippVariableCharge}
-                error="IPP Variable Charge is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="No. of transactions Item/Department – D"
+                invalid={!!errors.nooftransactionsitemdepartmentd}
+                error=" Item/Department – D is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('ippVariableCharge', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-ipp-variable-charge"
-                  placeholder="IPP Variable Charge"
-                  value={ippVariableCharge.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setIppVariableCharge({ value });
-                    setValue('ippVariableCharge', value);
-                  }}
+                  {...register('nooftransactionsitemdepartmentd', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-ipp-nooftransactionsitemdepartmentd"
+                  placeholder=" Item/Department – D "
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="IPP Fixed Charge"
-                invalid={!!errors.ippFixedCharge}
+                label="No. of transactions Item/Department - E"
+                invalid={!!errors.nooftransactionsitemdepartmente}
                 error="IPP Fixed Charge is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('ippFixedCharge', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-ipp-Fixed-charge"
-                  placeholder="IPP Fixed Charge"
-                  value={ippFixedCharge.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setIppFixedCharge({ value });
-                    setValue('ippFixedCharge', value);
-                  }}
+                  {...register('nooftransactionsitemdepartmente', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-nooftransactionsitemdepartmente"
+                  placeholder="No. of transactions Item/Department - E"
+                  defaultValue={''}
+                />
+              </Field>
+            </div>
+            <PageToolbar title={`Deliveries`} className="no-margin" />
+            <div className="baseline-field-group">
+              <Field
+                className="baseline-field"
+                label="Truck deliveries – Total"
+                invalid={!!errors.truckDeliveriesTotal}
+                error="Truck deliveriesis required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('truckDeliveriesTotal', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-truckDeliveriesTotal"
+                  placeholder="Truck deliveries"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="KVA Charge"
-                invalid={!!errors.kvaCharge}
-                error="KVA Charge is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="Truck deliveries – Type A"
+                invalid={!!errors.truckDeliveriesTypea}
+                error="Truck deliveries – Type A is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('kvaCharge', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-kva-charge"
-                  placeholder="KVA Charge"
-                  value={kvaCharge.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setKvaCharge({ value });
-                    setValue('kvaCharge', value);
-                  }}
+                  {...register('truckDeliveriesTypea', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-truckDeliveriesTypea"
+                  placeholder="Truck deliveries – Type A"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Current Charges"
-                invalid={!!errors.currentCharges}
-                error="Current Charges is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="Truck deliveries – Type B"
+                invalid={!!errors.truckDeliveriesTypeb}
+                error="Truck deliveries – Type B is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('currentCharges', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-current-charge"
-                  placeholder="Current Charges"
-                  value={currentCharges.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setCurrentCharges({ value });
-                    setValue('currentCharges', value);
-                  }}
+                  {...register('truckDeliveriesTypeb', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-truckDeliveriesTypeb"
+                  placeholder="Truck deliveries – Type B"
+                  defaultValue={''}
                 />
               </Field>
               <Field
                 className="baseline-field"
-                label="Sales Tax"
-                invalid={!!errors.salesTax}
-                error="Sales Tax is required [e.g. 24.53]"
-                disabled={isSaving.value}
+                label="Truck deliveries – Type C"
+                invalid={!!errors.truckDeliveriesTypec}
+                error="Truck deliveries – Type C is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('salesTax', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="edit-baseline-current-charge"
-                  placeholder="Sales Tax"
-                  value={salesTax.value}
-                  onChange={(event) => {
-                    const value = event?.currentTarget.value;
-                    setSalesTax({ value });
-                    setValue('salesTax', value);
-                  }}
+                  {...register('truckDeliveriesTypec', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-ipp-truckDeliveriesTypece"
+                  placeholder="Truck deliveries – Type C"
+                  defaultValue={''}
+                />
+              </Field>
+              <Field
+                className="baseline-field"
+                label="Truck deliveries – Type D"
+                invalid={!!errors.ippFixedCharge}
+                error="Truck deliveries – Type D is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('truckDeliveriesTyped', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-ipp-truckDeliveriesTyped"
+                  placeholder="Truck deliveries – Type D"
+                  defaultValue={''}
                 />
               </Field>
             </div>
             <div className="baseline-field-group">
               <div className="gf-form-button-row">
-                <Button variant="primary" disabled={isSaving.value} aria-label="Baseline entry submit button">
+                <Button variant="primary" disabled={isSavingBaselineEntry} aria-label="Baseline entry submit button">
                   Submit
                 </Button>
               </div>

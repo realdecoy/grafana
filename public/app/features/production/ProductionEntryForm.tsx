@@ -44,12 +44,12 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-invoice-date"
                   placeholder="Day"
                   closeOnSelect={true}
-                  {...register('Day', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
+                  {...register('day', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
                   onChange={(val) => {
                     const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
                     const el = document.getElementById('baseline-invoice-date') as HTMLInputElement;
                     el.value = formattedValue;
-                    setValue('Day', formattedValue, { shouldValidate: true });
+                    setValue('day', formattedValue, { shouldValidate: true });
                   }}
                 />
               </Field>
@@ -59,12 +59,12 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
               <Field
                 className="baseline-field"
                 label="Warehouse staff"
-                invalid={!!errors.warehouseStaff}
+                invalid={!!errors.wareHouseStaff}
                 error="Warehouse staff is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('warehouseStaff', { required: true, pattern: /^[0-9.-]+$/g })}
+                  {...register('wareHouseStaff', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="Production-warehouseStaff"
                   placeholder="Warehouse Staff"
                   defaultValue={''}
@@ -426,7 +426,7 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('fuelCharge', { required: true, pattern: /^[0-9.-]+$/g })}
+                  {...register('truckDeliveriesTypeb', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="baseline-truckDeliveriesTypeb"
                   placeholder="Truck deliveries – Type B"
                   defaultValue={''}

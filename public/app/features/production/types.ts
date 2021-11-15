@@ -1,7 +1,5 @@
-
-
 export type ProductionEntryFields = {
-  id?:number;
+  id?: number;
   day: number;
   wareHouseStaff: number;
   storeEmployees: number;
@@ -15,18 +13,18 @@ export type ProductionEntryFields = {
   noOfStaffStorePharmacy: number;
   noOfStaffStoreSalesFloor: number;
   noOfStaffStoreReceival: number;
-  wareHouseHiProStore :number;
-  noOfCustomersTotal: Number;
-  noOfCustomersStore: Number;
-  noOftransactionstotal: Number;
-  nooftransactionsitemdepartmenta: Number;
-  nooftransactionsitemdepartmentb: Number;
-  nooftransactionsitemdepartmentc: Number;
-  nooftransactionsitemdepartmentd: Number;
-  nooftransactionsitemdepartmente: Number;
-  truckDeliveriesTotal: Number;
-  truckDeliveriesTypea: Number;
-  truckDeliveriesTypeb: Number;
-  truckDeliveriesTypec: Number;
-  truckDeliveriesTyped: Number
+  wareHouseHiProStore: number;
+  noOfCustomersTotal: number;
+  noOfCustomersStore: number;
+  noOftransactionstotal: number;
+  nooftransactionsitemdepartmenta: number;
+  nooftransactionsitemdepartmentb: number;
+  nooftransactionsitemdepartmentc: number;
+  nooftransactionsitemdepartmentd: number;
+  nooftransactionsitemdepartmente: number;
+  truckDeliveriesTotal: number;
+  truckDeliveriesTypea: number;
+  truckDeliveriesTypeb: number;
+  truckDeliveriesTypec: number;
+  truckDeliveriesTyped: number;
 };

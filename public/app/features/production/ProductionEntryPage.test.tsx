@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { Props, BaselineEntryPage } from './ProductionEntryPage';
+import { Props, ProductionEntryPage } from './ProductionEntryPage';
 import { initialBaselineEntryState } from './state/reducers';
 import { backendSrv } from '../../core/services/backend_srv';
 
