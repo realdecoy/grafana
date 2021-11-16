@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { Button, DatePickerWithInput, Field, FieldSet, Form, Input, PageToolbar } from '@grafana/ui';
 import { ProductionEntryFields } from './types';
@@ -11,6 +11,36 @@ export interface Props {
 }
 
 export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselineEntry }) => {
+
+  const [id, setId] = useState({ value: '' });
+  const [day, setDay] = useState({ value: '' });
+  const [wareHouseStaff, setWareHouseStaff] = useState({ value: '' });
+  const [storeEmployees, setStoreEmployees] = useState({ value: '' });
+  const [staffTotal, setStaffTotal] = useState({ value: '' });
+  const [noOfStaffOfficeSales, setNoOfStaffOfficeSales] = useState({ value: '' });
+  const [noOfStaffOfficeAccounts, setNoOfStaffOfficeAccounts] = useState({ value: '' });
+  const [noOfStaffOfficeGroupPurchasing, setNoOfStaffOfficeGroupPurchasing] = useState({ value: '' });
+  const [noOfStaffOfficeStorePurchasing, setNoOfStaffOfficeStorePurchasing] = useState({ value: '' });
+  const [noOfStaffStoreCustomerService, setNoOfStaffStoreCustomerService] = useState({ value: '' });
+  const [noOfStaffStoreCashiers, setNoOfStaffStoreCashiers] = useState({ value: '' });
+  const [noOfStaffStorePharmacy, setNoOfStaffStorePharmacy] = useState({ value: '' });
+  const [noOfStaffStoreSalesFloor, setNoOfStaffStoreSalesFloor] = useState({ value: '' });
+  const [noOfStaffStoreReceival, setNoOfStaffStoreReceival] = useState({ value: '' });
+  const [wareHouseHiProStore, setWareHouseHiProStore] = useState({ value: '' });
+  const [noOfCustomersTotal, setNoOfCustomersTotal] = useState({ value: '' });
+  const [noOfCustomersStore, setNoOfCustomersStore] = useState({ value: '' });
+  const [noOftransactionstotal, setNoOftransactionstotal] = useState({ value: '' });
+  const [nooftransactionsitemdepartmenta, setNooftransactionsitemdepartmentae] = useState({ value: '' });
+  const [nooftransactionsitemdepartmentb, setNooftransactionsitemdepartmentb] = useState({ value: '' });
+  const [nooftransactionsitemdepartmentc, setNooftransactionsitemdepartmentc] = useState({ value: '' });
+  const [nooftransactionsitemdepartmentd, setNooftransactionsitemdepartmentd] = useState({ value: '' });
+  const [nooftransactionsitemdepartmente, setNooftransactionsitemdepartmente] = useState({ value: '' });
+  const [truckDeliveriesTotal, setTruckDeliveriesTotal] = useState({ value: '' });
+  const [truckDeliveriesTypea, setTruckDeliveriesTypea] = useState({ value: '' });
+  const [truckDeliveriesTypeb, setTruckDeliveriesTypeb] = useState({ value: '' });
+  const [truckDeliveriesTypec, setTruckDeliveriesTypec] = useState({ value: '' });
+  const [truckDeliveriesTyped, setTruckDeliveriesTyped] = useState({ value: '' });
+
   const onSubmitBaselineEntry = (data: ProductionEntryFields) => {
     addBaselineEntry(data);
     clearForm();
@@ -22,8 +52,39 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
   };
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    onSubmitBaselineEntry(data);
+
+    const trueData = {
+      id: id.value,
+      day: day.value,
+      wareHouseStaff: wareHouseStaff.value,
+      storeEmployees: storeEmployees.value,
+      staffTotal: staffTotal.value,
+      noOfStaffOfficeSales: noOfStaffOfficeSales.value,
+      noOfStaffOfficeAccounts: noOfStaffOfficeAccounts.value,
+      noOfStaffOfficeGroupPurchasing: noOfStaffOfficeGroupPurchasing.value,
+      noOfStaffOfficeStorePurchasing: noOfStaffOfficeStorePurchasing.value,
+      noOfStaffStoreCustomerService: noOfStaffStoreCustomerService.value,
+      noOfStaffStoreCashiers: noOfStaffStoreCashiers.value,
+      noOfStaffStorePharmacy: noOfStaffStorePharmacy.value,
+      noOfStaffStoreSalesFloor: noOfStaffStoreSalesFloor.value,
+      noOfStaffStoreReceival: noOfStaffStoreReceival.value,
+      wareHouseHiProStore: wareHouseHiProStore.value,
+      noOfCustomersTotal: noOfCustomersTotal.value,
+      noOfCustomersStore: noOfCustomersStore.value,
+      noOftransactionstotal: noOftransactionstotal.value,
+      nooftransactionsitemdepartmenta: nooftransactionsitemdepartmenta.value,
+      nooftransactionsitemdepartmentb: nooftransactionsitemdepartmentb.value,
+      nooftransactionsitemdepartmentc: nooftransactionsitemdepartmentc.value,
+      nooftransactionsitemdepartmentd: nooftransactionsitemdepartmentd.value,
+      nooftransactionsitemdepartmente: nooftransactionsitemdepartmente.value,
+      truckDeliveriesTotal: truckDeliveriesTotal.value,
+      truckDeliveriesTypea: truckDeliveriesTypea.value,
+      truckDeliveriesTypeb: truckDeliveriesTypeb.value,
+      truckDeliveriesTypec: truckDeliveriesTypec.value,
+      truckDeliveriesTyped: truckDeliveriesTyped.value,
+    };
+    onSubmitBaselineEntry(trueData);
+    //onSubmitBaselineEntry(data);
   };
 
   return (

@@ -1,45 +1,48 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Button, DatePickerWithInput, Field, FieldSet, Form, Input, PageToolbar } from '@grafana/ui';
-import { BaselineDTO } from 'app/types';
+import { ProductionVolumeDTO } from 'app/types';
+import { format } from 'date-fns';
+const DATE_FORMAT = 'yyyy-MM-dd';
 
 export interface Props {
-  existingBaseline: BaselineDTO;
+  existingBaseline: ProductionVolumeDTO;
   isSavingBaselineEntry: boolean;
-  updateBaselineEntry: (payload: BaselineDTO) => void;
+  updateBaselineEntry: (payload: ProductionVolumeDTO) => void;
 }
 
 export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBaselineEntry, updateBaselineEntry }) => {
   const [isSaving, setIsSaving] = useState({ value: false });
   const [id, setId] = useState({ value: '' });
-  const [startDate, setStartDate] = useState({ value: '' });
-  const [endDate, setEndDate] = useState({ value: '' });
-  const [noOfDays, setNoOfDays] = useState({ value: '' });
-  const [invoiceDate, setInvoiceDate] = useState({ value: '' });
-  const [kwh, setKwh] = useState({ value: '' });
-  const [minKw, setMinKw] = useState({ value: '' });
-  const [maxKw, setMaxKw] = useState({ value: '' });
-  const [avgKw, setAvgKw] = useState({ value: '' });
-  const [avgKva, setAvgKva] = useState({ value: '' });
-  const [pf, setPf] = useState({ value: '' });
-  const [minPf, setMinPf] = useState({ value: '' });
-  const [maxPf, setMaxPf] = useState({ value: '' });
-  const [rate, setRate] = useState({ value: '' });
-  const [energyRate, setEnergyRate] = useState({ value: '' });
-  const [fuelRate, setFuelRate] = useState({ value: '' });
-  const [kvaRate, setKvaRate] = useState({ value: '' });
-  const [ippRate, setIppRate] = useState({ value: '' });
-  const [ippVariableRate, setIppVariableRate] = useState({ value: '' });
-  const [ippFixedRate, setIppFixedRate] = useState({ value: '' });
-  const [energyCharge, setEnergyCharge] = useState({ value: '' });
-  const [fuelCharge, setFuelCharge] = useState({ value: '' });
-  const [ippCharge, setIppCharge] = useState({ value: '' });
-  const [ippVariableCharge, setIppVariableCharge] = useState({ value: '' });
-  const [ippFixedCharge, setIppFixedCharge] = useState({ value: '' });
-  const [kvaCharge, setKvaCharge] = useState({ value: '' });
-  const [currentCharges, setCurrentCharges] = useState({ value: '' });
-  const [salesTax, setSalesTax] = useState({ value: '' });
+  const [day, setDay] = useState({ value: '' });
+  const [wareHouseStaff, setWareHouseStaff] = useState({ value: '' });
+  const [storeEmployees, setStoreEmployees] = useState({ value: '' });
+  const [staffTotal, setStaffTotal] = useState({ value: '' });
+  const [noOfStaffOfficeSales, setNoOfStaffOfficeSales] = useState({ value: '' });
+  const [noOfStaffOfficeAccounts, setNoOfStaffOfficeAccounts] = useState({ value: '' });
+  const [noOfStaffOfficeGroupPurchasing, setNoOfStaffOfficeGroupPurchasing] = useState({ value: '' });
+  const [noOfStaffOfficeStorePurchasing, setNoOfStaffOfficeStorePurchasing] = useState({ value: '' });
+  const [noOfStaffStoreCustomerService, setNoOfStaffStoreCustomerService] = useState({ value: '' });
+  const [noOfStaffStoreCashiers, setNoOfStaffStoreCashiers] = useState({ value: '' });
+  const [noOfStaffStorePharmacy, setNoOfStaffStorePharmacy] = useState({ value: '' });
+  const [noOfStaffStoreSalesFloor, setNoOfStaffStoreSalesFloor] = useState({ value: '' });
+  const [noOfStaffStoreReceival, setNoOfStaffStoreReceival] = useState({ value: '' });
+  const [wareHouseHiProStore, setWareHouseHiProStore] = useState({ value: '' });
+  const [noOfCustomersTotal, setNoOfCustomersTotal] = useState({ value: '' });
+  const [noOfCustomersStore, setNoOfCustomersStore] = useState({ value: '' });
+  const [noOftransactionstotal, setNoOftransactionstotal] = useState({ value: '' });
+  const [nooftransactionsitemdepartmenta, setNooftransactionsitemdepartmentae] = useState({ value: '' });
+  const [nooftransactionsitemdepartmentb, setNooftransactionsitemdepartmentb] = useState({ value: '' });
+  const [nooftransactionsitemdepartmentc, setNooftransactionsitemdepartmentc] = useState({ value: '' });
+  const [nooftransactionsitemdepartmentd, setNooftransactionsitemdepartmentd] = useState({ value: '' });
+  const [nooftransactionsitemdepartmente, setNooftransactionsitemdepartmente] = useState({ value: '' });
+  const [truckDeliveriesTotal, setTruckDeliveriesTotal] = useState({ value: '' });
+  const [truckDeliveriesTypea, setTruckDeliveriesTypea] = useState({ value: '' });
+  const [truckDeliveriesTypeb, setTruckDeliveriesTypeb] = useState({ value: '' });
+  const [truckDeliveriesTypec, setTruckDeliveriesTypec] = useState({ value: '' });
+  const [truckDeliveriesTyped, setTruckDeliveriesTyped] = useState({ value: '' });
 
-  const onSubmitBaselineEntry = (data: BaselineDTO) => {
+
+  const onSubmitBaselineEntry = (data: ProductionVolumeDTO) => {
     updateBaselineEntry(data);
     clearForm();
   };
@@ -54,66 +57,66 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
     // needing to create this data object form state
     const trueData = {
       id: id.value,
-      startDate: startDate.value,
-      endDate: endDate.value,
-      noOfDays: noOfDays.value,
-      invoiceDate: invoiceDate.value,
-      kwh: kwh.value,
-      minKw: minKw.value,
-      maxKw: maxKw.value,
-      avgKw: avgKw.value,
-      avgKva: avgKva.value,
-      pf: pf.value,
-      minPf: minPf.value,
-      maxPf: maxPf.value,
-      rate: rate.value,
-      energyRate: energyRate.value,
-      fuelRate: fuelRate.value,
-      kvaRate: kvaRate.value,
-      ippRate: ippRate.value,
-      ippVariableRate: ippVariableRate.value,
-      ippFixedRate: ippFixedRate.value,
-      energyCharge: energyCharge.value,
-      fuelCharge: fuelCharge.value,
-      ippCharge: ippCharge.value,
-      ippVariableCharge: ippVariableCharge.value,
-      ippFixedCharge: ippFixedCharge.value,
-      kvaCharge: kvaCharge.value,
-      currentCharges: currentCharges.value,
-      salesTax: salesTax.value,
+      day: day.value,
+      wareHouseStaff: wareHouseStaff.value,
+      storeEmployees: storeEmployees.value,
+      staffTotal: staffTotal.value,
+      noOfStaffOfficeSales: noOfStaffOfficeSales.value,
+      noOfStaffOfficeAccounts: noOfStaffOfficeAccounts.value,
+      noOfStaffOfficeGroupPurchasing: noOfStaffOfficeGroupPurchasing.value,
+      noOfStaffOfficeStorePurchasing: noOfStaffOfficeStorePurchasing.value,
+      noOfStaffStoreCustomerService: noOfStaffStoreCustomerService.value,
+      noOfStaffStoreCashiers: noOfStaffStoreCashiers.value,
+      noOfStaffStorePharmacy: noOfStaffStorePharmacy.value,
+      noOfStaffStoreSalesFloor: noOfStaffStoreSalesFloor.value,
+      noOfStaffStoreReceival: noOfStaffStoreReceival.value,
+      wareHouseHiProStore: wareHouseHiProStore.value,
+      noOfCustomersTotal: noOfCustomersTotal.value,
+      noOfCustomersStore: noOfCustomersStore.value,
+      noOftransactionstotal: noOftransactionstotal.value,
+      nooftransactionsitemdepartmenta: nooftransactionsitemdepartmenta.value,
+      nooftransactionsitemdepartmentb: nooftransactionsitemdepartmentb.value,
+      nooftransactionsitemdepartmentc: nooftransactionsitemdepartmentc.value,
+      nooftransactionsitemdepartmentd: nooftransactionsitemdepartmentd.value,
+      nooftransactionsitemdepartmente: nooftransactionsitemdepartmente.value,
+      truckDeliveriesTotal: truckDeliveriesTotal.value,
+      truckDeliveriesTypea: truckDeliveriesTypea.value,
+      truckDeliveriesTypeb: truckDeliveriesTypeb.value,
+      truckDeliveriesTypec: truckDeliveriesTypec.value,
+      truckDeliveriesTyped: truckDeliveriesTyped.value,
     };
     onSubmitBaselineEntry(trueData);
   };
 
   useEffect(() => {
     setId({ value: existingBaseline.id as string });
-    setStartDate({ value: existingBaseline.startDate });
-    setEndDate({ value: existingBaseline.endDate });
-    setNoOfDays({ value: existingBaseline.noOfDays as string });
-    setInvoiceDate({ value: existingBaseline.invoiceDate });
-    setKwh({ value: existingBaseline.kwh as string });
-    setMinKw({ value: existingBaseline.minKw as string });
-    setMaxKw({ value: existingBaseline.maxKw as string });
-    setAvgKw({ value: existingBaseline.avgKw as string });
-    setAvgKva({ value: existingBaseline.avgKva as string });
-    setPf({ value: existingBaseline.pf as string });
-    setMinPf({ value: existingBaseline.minPf as string });
-    setMaxPf({ value: existingBaseline.maxPf as string });
-    setRate({ value: existingBaseline.rate as string });
-    setEnergyRate({ value: existingBaseline.energyRate as string });
-    setFuelRate({ value: existingBaseline.fuelRate as string });
-    setKvaRate({ value: existingBaseline.kvaRate as string });
-    setIppRate({ value: existingBaseline.ippRate as string });
-    setIppVariableRate({ value: existingBaseline.ippVariableRate as string });
-    setIppFixedRate({ value: existingBaseline.ippFixedRate as string });
-    setEnergyCharge({ value: existingBaseline.energyCharge as string });
-    setFuelCharge({ value: existingBaseline.fuelCharge as string });
-    setIppCharge({ value: existingBaseline.ippCharge as string });
-    setIppVariableCharge({ value: existingBaseline.ippVariableCharge as string });
-    setIppFixedCharge({ value: existingBaseline.ippFixedCharge as string });
-    setKvaCharge({ value: existingBaseline.kvaCharge as string });
-    setCurrentCharges({ value: existingBaseline.currentCharges as string });
-    setSalesTax({ value: existingBaseline.salesTax as string });
+    setDay({ value: existingBaseline.day });
+    setWareHouseStaff({ value: existingBaseline.wareHouseStaff });
+    setStoreEmployees({ value: existingBaseline.storeEmployees });
+    setStaffTotal({ value: existingBaseline.staffTotal as string });
+    setNoOfStaffOfficeSales({ value: existingBaseline.noOfStaffOfficeSales as string });
+    setNoOfStaffOfficeAccounts({ value: existingBaseline.noOfStaffOfficeAccounts as string });
+    setNoOfStaffOfficeGroupPurchasing({ value: existingBaseline.noOfStaffOfficeGroupPurchasing as string });
+    setNoOfStaffOfficeStorePurchasing({ value: existingBaseline.noOfStaffOfficeStorePurchasing as string });
+    setNoOfStaffStoreCustomerService({ value: existingBaseline.noOfStaffStoreCustomerService as string });
+    setNoOfStaffStoreCashiers({ value: existingBaseline.noOfStaffStoreCashiers as string });
+    setNoOfStaffStorePharmacy({ value: existingBaseline.noOfStaffStorePharmacy as string });
+    setNoOfStaffStoreSalesFloor({ value: existingBaseline.noOfStaffStoreSalesFloor as string });
+    setNoOfStaffStoreReceival({ value: existingBaseline.noOfStaffStoreReceival as string });
+    setWareHouseHiProStore({ value: existingBaseline.wareHouseHiProStore as string });
+    setNoOfCustomersTotal({ value: existingBaseline.noOfCustomersTotal as string });
+    setNoOfCustomersStore({ value: existingBaseline.noOfCustomersStore as string });
+    setNoOftransactionstotal({ value: existingBaseline.noOftransactionstotal as string });
+    setNooftransactionsitemdepartmentae({ value: existingBaseline.nooftransactionsitemdepartmenta as string });
+    setNooftransactionsitemdepartmentb({ value: existingBaseline.nooftransactionsitemdepartmentb as string });
+    setNooftransactionsitemdepartmentc({ value: existingBaseline.nooftransactionsitemdepartmentc as string });
+    setNooftransactionsitemdepartmentd({ value: existingBaseline.nooftransactionsitemdepartmentd as string });
+    setNooftransactionsitemdepartmente({ value: existingBaseline.nooftransactionsitemdepartmente as string });
+    setTruckDeliveriesTotal({ value: existingBaseline.truckDeliveriesTotal as string });
+    setTruckDeliveriesTypea({ value: existingBaseline.truckDeliveriesTypea as string });
+    setTruckDeliveriesTypeb({ value: existingBaseline.truckDeliveriesTypeb as string });
+    setTruckDeliveriesTypeb({ value: existingBaseline.truckDeliveriesTypec as string });
+    setTruckDeliveriesTypec({ value: existingBaseline.truckDeliveriesTyped as string });
   }, [existingBaseline]);
 
   useEffect(() => {
@@ -123,39 +126,37 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
   return (
     <Form id="edit-baseline-entry-form" className="edit-baseline-entry-form" onSubmit={onSubmit} validateOn="onBlur">
       {({ register, errors, clearErrors, setValue }) => {
-        // const isValidStartDate = new Date(existingBaseline.startDate).toString() !== 'Invalid Date';
-        // const isValidEndDate = new Date(existingBaseline.endDate).toString() !== 'Invalid Date';
-        // const isValidInvoiceDate = new Date(existingBaseline.invoiceDate).toString() !== 'Invalid Date';
-        // setValue('id', id.value);
-        // setValue('startDate', existingBaseline.startDate);
-        // setValue('endDate', existingBaseline.endDate);
-        // setValue('noOfDays', noOfDays.value);
-        // setValue('invoiceDate', existingBaseline.invoiceDate);
-        // setValue('kwh', kwh.value);
-        // setValue('minKw', minKw.value);
-        // setValue('maxKw', maxKw.value);
-        // setValue('avgKw', avgKw.value);
-        // setValue('avgKva', avgKva.value);
-        // setValue('pf', pf.value);
-        // setValue('minPf', minPf.value);
-        // setValue('maxPf', maxPf.value);
-        // setValue('rate', rate.value);
-        // setValue('energyRate', energyRate.value);
-        // setValue('fuelRate', fuelRate.value);
-        // setValue('kvaRate', kvaRate.value);
-        // setValue('ippRate', ippRate.value);
-        // setValue('ippVariableRate', ippVariableRate.value);
-        // setValue('ippFixedRate', ippFixedRate.value);
-        // setValue('energyCharge', energyCharge.value);
-        // setValue('fuelCharge', fuelCharge.value);
-        // setValue('ippCharge', ippCharge.value);
-        // setValue('ippVariableCharge', ippVariableCharge.value);
-        // setValue('ippFixedCharge', ippFixedCharge.value);
-        // setValue('kvaCharge', kvaCharge.value);
-        // setValue('currentCharges', currentCharges.value);
-        // setValue('salesTax', salesTax.value);
+
+        setValue('id', id.value);
+        setValue('day', existingBaseline.day);
+        setValue('wareHouseStaff', existingBaseline.wareHouseStaff);
+        setValue('storeEmployees', existingBaseline.storeEmployees);
+        setValue('staffTotal', staffTotal.value);
+        setValue('noOfStaffOfficeSales', noOfStaffOfficeSales.value);
+        setValue('noOfStaffOfficeAccounts', noOfStaffOfficeAccounts.value);
+        setValue('noOfStaffOfficeGroupPurchasing', noOfStaffOfficeGroupPurchasing.value);
+        setValue('noOfStaffOfficeStorePurchasing', noOfStaffOfficeStorePurchasing.value);
+        setValue('noOfStaffStoreCustomerService', noOfStaffStoreCustomerService.value);
+        setValue('noOfStaffStoreCashiers', noOfStaffStoreCashiers.value);
+        setValue('noOfStaffStorePharmacy', noOfStaffStorePharmacy.value);
+        setValue('noOfStaffStoreSalesFloor', noOfStaffStoreSalesFloor.value);
+        setValue('noOfStaffStoreReceival', noOfStaffStoreReceival.value);
+        setValue('wareHouseHiProStore', wareHouseHiProStore.value);
+        setValue('noOfCustomersTotal', noOfCustomersTotal.value);
+        setValue('noOfCustomersStore', noOfCustomersStore.value);
+        setValue('noOftransactionstotal', noOftransactionstotal.value);
+        setValue('nooftransactionsitemdepartmenta', nooftransactionsitemdepartmenta.value);
+        setValue('nooftransactionsitemdepartmentb', nooftransactionsitemdepartmentb.value);
+        setValue('nooftransactionsitemdepartmentc', nooftransactionsitemdepartmentc.value);
+        setValue('nooftransactionsitemdepartmentd', nooftransactionsitemdepartmentd.value);
+        setValue('nooftransactionsitemdepartmente', nooftransactionsitemdepartmente.value);
+        setValue('truckDeliveriesTotal', truckDeliveriesTotal.value);
+        setValue('truckDeliveriesTypea', truckDeliveriesTypea.value);
+        setValue('truckDeliveriesTypeb', truckDeliveriesTypeb.value);
+        setValue('truckDeliveriesTypec', truckDeliveriesTypec.value);
+        setValue('truckDeliveriesTyped', truckDeliveriesTyped.value);
         return (
-         <FieldSet className="baseline-field-set">
+          <FieldSet className="baseline-field-set">
             <PageToolbar title={`ID`} className="no-margin" />
             <div className="baseline-field-group">
               <Field className="baseline-field" label="ID" invalid={!!errors.id} disabled={true}>
@@ -177,20 +178,22 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
               <Field
                 className="baseline-field"
                 label="Day"
-                invalid={!!errors.invoiceDate}
+                invalid={!!errors.day}
                 error="Invoice Date is required [format: yyyy-mm-dd]"
                 disabled={isSavingBaselineEntry}
               >
                 <DatePickerWithInput
-                  id="baseline-invoice-date"
+                  id="Production-Day"
                   placeholder="Day"
                   closeOnSelect={true}
                   {...register('day', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
                   onChange={(val) => {
-                    const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
+                    const value = format(new Date(val.toString()), DATE_FORMAT);
                     const el = document.getElementById('baseline-invoice-date') as HTMLInputElement;
-                    el.value = formattedValue;
-                    setValue('day', formattedValue, { shouldValidate: true });
+                    el.value = value;
+                    setDay({ value });
+                    setValue('day', value, { shouldValidate: true });
+
                   }}
                 />
               </Field>
@@ -209,6 +212,12 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="Production-warehouseStaff"
                   placeholder="Warehouse Staff"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setWareHouseStaff({ value });
+                    setValue('wareHouseStaff', value);
+                    console.log(value)
+                  }}
                 />
               </Field>
               <Field
@@ -223,6 +232,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="Production-storeEmployees"
                   placeholder="Store Employees"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setStoreEmployees({ value });
+                    setValue('storeEmployees', value);
+                  }}
                 />
               </Field>
               <Field
@@ -237,6 +251,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="Production-staffTotal"
                   placeholder="Staff - Total"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setStaffTotal({ value });
+                    setValue('staffTotal', value);
+                  }}
                 />
               </Field>
               <br />
@@ -252,6 +271,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="Production-hiproStore"
                   placeholder="HiPro store & office staff"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setWareHouseHiProStore({ value });
+                    setValue('hiproStore', value);
+                  }}
                 />
               </Field>
               <Field
@@ -266,6 +290,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-noOfStaffOfficeSales"
                   placeholder="staff – Office - Sale"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffOfficeSales({ value });
+                    setValue('noOfStaffOfficeSales', value);
+                  }}
                 />
               </Field>
               <Field
@@ -280,6 +309,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-noOfStaffOfficeAccounts"
                   placeholder="staff – Office - Accounts"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffOfficeAccounts({ value });
+                    setValue('noOfStaffOfficeAccounts', value);
+                  }}
                 />
               </Field>
               <Field
@@ -294,6 +328,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-noOfStaffOfficeGroupPurchasing"
                   placeholder="No. of staff – Office - Group Purchasing                  "
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffOfficeGroupPurchasing({ value });
+                    setValue('noOfStaffOfficeGroupPurchasing', value);
+                  }}
                 />
               </Field>
               <Field
@@ -308,6 +347,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-noOfStaffOfficeStorePurchasing"
                   placeholder="No. of staff – Office - Store Purchasing"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffOfficeStorePurchasing({ value });
+                    setValue('setNoOfStaffOfficeStorePurchasing', value);
+                  }}
                 />
               </Field>
               <Field
@@ -322,6 +366,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-noOfStaffStoreCustomerService"
                   placeholder="No. of staff – Store - Customer Service"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffStoreCustomerService({ value });
+                    setValue('noOfStaffStoreCustomerService', value);
+                  }}
                 />
               </Field>
               <Field
@@ -336,6 +385,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-noOfStaffStoreCashiers"
                   placeholder="No of Staff - Store - Cashiers"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffStoreCashiers({ value });
+                    setValue('noOfStaffStoreCashiers', value);
+                  }}
                 />
               </Field>
               <Field
@@ -344,13 +398,18 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 invalid={!!errors.noOfStaffStorePharmacy}
                 error="No of Staff - Store - Pharmacy
                 is required [e.g. 24.53]"
-                disabled={isSavingBaselineEntry}
+
               >
                 <Input
                   {...register('noOfStaffStorePharmacy', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="baseline-noOfStaffStorePharmacy"
                   placeholder="No of Staff - Store - Pharmacy"
-                  defaultValue={''}
+
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffStorePharmacy({ value });
+                    setValue('noOfStaffStorePharmacy', value);
+                  }}
                 />
               </Field>
               <Field
@@ -365,9 +424,14 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-noOfStaffStoreSalesFloor"
                   placeholder="No of Staff - Store - Sales Floor"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffStoreSalesFloor({ value });
+                    setValue('noOfStaffStoreSalesFloor', value);
+                  }}
                 />
               </Field>
-
+{/* 
               <Field
                 className="baseline-field"
                 label="No of Staff - Store - Warehouse HiPro store & office staff"
@@ -380,8 +444,13 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-wareHouseHiProStore"
                   placeholder=" Warehouse HiPro store & office staff"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setWareHouseHiProStore({ value });
+                    setValue('wareHouseHiProStore', value);
+                  }}
                 />
-              </Field>
+              </Field> */}
               <Field
                 className="baseline-field"
                 label="No of Staff - Store - Receival"
@@ -394,6 +463,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baselinenoOfStaffStoreReceival"
                   placeholder="Store - Receival"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffStoreReceival({ value });
+                    setValue('noOfStaffStoreReceival', value);
+                  }}
                 />
               </Field>
             </div>
@@ -411,6 +485,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-noOfCustomersTotal"
                   placeholder="No. of customers - Total"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfCustomersTotal({ value });
+                    setValue('noOfCustomersTotal', value);
+                  }}
                 />
               </Field>
               <Field
@@ -425,9 +504,14 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-noOfCustomersStore"
                   placeholder="No. of customers - Store"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfCustomersStore({ value });
+                    setValue('noOfCustomersStore', value);
+                  }}
                 />
               </Field>
-              <Field
+              {/* <Field
                 className="baseline-field"
                 label="No. of customers - Warehouse"
                 invalid={!!errors.noOftransactionstotal}
@@ -439,8 +523,13 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-noOftransactionstotal"
                   placeholder="No. of customers"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOftransactionstotal({ value });
+                    setValue('noOftransactionstotal', value);
+                  }}
                 />
-              </Field>
+              </Field> */}
               <Field
                 className="baseline-field"
                 label="No. of transactions – Total"
@@ -453,6 +542,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-noOftransactionstotal"
                   placeholder="No. of transactions"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOftransactionstotal({ value });
+                    setValue('noOftransactionstotal', value);
+                  }}
                 />
               </Field>
             </div>
@@ -470,6 +564,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-nooftransactionsitemdepartmenta"
                   placeholder=" Item/Department – A Charge"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNooftransactionsitemdepartmentae({ value });
+                    setValue('nooftransactionsitemdepartmenta', value);
+                  }}
                 />
               </Field>
               <Field
@@ -484,6 +583,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-nooftransactionsitemdepartmentb"
                   placeholder="Item/Department – B"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNooftransactionsitemdepartmentb({ value });
+                    setValue('nooftransactionsitemdepartmentb', value);
+                  }}
                 />
               </Field>
               <Field
@@ -498,6 +602,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-nooftransactionsitemdepartmentc"
                   placeholder="  Item/Department – C Charge"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNooftransactionsitemdepartmentc({ value });
+                    setValue('nooftransactionsitemdepartmentc', value);
+                  }}
                 />
               </Field>
               <Field
@@ -512,6 +621,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-ipp-nooftransactionsitemdepartmentd"
                   placeholder=" Item/Department – D "
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNooftransactionsitemdepartmentd({ value });
+                    setValue('setNooftransactionsitemdepartmentd', value);
+                  }}
                 />
               </Field>
               <Field
@@ -526,6 +640,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-nooftransactionsitemdepartmente"
                   placeholder="No. of transactions Item/Department - E"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNooftransactionsitemdepartmente({ value });
+                    setValue('setNooftransactionsitemdepartmente', value);
+                  }}
                 />
               </Field>
             </div>
@@ -543,6 +662,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-truckDeliveriesTotal"
                   placeholder="Truck deliveries"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setTruckDeliveriesTotal({ value });
+                    setValue('truckDeliveriesTotal', value);
+                  }}
                 />
               </Field>
               <Field
@@ -557,6 +681,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-truckDeliveriesTypea"
                   placeholder="Truck deliveries – Type A"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setTruckDeliveriesTypea({ value });
+                    setValue('truckDeliveriesTypea', value);
+                  }}
                 />
               </Field>
               <Field
@@ -571,6 +700,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-truckDeliveriesTypeb"
                   placeholder="Truck deliveries – Type B"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setTruckDeliveriesTypeb({ value });
+                    setValue('truckDeliveriesTypeb', value);
+                  }}
                 />
               </Field>
               <Field
@@ -585,12 +719,17 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-ipp-truckDeliveriesTypece"
                   placeholder="Truck deliveries – Type C"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setTruckDeliveriesTypec({ value });
+                    setValue('truckDeliveriesTypec', value);
+                  }}
                 />
               </Field>
               <Field
                 className="baseline-field"
                 label="Truck deliveries – Type D"
-                invalid={!!errors.ippFixedCharge}
+                invalid={!!errors.nooftransactionsitemdepartmente}
                 error="Truck deliveries – Type D is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
@@ -599,6 +738,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                   id="baseline-ipp-truckDeliveriesTyped"
                   placeholder="Truck deliveries – Type D"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setTruckDeliveriesTyped({ value });
+                    setValue('truckDeliveriesTyped', value);
+                  }}
                 />
               </Field>
             </div>

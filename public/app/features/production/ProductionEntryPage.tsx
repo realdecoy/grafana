@@ -117,14 +117,13 @@ export function ProductionEntryPage({
               <th>No. of transactions Item/Department – A</th>
               <th>No. of transactions Item/Department – B</th>
               <th>No. of transactions Item/Department – C</th>
-              <th>
-
-                No. of transactions Item/Department – D</th>
+              <th> No. of transactions Item/Department – D</th>
               <th>No. of transactions Item/Department - E</th>
               <th>Truck deliveries – Type A</th>
               <th>Truck deliveries – Type B</th>
               <th>Truck deliveries – Type C</th>
               <th>Truck deliveries – Type D</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -196,138 +195,148 @@ const renderEditBaselineEntryModal = (
   return el;
 };
 
-const renderBaselineRecord = (baselineEntry: ProductionVolumeDTO, openEditModal: any, archiveBaseline: any) => {
-  console.log(baselineEntry)
+const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEditModal: any, archiveBaseline: any) => {
+
   return (
-    <tr key={baselineEntry.id}>
+    <tr key={ProductionVolumeEntry.id}>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.id}>
-          {baselineEntry.id}
+        <a className="ellipsis" title={ProductionVolumeEntry.id}>
+          {ProductionVolumeEntry.id}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.day}>
-          {baselineEntry.day}
+        <a className="ellipsis" title={ProductionVolumeEntry.day}>
+          {ProductionVolumeEntry.day}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.wareHouseStaff}>
-          {baselineEntry.wareHouseStaff}
+        <a className="ellipsis" title={ProductionVolumeEntry.wareHouseStaff}>
+          {ProductionVolumeEntry.wareHouseStaff}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.staffTotal}>
-          {baselineEntry.staffTotal}
+        <a className="ellipsis" title={ProductionVolumeEntry.storeEmployees}>
+          {ProductionVolumeEntry.storeEmployees}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfStaffOfficeAccounts}>
-          {baselineEntry.noOfStaffOfficeAccounts}
+        <a className="ellipsis" title={ProductionVolumeEntry.staffTotal}>
+          {ProductionVolumeEntry.staffTotal}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfStaffOfficeGroupPurchasing}>
-          {baselineEntry.noOfStaffOfficeGroupPurchasing}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfStaffOfficeSales}>
+          {ProductionVolumeEntry.noOfStaffOfficeSales}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfStaffOfficeStorePurchasing}>
-          {baselineEntry.noOfStaffOfficeStorePurchasing}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfStaffOfficeAccounts}>
+          {ProductionVolumeEntry.noOfStaffOfficeAccounts}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfStaffStoreCustomerService}>
-          {baselineEntry.noOfStaffStoreCustomerService}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfStaffOfficeGroupPurchasing}>
+          {ProductionVolumeEntry.noOfStaffOfficeGroupPurchasing}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfStaffStoreCashiers}>
-          {baselineEntry.noOfStaffStoreCashiers}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfStaffOfficeStorePurchasing}>
+          {ProductionVolumeEntry.noOfStaffOfficeStorePurchasing}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfStaffStorePharmacy}>
-          {baselineEntry.noOfStaffStorePharmacy}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfStaffStoreCustomerService}>
+          {ProductionVolumeEntry.noOfStaffStoreCustomerService}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfStaffStoreSalesFloor}>
-          {baselineEntry.noOfStaffStoreSalesFloor}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfStaffStoreCashiers}>
+          {ProductionVolumeEntry.noOfStaffStoreCashiers}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfStaffStoreReceival}>
-          {baselineEntry.noOfStaffStoreReceival}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfStaffStorePharmacy}>
+          {ProductionVolumeEntry.noOfStaffStorePharmacy}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.wareHouseHiProStore}>
-          {baselineEntry.wareHouseHiProStore}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfStaffStoreSalesFloor}>
+          {ProductionVolumeEntry.noOfStaffStoreSalesFloor}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfCustomersTotal}>
-          {baselineEntry.noOfCustomersTotal}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfStaffStoreReceival}>
+          {ProductionVolumeEntry.noOfStaffStoreReceival}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfCustomersStore}>
-          {baselineEntry.noOfCustomersStore}
+        <a className="ellipsis" title={ProductionVolumeEntry.wareHouseHiProStore}>
+          {ProductionVolumeEntry.wareHouseHiProStore}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOftransactionstotal}>
-          {baselineEntry.noOftransactionstotal}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfCustomersTotal}>
+          {ProductionVolumeEntry.noOfCustomersTotal}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.nooftransactionsitemdepartmenta}>
-          {baselineEntry.nooftransactionsitemdepartmenta}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfCustomersStore}>
+          {ProductionVolumeEntry.noOfCustomersStore}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.nooftransactionsitemdepartmentb}>
-          {baselineEntry.nooftransactionsitemdepartmentb}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOftransactionstotal}>
+          {ProductionVolumeEntry.noOftransactionstotal}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.nooftransactionsitemdepartmentc}>
-          {baselineEntry.nooftransactionsitemdepartmentc}
+        <a className="ellipsis" title={ProductionVolumeEntry.nooftransactionsitemdepartmenta}>
+          {ProductionVolumeEntry.nooftransactionsitemdepartmenta}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.nooftransactionsitemdepartmentd}>
-          {baselineEntry.nooftransactionsitemdepartmentd}
+        <a className="ellipsis" title={ProductionVolumeEntry.nooftransactionsitemdepartmentb}>
+          {ProductionVolumeEntry.nooftransactionsitemdepartmentb}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.nooftransactionsitemdepartmente}>
-          {baselineEntry.nooftransactionsitemdepartmente}
+        <a className="ellipsis" title={ProductionVolumeEntry.nooftransactionsitemdepartmentc}>
+          {ProductionVolumeEntry.nooftransactionsitemdepartmentc}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.truckDeliveriesTotal}>
-          {baselineEntry.truckDeliveriesTotal}
+        <a className="ellipsis" title={ProductionVolumeEntry.nooftransactionsitemdepartmentd}>
+          {ProductionVolumeEntry.nooftransactionsitemdepartmentd}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.truckDeliveriesTypea}>
-          {baselineEntry.truckDeliveriesTypea}
+        <a className="ellipsis" title={ProductionVolumeEntry.nooftransactionsitemdepartmente}>
+          {ProductionVolumeEntry.nooftransactionsitemdepartmente}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.truckDeliveriesTypeb}>
-          {baselineEntry.truckDeliveriesTypeb}
+        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTotal}>
+          {ProductionVolumeEntry.truckDeliveriesTotal}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.truckDeliveriesTypec}>
-          {baselineEntry.truckDeliveriesTypec}
+        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTypea}>
+          {ProductionVolumeEntry.truckDeliveriesTypea}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.truckDeliveriesTyped}>
-          {baselineEntry.truckDeliveriesTyped}
+        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTypeb}>
+          {ProductionVolumeEntry.truckDeliveriesTypeb}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
+        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTypec}>
+          {ProductionVolumeEntry.truckDeliveriesTypec}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
+        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTyped}>
+          {ProductionVolumeEntry.truckDeliveriesTyped}
         </a>
       </td>
       <td className="link-td">
@@ -335,7 +344,7 @@ const renderBaselineRecord = (baselineEntry: ProductionVolumeDTO, openEditModal:
           name="pen"
           title="Edit Baseline"
           onClick={() => {
-            openEditModal(baselineEntry.id);
+            openEditModal(ProductionVolumeEntry.id);
           }}
         />
         <Icon
@@ -343,7 +352,7 @@ const renderBaselineRecord = (baselineEntry: ProductionVolumeDTO, openEditModal:
           name="folder-upload"
           title="Archive Baseline"
           onClick={() => {
-            archiveBaseline(baselineEntry.id);
+            archiveBaseline(ProductionVolumeEntry.id);
           }}
         />
       </td>
