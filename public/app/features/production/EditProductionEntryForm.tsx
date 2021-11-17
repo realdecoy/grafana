@@ -182,20 +182,21 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 error="Invoice Date is required [format: yyyy-mm-dd]"
                 disabled={isSavingBaselineEntry}
               >
-                <DatePickerWithInput
-                  id="Production-Day"
-                  placeholder="Day"
-                  closeOnSelect={true}
-                  {...register('day', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
-                  onChange={(val) => {
-                    const value = format(new Date(val.toString()), DATE_FORMAT);
-                    const el = document.getElementById('baseline-invoice-date') as HTMLInputElement;
-                    el.value = value;
-                    setDay({ value });
-                    setValue('day', value, { shouldValidate: true });
 
+                <Input
+                  {...register('day', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-ipp-truckDeliveriesTyped"
+                  placeholder="Truck deliveries – Type D"
+                  defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setDay({ value });
+                    setValue('day', value);
                   }}
                 />
+
+
+
               </Field>
             </div>
             <PageToolbar title={`Staff`} className="no-margin" />
@@ -428,10 +429,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                     const value = event?.currentTarget.value;
                     setNoOfStaffStoreSalesFloor({ value });
                     setValue('noOfStaffStoreSalesFloor', value);
+
                   }}
                 />
               </Field>
-{/* 
+              {/* 
               <Field
                 className="baseline-field"
                 label="No of Staff - Store - Warehouse HiPro store & office staff"

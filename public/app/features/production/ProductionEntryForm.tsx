@@ -111,6 +111,7 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                     const el = document.getElementById('baseline-invoice-date') as HTMLInputElement;
                     el.value = formattedValue;
                     setValue('day', formattedValue, { shouldValidate: true });
+                    setDay({ value: formattedValue });
                   }}
                 />
               </Field>
@@ -123,12 +124,18 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                 invalid={!!errors.wareHouseStaff}
                 error="Warehouse staff is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
+
               >
                 <Input
                   {...register('wareHouseStaff', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="Production-warehouseStaff"
                   placeholder="Warehouse Staff"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setWareHouseStaff({ value });
+                
+                  }}
                 />
               </Field>
               <Field
@@ -143,6 +150,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="Production-storeEmployees"
                   placeholder="Store Employees"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setStoreEmployees({ value });
+                    setValue('storeEmployees', value);
+                  }}
                 />
               </Field>
               <Field
@@ -157,6 +169,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="Production-staffTotal"
                   placeholder="Staff - Total"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setStaffTotal({ value });
+                    setValue('staffTotal', value);
+                  }}
                 />
               </Field>
               <br />
@@ -168,10 +185,15 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('hiproStore', { required: true, pattern: /^[0-9.-]+$/g })}
+                  {...register('wareHouseHiProStore', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="Production-hiproStore"
                   placeholder="HiPro store & office staff"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setWareHouseHiProStore({ value });
+                    setValue('wareHouseHiProStore', value);
+                  }}
                 />
               </Field>
               <Field
@@ -186,6 +208,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-noOfStaffOfficeSales"
                   placeholder="staff – Office - Sale"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffOfficeSales({ value });
+                    setValue('staffTotal', value);
+                  }}
                 />
               </Field>
               <Field
@@ -200,6 +227,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-noOfStaffOfficeAccounts"
                   placeholder="staff – Office - Accounts"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffOfficeAccounts({ value });
+                    setValue('noOfStaffOfficeAccounts', value);
+                  }}
                 />
               </Field>
               <Field
@@ -214,6 +246,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-noOfStaffOfficeGroupPurchasing"
                   placeholder="No. of staff – Office - Group Purchasing                  "
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffOfficeGroupPurchasing({ value });
+                 
+                  }}
                 />
               </Field>
               <Field
@@ -228,6 +265,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-noOfStaffOfficeStorePurchasing"
                   placeholder="No. of staff – Office - Store Purchasing"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffOfficeStorePurchasing({ value });
+                    
+                  }}
                 />
               </Field>
               <Field
@@ -242,6 +284,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-noOfStaffStoreCustomerService"
                   placeholder="No. of staff – Store - Customer Service"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffStoreCustomerService({ value });
+                    setValue('noOfStaffStoreCustomerService', value);
+                  }}
                 />
               </Field>
               <Field
@@ -256,6 +303,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-noOfStaffStoreCashiers"
                   placeholder="No of Staff - Store - Cashiers"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffStoreCashiers({ value });
+                    setValue('noOfStaffStoreCashiers', value);
+                  }}
                 />
               </Field>
               <Field
@@ -271,6 +323,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-noOfStaffStorePharmacy"
                   placeholder="No of Staff - Store - Pharmacy"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffStorePharmacy({ value });
+                    setValue('noOfStaffStorePharmacy', value);
+                  }}
                 />
               </Field>
               <Field
@@ -285,6 +342,12 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-noOfStaffStoreSalesFloor"
                   placeholder="No of Staff - Store - Sales Floor"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffStoreSalesFloor({ value });
+                    setValue('noOfStaffStoreSalesFloor', value);
+                    
+                  }}
                 />
               </Field>
 
@@ -308,12 +371,19 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                 invalid={!!errors.noOfStaffStoreReceival}
                 error="Store - Receival is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
+                
               >
                 <Input
                   {...register('noOfStaffStoreReceival', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="baselinenoOfStaffStoreReceival"
                   placeholder="Store - Receival"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffStoreReceival({ value });
+                   
+                    
+                  }}
                 />
               </Field>
             </div>
@@ -331,6 +401,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-noOfCustomersTotal"
                   placeholder="No. of customers - Total"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfCustomersTotal({ value });
+                  }}
+                  
                 />
               </Field>
               <Field
@@ -344,7 +419,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   {...register('noOfCustomersStore', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="baseline-noOfCustomersStore"
                   placeholder="No. of customers - Store"
-                  defaultValue={''}
+                  defaultValue={''}  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfCustomersStore({ value });
+                    setValue('noOfCustomersStore', value);
+                  }}
                 />
               </Field>
               <Field
@@ -359,6 +438,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-noOftransactionstotal"
                   placeholder="No. of customers"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOftransactionstotal({ value });
+                    setValue('noOftransactionstotal', value);
+                  }}
                 />
               </Field>
               <Field
@@ -373,6 +457,12 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-noOftransactionstotal"
                   placeholder="No. of transactions"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNooftransactionsitemdepartmentae({ value });
+                    setValue('nooftransactionsitemdepartmenta', value);
+                  }}
+               
                 />
               </Field>
             </div>
@@ -384,12 +474,18 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                 invalid={!!errors.nooftransactionsitemdepartmenta}
                 error="No. of transactions Item/Department – A is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
+                
               >
                 <Input
                   {...register('nooftransactionsitemdepartmenta', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="baseline-nooftransactionsitemdepartmenta"
                   placeholder=" Item/Department – A Charge"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNooftransactionsitemdepartmentc({ value });
+                    setValue('setNooftransactionsitemdepartmentc', value);
+                  }}
                 />
               </Field>
               <Field
@@ -404,6 +500,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-nooftransactionsitemdepartmentb"
                   placeholder="Item/Department – B"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNooftransactionsitemdepartmentb({ value });
+                    setValue('setNooftransactionsitemdepartmentb', value);
+                  }}
                 />
               </Field>
               <Field
@@ -418,6 +519,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-nooftransactionsitemdepartmentc"
                   placeholder="  Item/Department – C Charge"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNooftransactionsitemdepartmentc({ value });
+                    setValue('setNooftransactionsitemdepartmentb', value);
+                  }}
                 />
               </Field>
               <Field
@@ -426,12 +532,18 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                 invalid={!!errors.nooftransactionsitemdepartmentd}
                 error=" Item/Department – D is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
+                
               >
                 <Input
                   {...register('nooftransactionsitemdepartmentd', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="baseline-ipp-nooftransactionsitemdepartmentd"
                   placeholder=" Item/Department – D "
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNooftransactionsitemdepartmentd({ value });
+                    setValue('setNooftransactionsitemdepartmentd', value);
+                  }}
                 />
               </Field>
               <Field
@@ -446,6 +558,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-nooftransactionsitemdepartmente"
                   placeholder="No. of transactions Item/Department - E"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNooftransactionsitemdepartmente({ value });
+                    setValue('setNooftransactionsitemdepartmente', value);
+                  }}
                 />
               </Field>
             </div>
@@ -463,6 +580,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-truckDeliveriesTotal"
                   placeholder="Truck deliveries"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setTruckDeliveriesTotal({ value });
+                    setValue('truckDeliveriesTotal', value);
+                  }}
                 />
               </Field>
               <Field
@@ -477,6 +599,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-truckDeliveriesTypea"
                   placeholder="Truck deliveries – Type A"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setTruckDeliveriesTypea({ value });
+                    setValue('truckDeliveriesTypea', value);
+                  }}
                 />
               </Field>
               <Field
@@ -491,6 +618,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-truckDeliveriesTypeb"
                   placeholder="Truck deliveries – Type B"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setTruckDeliveriesTypeb({ value });
+                    setValue('truckDeliveriesTypeb', value);
+                  }}
                 />
               </Field>
               <Field
@@ -505,6 +637,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-ipp-truckDeliveriesTypece"
                   placeholder="Truck deliveries – Type C"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setTruckDeliveriesTypec({ value });
+                    setValue('truckDeliveriesTypec', value);
+                  }}
                 />
               </Field>
               <Field
@@ -519,6 +656,11 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                   id="baseline-ipp-truckDeliveriesTyped"
                   placeholder="Truck deliveries – Type D"
                   defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setTruckDeliveriesTyped({ value });
+                    setValue('truckDeliveriesTyped', value);
+                  }}
                 />
               </Field>
             </div>

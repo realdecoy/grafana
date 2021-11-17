@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
-import { PageToolbar, PageHeader, useStyles2, Icon, Modal } from '@grafana/ui';
+import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button } from '@grafana/ui';
 import { BaselineDTO, StoreState } from 'app/types';
 import {
   initBaselineEntryPage,
@@ -11,6 +11,8 @@ import {
   openEditModal,
   closeEditModal,
   archiveBaseline,
+  closeSaveModal,
+  openSaveModal,
 } from './state/actions';
 import BaselineEntryForm from './BaselineEntryForm';
 import EditBaselineEntryForm from './EditBaselineEntryForm';
@@ -26,12 +28,14 @@ function mapStateToProps(state: StoreState) {
   const {
     isUpdating,
     isModalOpen,
+    isModalSaveOpen,
     editBaselineEntryId,
     baselineEntries,
     baselineEntriesAreLoading,
   } = baselineEntryState;
   return {
     isUpdating,
+    isModalSaveOpen,
     isModalOpen,
     editBaselineEntryId,
     baselineEntries,
@@ -46,6 +50,8 @@ const mapDispatchToProps = {
   openEditModal,
   closeEditModal,
   archiveBaseline,
+  openSaveModal,
+  closeSaveModal
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -55,6 +61,7 @@ export type Props = OwnProps & ConnectedProps<typeof connector>;
 export function BaselineEntryPage({
   isUpdating,
   isModalOpen,
+  isModalSaveOpen,
   editBaselineEntryId,
   baselineEntries,
   baselineEntriesAreLoading,
@@ -63,6 +70,8 @@ export function BaselineEntryPage({
   submitBaselineEntry,
   openEditModal,
   closeEditModal,
+  openSaveModal,
+  closeSaveModal,
   archiveBaseline,
 }: Props) {
   useMount(() => initBaselineEntryPage());
@@ -71,10 +80,24 @@ export function BaselineEntryPage({
 
   return (
     <div className="baseline-entry">
+
+
+      <Modal title="Archive Baseline" icon="save"  onDismiss={closeSaveModal} isOpen={isModalSaveOpen}>
+        <Button variant="primary" aria-label="Baseline entry submit button" onClick={() => {
+          archiveBaseline(13);
+        }}> Save </Button>
+        <Button variant="primary" style={{ float: 'right' }} aria-label="Baseline entry submit button" onClick={() => {
+          closeSaveModal();
+        }}> cancel </Button>
+        
+      </Modal>
+
       <PageHeader title={`HiPro Energy Baseline`} className="no-margin" pageIcon="graph-bar">
         <Branding.LoginLogo className={loginStyles.pageHeaderLogo} />
       </PageHeader>
-      <PageToolbar title={`Baseline Entry`} className="no-margin" />
+
+
+      <PageToolbar  title={`Baseline Entry`} className="no-margin" />
       <div className="sub-title">Possible microcopy providing high level explanation of the chart.</div>
       <BaselineEntryForm addBaselineEntry={submitBaselineEntry} isSavingBaselineEntry={isUpdating} />
       <hr className="spacious"></hr>
@@ -127,7 +150,7 @@ export function BaselineEntryPage({
           </thead>
           <tbody>
             {baselineEntries.map((p: BaselineDTO) => {
-              return renderBaselineRecord(p, openEditModal, archiveBaseline);
+              return renderBaselineRecord(p, openEditModal, openSaveModal);
             })}
           </tbody>
         </table>
@@ -194,7 +217,7 @@ const renderEditBaselineEntryModal = (
   return el;
 };
 
-const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any, archiveBaseline: any) => {
+const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any, openSaveModal: any) => {
   return (
     <tr key={baselineEntry.id}>
       <td className="link-td max-width-10">
@@ -355,7 +378,7 @@ const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any, ar
           name="folder-upload"
           title="Archive Baseline"
           onClick={() => {
-            archiveBaseline(baselineEntry.id);
+            openSaveModal();
           }}
         />
       </td>

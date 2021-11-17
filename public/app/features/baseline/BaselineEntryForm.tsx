@@ -46,7 +46,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
     addBaselineEntry(data);
     clearForm();
 
-  
+
   };
   const clearForm = () => {
     (document.getElementById('baseline-entry-form') as HTMLInputElement & {
@@ -118,7 +118,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
 
 
     onSubmitBaselineEntry(trueData);
-    //onSubmitBaselineEntry(data);
+
     clearForm();
   };
 
@@ -146,8 +146,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     const el = document.getElementById('baseline-start-date') as HTMLInputElement;
                     el.value = formattedValue;
                     setValue('startDate', formattedValue, { shouldValidate: true });
-
-
                   }}
                 />
 
