@@ -6,7 +6,7 @@ import {
   baselineEntriesLoaded,
   setModalOpen,
   setEditBaselineModal,
-  setModalSaveOpen
+  setModalSaveOpen,
 } from './reducers';
 import { api } from '../api';
 
@@ -24,8 +24,6 @@ function loadBaselineEntries(): ThunkResult<void> {
     dispatch(baselineEntriesLoaded({ baselineEntries }));
   };
 }
-
-
 
 export function submitBaselineEntry(payload: BaselineEntryFields): ThunkResult<void> {
   return async function (dispatch) {
@@ -60,21 +58,16 @@ export function openEditModal(payload: number): ThunkResult<void> {
     dispatch(setEditBaselineModal({ id: payload }));
   };
 }
-
 export function openSaveModal(): ThunkResult<void> {
   return async function (dispatch) {
-    
     dispatch(setModalSaveOpen({ open: true }));
-  }
+  };
 }
-
 export function closeSaveModal(): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setModalSaveOpen({ open: false }));
   };
 }
-
-
 export function archiveBaseline(payload: number): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setUpdating({ updating: true }));
@@ -89,7 +82,6 @@ export function archiveBaseline(payload: number): ThunkResult<void> {
     }
   };
 }
-
 export function closeEditModal(): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setModalOpen({ open: false }));

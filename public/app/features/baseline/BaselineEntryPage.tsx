@@ -51,7 +51,7 @@ const mapDispatchToProps = {
   closeEditModal,
   archiveBaseline,
   openSaveModal,
-  closeSaveModal
+  closeSaveModal,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -80,24 +80,33 @@ export function BaselineEntryPage({
 
   return (
     <div className="baseline-entry">
-
-
-      <Modal title="Archive Baseline" icon="save"  onDismiss={closeSaveModal} isOpen={isModalSaveOpen}>
-        <Button variant="primary" aria-label="Baseline entry submit button" onClick={() => {
-          archiveBaseline(13);
-        }}> Save </Button>
-        <Button variant="primary" style={{ float: 'right' }} aria-label="Baseline entry submit button" onClick={() => {
-          closeSaveModal();
-        }}> cancel </Button>
-        
+      <Modal title="Archive Baseline" icon="save" onDismiss={closeSaveModal} isOpen={isModalSaveOpen}>
+        <Button
+          variant="primary"
+          aria-label="Baseline entry submit button"
+          onClick={() => {
+            archiveBaseline(13);
+          }}
+        >
+          Save
+        </Button>
+        <Button
+          variant="primary"
+          style={{ float: 'right' }}
+          aria-label="Baseline entry submit button"
+          onClick={() => {
+            closeSaveModal();
+          }}
+        >
+          cancel
+        </Button>
       </Modal>
 
       <PageHeader title={`HiPro Energy Baseline`} className="no-margin" pageIcon="graph-bar">
         <Branding.LoginLogo className={loginStyles.pageHeaderLogo} />
       </PageHeader>
 
-
-      <PageToolbar  title={`Baseline Entry`} className="no-margin" />
+      <PageToolbar title={`Baseline Entry`} className="no-margin" />
       <div className="sub-title">Possible microcopy providing high level explanation of the chart.</div>
       <BaselineEntryForm addBaselineEntry={submitBaselineEntry} isSavingBaselineEntry={isUpdating} />
       <hr className="spacious"></hr>

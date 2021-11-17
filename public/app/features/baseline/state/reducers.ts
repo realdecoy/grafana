@@ -16,7 +16,7 @@ export const initialBaselineEntryState: BaselineEntryState = {
   editBaselineEntryId: 0,
   isUpdating: false,
   isModalOpen: false,
-  isModalSaveOpen:false
+  isModalSaveOpen: false,
 };
 
 export const slice = createSlice({
@@ -30,7 +30,7 @@ export const slice = createSlice({
       state.isModalOpen = action.payload.open;
     },
     setModalSaveOpen: (state, action: PayloadAction<{ open: boolean }>) => {
-      console.log(action.payload.open)
+      console.log(action.payload.open);
       state.isModalSaveOpen = action.payload.open;
     },
     setEditBaselineModal: (state, action: PayloadAction<{ id: number }>) => {
@@ -56,7 +56,7 @@ export const {
   archiveBaselineEntry,
   initLoadingBaselineEntries,
   baselineEntriesLoaded,
-  setModalSaveOpen
+  setModalSaveOpen,
 } = slice.actions;
 
 export const baselineReducer = slice.reducer;

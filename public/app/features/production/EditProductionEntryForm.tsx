@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Button, DatePickerWithInput, Field, FieldSet, Form, Input, PageToolbar } from '@grafana/ui';
+import { Button, Field, FieldSet, Form, Input, PageToolbar } from '@grafana/ui';
 import { ProductionVolumeDTO } from 'app/types';
-import { format } from 'date-fns';
-const DATE_FORMAT = 'yyyy-MM-dd';
+// import { format } from 'date-fns';
+// const DATE_FORMAT = 'yyyy-MM-dd';
 
 export interface Props {
   existingBaseline: ProductionVolumeDTO;
@@ -11,7 +11,6 @@ export interface Props {
 }
 
 export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBaselineEntry, updateBaselineEntry }) => {
-  const [isSaving, setIsSaving] = useState({ value: false });
   const [id, setId] = useState({ value: '' });
   const [day, setDay] = useState({ value: '' });
   const [wareHouseStaff, setWareHouseStaff] = useState({ value: '' });
@@ -29,18 +28,17 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
   const [wareHouseHiProStore, setWareHouseHiProStore] = useState({ value: '' });
   const [noOfCustomersTotal, setNoOfCustomersTotal] = useState({ value: '' });
   const [noOfCustomersStore, setNoOfCustomersStore] = useState({ value: '' });
-  const [noOftransactionstotal, setNoOftransactionstotal] = useState({ value: '' });
-  const [nooftransactionsitemdepartmenta, setNooftransactionsitemdepartmentae] = useState({ value: '' });
-  const [nooftransactionsitemdepartmentb, setNooftransactionsitemdepartmentb] = useState({ value: '' });
-  const [nooftransactionsitemdepartmentc, setNooftransactionsitemdepartmentc] = useState({ value: '' });
-  const [nooftransactionsitemdepartmentd, setNooftransactionsitemdepartmentd] = useState({ value: '' });
-  const [nooftransactionsitemdepartmente, setNooftransactionsitemdepartmente] = useState({ value: '' });
+  const [noOfTransactionsTotal, setNoOftransactionstotal] = useState({ value: '' });
+  const [noOfTransactionsItemDepartmentA, setNoOfTransactionsItemDepartmentAe] = useState({ value: '' });
+  const [noOfTransactionsItemDepartmentB, setNoOfTransactionsItemDepartmentB] = useState({ value: '' });
+  const [noOfTransactionsItemDepartmentC, setNoOfTransactionsItemDepartmentC] = useState({ value: '' });
+  const [noOfTransactionsItemDepartmentD, setNoOfTransactionsItemDepartmentD] = useState({ value: '' });
+  const [noOfTransactionsItemDepartmentE, setNoOfTransactionsItemDepartmentE] = useState({ value: '' });
   const [truckDeliveriesTotal, setTruckDeliveriesTotal] = useState({ value: '' });
-  const [truckDeliveriesTypea, setTruckDeliveriesTypea] = useState({ value: '' });
-  const [truckDeliveriesTypeb, setTruckDeliveriesTypeb] = useState({ value: '' });
-  const [truckDeliveriesTypec, setTruckDeliveriesTypec] = useState({ value: '' });
-  const [truckDeliveriesTyped, setTruckDeliveriesTyped] = useState({ value: '' });
-
+  const [truckDeliveriesTypeA, setTruckDeliveriesTypeA] = useState({ value: '' });
+  const [truckDeliveriesTypeB, setTruckDeliveriesTypeB] = useState({ value: '' });
+  const [truckDeliveriesTypeC, setTruckDeliveriesTypeC] = useState({ value: '' });
+  const [truckDeliveriesTypeD, setTruckDeliveriesTypeD] = useState({ value: '' });
 
   const onSubmitBaselineEntry = (data: ProductionVolumeDTO) => {
     updateBaselineEntry(data);
@@ -73,17 +71,17 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
       wareHouseHiProStore: wareHouseHiProStore.value,
       noOfCustomersTotal: noOfCustomersTotal.value,
       noOfCustomersStore: noOfCustomersStore.value,
-      noOftransactionstotal: noOftransactionstotal.value,
-      nooftransactionsitemdepartmenta: nooftransactionsitemdepartmenta.value,
-      nooftransactionsitemdepartmentb: nooftransactionsitemdepartmentb.value,
-      nooftransactionsitemdepartmentc: nooftransactionsitemdepartmentc.value,
-      nooftransactionsitemdepartmentd: nooftransactionsitemdepartmentd.value,
-      nooftransactionsitemdepartmente: nooftransactionsitemdepartmente.value,
+      noOfTransactionsTotal: noOfTransactionsTotal.value,
+      noOfTransactionsItemDepartmentA: noOfTransactionsItemDepartmentA.value,
+      noOfTransactionsItemDepartmentB: noOfTransactionsItemDepartmentB.value,
+      noOfTransactionsItemDepartmentC: noOfTransactionsItemDepartmentC.value,
+      noOfTransactionsItemDepartmentD: noOfTransactionsItemDepartmentD.value,
+      noOfTransactionsItemDepartmentE: noOfTransactionsItemDepartmentE.value,
       truckDeliveriesTotal: truckDeliveriesTotal.value,
-      truckDeliveriesTypea: truckDeliveriesTypea.value,
-      truckDeliveriesTypeb: truckDeliveriesTypeb.value,
-      truckDeliveriesTypec: truckDeliveriesTypec.value,
-      truckDeliveriesTyped: truckDeliveriesTyped.value,
+      truckDeliveriesTypeA: truckDeliveriesTypeA.value,
+      truckDeliveriesTypeB: truckDeliveriesTypeB.value,
+      truckDeliveriesTypeC: truckDeliveriesTypeC.value,
+      truckDeliveriesTypeD: truckDeliveriesTypeD.value,
     };
     onSubmitBaselineEntry(trueData);
   };
@@ -106,27 +104,22 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
     setWareHouseHiProStore({ value: existingBaseline.wareHouseHiProStore as string });
     setNoOfCustomersTotal({ value: existingBaseline.noOfCustomersTotal as string });
     setNoOfCustomersStore({ value: existingBaseline.noOfCustomersStore as string });
-    setNoOftransactionstotal({ value: existingBaseline.noOftransactionstotal as string });
-    setNooftransactionsitemdepartmentae({ value: existingBaseline.nooftransactionsitemdepartmenta as string });
-    setNooftransactionsitemdepartmentb({ value: existingBaseline.nooftransactionsitemdepartmentb as string });
-    setNooftransactionsitemdepartmentc({ value: existingBaseline.nooftransactionsitemdepartmentc as string });
-    setNooftransactionsitemdepartmentd({ value: existingBaseline.nooftransactionsitemdepartmentd as string });
-    setNooftransactionsitemdepartmente({ value: existingBaseline.nooftransactionsitemdepartmente as string });
+    setNoOftransactionstotal({ value: existingBaseline.noOfTransactionsTotal as string });
+    setNoOfTransactionsItemDepartmentAe({ value: existingBaseline.noOfTransactionsItemDepartmentA as string });
+    setNoOfTransactionsItemDepartmentB({ value: existingBaseline.noOfTransactionsItemDepartmentB as string });
+    setNoOfTransactionsItemDepartmentC({ value: existingBaseline.noOfTransactionsItemDepartmentC as string });
+    setNoOfTransactionsItemDepartmentD({ value: existingBaseline.noOfTransactionsItemDepartmentD as string });
+    setNoOfTransactionsItemDepartmentE({ value: existingBaseline.noOfTransactionsItemDepartmentE as string });
     setTruckDeliveriesTotal({ value: existingBaseline.truckDeliveriesTotal as string });
-    setTruckDeliveriesTypea({ value: existingBaseline.truckDeliveriesTypea as string });
-    setTruckDeliveriesTypeb({ value: existingBaseline.truckDeliveriesTypeb as string });
-    setTruckDeliveriesTypeb({ value: existingBaseline.truckDeliveriesTypec as string });
-    setTruckDeliveriesTypec({ value: existingBaseline.truckDeliveriesTyped as string });
+    setTruckDeliveriesTypeA({ value: existingBaseline.truckDeliveriesTypeA as string });
+    setTruckDeliveriesTypeB({ value: existingBaseline.truckDeliveriesTypeB as string });
+    setTruckDeliveriesTypeB({ value: existingBaseline.truckDeliveriesTypeC as string });
+    setTruckDeliveriesTypeC({ value: existingBaseline.truckDeliveriesTypeD as string });
   }, [existingBaseline]);
-
-  useEffect(() => {
-    setIsSaving({ value: isSavingBaselineEntry });
-  }, [isSavingBaselineEntry]);
 
   return (
     <Form id="edit-baseline-entry-form" className="edit-baseline-entry-form" onSubmit={onSubmit} validateOn="onBlur">
       {({ register, errors, clearErrors, setValue }) => {
-
         setValue('id', id.value);
         setValue('day', existingBaseline.day);
         setValue('wareHouseStaff', existingBaseline.wareHouseStaff);
@@ -144,17 +137,17 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
         setValue('wareHouseHiProStore', wareHouseHiProStore.value);
         setValue('noOfCustomersTotal', noOfCustomersTotal.value);
         setValue('noOfCustomersStore', noOfCustomersStore.value);
-        setValue('noOftransactionstotal', noOftransactionstotal.value);
-        setValue('nooftransactionsitemdepartmenta', nooftransactionsitemdepartmenta.value);
-        setValue('nooftransactionsitemdepartmentb', nooftransactionsitemdepartmentb.value);
-        setValue('nooftransactionsitemdepartmentc', nooftransactionsitemdepartmentc.value);
-        setValue('nooftransactionsitemdepartmentd', nooftransactionsitemdepartmentd.value);
-        setValue('nooftransactionsitemdepartmente', nooftransactionsitemdepartmente.value);
+        setValue('noOfTransactionsTotal', noOfTransactionsTotal.value);
+        setValue('noOfTransactionsItemDepartmentA', noOfTransactionsItemDepartmentA.value);
+        setValue('noOfTransactionsItemDepartmentB', noOfTransactionsItemDepartmentB.value);
+        setValue('noOfTransactionsItemDepartmentC', noOfTransactionsItemDepartmentC.value);
+        setValue('noOfTransactionsItemDepartmentD', noOfTransactionsItemDepartmentD.value);
+        setValue('noOfTransactionsItemDepartmentE', noOfTransactionsItemDepartmentE.value);
         setValue('truckDeliveriesTotal', truckDeliveriesTotal.value);
-        setValue('truckDeliveriesTypea', truckDeliveriesTypea.value);
-        setValue('truckDeliveriesTypeb', truckDeliveriesTypeb.value);
-        setValue('truckDeliveriesTypec', truckDeliveriesTypec.value);
-        setValue('truckDeliveriesTyped', truckDeliveriesTyped.value);
+        setValue('truckDeliveriesTypeA', truckDeliveriesTypeA.value);
+        setValue('truckDeliveriesTypeB', truckDeliveriesTypeB.value);
+        setValue('truckDeliveriesTypeC', truckDeliveriesTypeC.value);
+        setValue('truckDeliveriesTypeD', truckDeliveriesTypeD.value);
         return (
           <FieldSet className="baseline-field-set">
             <PageToolbar title={`ID`} className="no-margin" />
@@ -182,10 +175,9 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 error="Invoice Date is required [format: yyyy-mm-dd]"
                 disabled={isSavingBaselineEntry}
               >
-
                 <Input
                   {...register('day', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-ipp-truckDeliveriesTyped"
+                  id="baseline-ipp-truckDeliveriesTypeD"
                   placeholder="Truck deliveries – Type D"
                   defaultValue={''}
                   onChange={(event) => {
@@ -194,9 +186,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                     setValue('day', value);
                   }}
                 />
-
-
-
               </Field>
             </div>
             <PageToolbar title={`Staff`} className="no-margin" />
@@ -217,7 +206,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                     const value = event?.currentTarget.value;
                     setWareHouseStaff({ value });
                     setValue('wareHouseStaff', value);
-                    console.log(value)
+                    console.log(value);
                   }}
                 />
               </Field>
@@ -263,19 +252,19 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
               <Field
                 className="baseline-field"
                 label="HiPro store & office staff"
-                invalid={!!errors.hiproStore}
+                invalid={!!errors.wareHouseHiproStore}
                 error="HiPro store & office staff is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('hiproStore', { required: true, pattern: /^[0-9.-]+$/g })}
+                  {...register('wareHousehiproStore', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="Production-hiproStore"
                   placeholder="HiPro store & office staff"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
                     setWareHouseHiProStore({ value });
-                    setValue('hiproStore', value);
+                    setValue('wareHouseHiproStore', value);
                   }}
                 />
               </Field>
@@ -399,13 +388,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 invalid={!!errors.noOfStaffStorePharmacy}
                 error="No of Staff - Store - Pharmacy
                 is required [e.g. 24.53]"
-
               >
                 <Input
                   {...register('noOfStaffStorePharmacy', { required: true, pattern: /^[0-9.-]+$/g })}
                   id="baseline-noOfStaffStorePharmacy"
                   placeholder="No of Staff - Store - Pharmacy"
-
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
                     setNoOfStaffStorePharmacy({ value });
@@ -429,7 +416,6 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                     const value = event?.currentTarget.value;
                     setNoOfStaffStoreSalesFloor({ value });
                     setValue('noOfStaffStoreSalesFloor', value);
-
                   }}
                 />
               </Field>
@@ -516,38 +502,38 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
               {/* <Field
                 className="baseline-field"
                 label="No. of customers - Warehouse"
-                invalid={!!errors.noOftransactionstotal}
+                invalid={!!errors.noOfTransactionsTotal}
                 error="No. of customers - Warehouse is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('noOftransactionstotal', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-noOftransactionstotal"
+                  {...register('noOfTransactionsTotal', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfTransactionsTotal"
                   placeholder="No. of customers"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
                     setNoOftransactionstotal({ value });
-                    setValue('noOftransactionstotal', value);
+                    setValue('noOfTransactionsTotal', value);
                   }}
                 />
               </Field> */}
               <Field
                 className="baseline-field"
                 label="No. of transactions – Total"
-                invalid={!!errors.noOftransactionstotal}
+                invalid={!!errors.noOfTransactionsTotal}
                 error="No. of transactions is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('noOftransactionstotal', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-noOftransactionstotal"
+                  {...register('noOfTransactionsTotal', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfTransactionsTotal"
                   placeholder="No. of transactions"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
                     setNoOftransactionstotal({ value });
-                    setValue('noOftransactionstotal', value);
+                    setValue('noOfTransactionsTotal', value);
                   }}
                 />
               </Field>
@@ -557,95 +543,95 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
               <Field
                 className="baseline-field"
                 label="No. of transactions Item/Department – A"
-                invalid={!!errors.nooftransactionsitemdepartmenta}
+                invalid={!!errors.noOfTransactionsItemDepartmentA}
                 error="No. of transactions Item/Department – A is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('nooftransactionsitemdepartmenta', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-nooftransactionsitemdepartmenta"
+                  {...register('noOfTransactionsItemDepartmentA', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfTransactionsItemDepartmentA"
                   placeholder=" Item/Department – A Charge"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
-                    setNooftransactionsitemdepartmentae({ value });
-                    setValue('nooftransactionsitemdepartmenta', value);
+                    setNoOfTransactionsItemDepartmentAe({ value });
+                    setValue('noOfTransactionsItemDepartmentA', value);
                   }}
                 />
               </Field>
               <Field
                 className="baseline-field"
                 label="No. of transactions Item/Department – B"
-                invalid={!!errors.nooftransactionsitemdepartmentb}
+                invalid={!!errors.noOfTransactionsItemDepartmentB}
                 error="Item/Department – B is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('nooftransactionsitemdepartmentb', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-nooftransactionsitemdepartmentb"
+                  {...register('noOfTransactionsItemDepartmentB', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfTransactionsItemDepartmentB"
                   placeholder="Item/Department – B"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
-                    setNooftransactionsitemdepartmentb({ value });
-                    setValue('nooftransactionsitemdepartmentb', value);
+                    setNoOfTransactionsItemDepartmentB({ value });
+                    setValue('noOfTransactionsItemDepartmentB', value);
                   }}
                 />
               </Field>
               <Field
                 className="baseline-field"
                 label="No. of transactions Item/Department – C"
-                invalid={!!errors.nooftransactionsitemdepartmentc}
+                invalid={!!errors.noOfTransactionsItemDepartmentC}
                 error=" Item/Department – c is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('nooftransactionsitemdepartmentc', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-nooftransactionsitemdepartmentc"
+                  {...register('noOfTransactionsItemDepartmentC', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfTransactionsItemDepartmentC"
                   placeholder="  Item/Department – C Charge"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
-                    setNooftransactionsitemdepartmentc({ value });
-                    setValue('nooftransactionsitemdepartmentc', value);
+                    setNoOfTransactionsItemDepartmentC({ value });
+                    setValue('noOfTransactionsItemDepartmentC', value);
                   }}
                 />
               </Field>
               <Field
                 className="baseline-field"
                 label="No. of transactions Item/Department – D"
-                invalid={!!errors.nooftransactionsitemdepartmentd}
+                invalid={!!errors.noOfTransactionsItemDepartmentD}
                 error=" Item/Department – D is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('nooftransactionsitemdepartmentd', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-ipp-nooftransactionsitemdepartmentd"
+                  {...register('noOfTransactionsItemDepartmentD', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-ipp-noOfTransactionsItemDepartmentD"
                   placeholder=" Item/Department – D "
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
-                    setNooftransactionsitemdepartmentd({ value });
-                    setValue('setNooftransactionsitemdepartmentd', value);
+                    setNoOfTransactionsItemDepartmentD({ value });
+                    setValue('setNoOfTransactionsItemDepartmentD', value);
                   }}
                 />
               </Field>
               <Field
                 className="baseline-field"
                 label="No. of transactions Item/Department - E"
-                invalid={!!errors.nooftransactionsitemdepartmente}
+                invalid={!!errors.noOfTransactionsItemDepartmentE}
                 error="IPP Fixed Charge is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('nooftransactionsitemdepartmente', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-nooftransactionsitemdepartmente"
+                  {...register('noOfTransactionsItemDepartmentE', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfTransactionsItemDepartmentE"
                   placeholder="No. of transactions Item/Department - E"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
-                    setNooftransactionsitemdepartmente({ value });
-                    setValue('setNooftransactionsitemdepartmente', value);
+                    setNoOfTransactionsItemDepartmentE({ value });
+                    setValue('setNoOfTransactionsItemDepartmentE', value);
                   }}
                 />
               </Field>
@@ -674,76 +660,76 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
               <Field
                 className="baseline-field"
                 label="Truck deliveries – Type A"
-                invalid={!!errors.truckDeliveriesTypea}
+                invalid={!!errors.truckDeliveriesTypeA}
                 error="Truck deliveries – Type A is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('truckDeliveriesTypea', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-truckDeliveriesTypea"
+                  {...register('truckDeliveriesTypeA', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-truckDeliveriesTypeA"
                   placeholder="Truck deliveries – Type A"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
-                    setTruckDeliveriesTypea({ value });
-                    setValue('truckDeliveriesTypea', value);
+                    setTruckDeliveriesTypeA({ value });
+                    setValue('truckDeliveriesTypeA', value);
                   }}
                 />
               </Field>
               <Field
                 className="baseline-field"
                 label="Truck deliveries – Type B"
-                invalid={!!errors.truckDeliveriesTypeb}
+                invalid={!!errors.truckDeliveriesTypeB}
                 error="Truck deliveries – Type B is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('truckDeliveriesTypeb', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-truckDeliveriesTypeb"
+                  {...register('truckDeliveriesTypeB', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-truckDeliveriesTypeB"
                   placeholder="Truck deliveries – Type B"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
-                    setTruckDeliveriesTypeb({ value });
-                    setValue('truckDeliveriesTypeb', value);
+                    setTruckDeliveriesTypeB({ value });
+                    setValue('truckDeliveriesTypeB', value);
                   }}
                 />
               </Field>
               <Field
                 className="baseline-field"
                 label="Truck deliveries – Type C"
-                invalid={!!errors.truckDeliveriesTypec}
+                invalid={!!errors.truckDeliveriesTypeC}
                 error="Truck deliveries – Type C is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('truckDeliveriesTypec', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-ipp-truckDeliveriesTypece"
+                  {...register('truckDeliveriesTypeC', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-ipp-truckDeliveriesTypeCe"
                   placeholder="Truck deliveries – Type C"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
-                    setTruckDeliveriesTypec({ value });
-                    setValue('truckDeliveriesTypec', value);
+                    setTruckDeliveriesTypeC({ value });
+                    setValue('truckDeliveriesTypeC', value);
                   }}
                 />
               </Field>
               <Field
                 className="baseline-field"
                 label="Truck deliveries – Type D"
-                invalid={!!errors.nooftransactionsitemdepartmente}
+                invalid={!!errors.noOfTransactionsItemDepartmentE}
                 error="Truck deliveries – Type D is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('truckDeliveriesTyped', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-ipp-truckDeliveriesTyped"
+                  {...register('truckDeliveriesTypeD', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-ipp-truckDeliveriesTypeD"
                   placeholder="Truck deliveries – Type D"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
-                    setTruckDeliveriesTyped({ value });
-                    setValue('truckDeliveriesTyped', value);
+                    setTruckDeliveriesTypeD({ value });
+                    setValue('truckDeliveriesTypeD', value);
                   }}
                 />
               </Field>

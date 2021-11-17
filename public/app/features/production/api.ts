@@ -1,4 +1,3 @@
-
 import { ProductionVolumeDTO, ProductionVolumeeDatasource } from '../../types';
 
 const productionQuery = new ProductionVolumeeDatasource();

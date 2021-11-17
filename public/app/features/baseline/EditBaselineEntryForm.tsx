@@ -3,7 +3,6 @@ import { Button, Field, FieldSet, Form, Input, PageToolbar } from '@grafana/ui';
 import { BaselineDTO } from 'app/types';
 import { openSaveModal } from './state/actions';
 
-
 export interface Props {
   existingBaseline: BaselineDTO;
   isSavingBaselineEntry: boolean;
