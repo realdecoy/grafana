@@ -139,6 +139,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     const el = document.getElementById('baseline-start-date') as HTMLInputElement;
                     el.value = formattedValue;
                     setValue('startDate', formattedValue, { shouldValidate: true });
+                    setStartDate({ value: formattedValue });
                   }}
                 />
               </Field>
@@ -159,6 +160,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
                     const el = document.getElementById('baseline-end-date') as HTMLInputElement;
                     el.value = formattedValue;
+                    setEndDate({ value: formattedValue });
                     setValue('endDate', formattedValue, { shouldValidate: true });
                   }}
                 />
@@ -196,8 +198,9 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   {...register('invoiceDate', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
                   onChange={(val) => {
                     const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
-                    const el = document.getElementById('baseline-end-date') as HTMLInputElement;
+                    const el = document.getElementById('edit-baseline-invoice-date') as HTMLInputElement;
                     el.value = formattedValue;
+                    setInvoiceDate({ value: formattedValue });
                     setValue('invoiceDate', formattedValue, { shouldValidate: true });
                   }}
                 />

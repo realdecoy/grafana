@@ -32,6 +32,7 @@ function mapStateToProps(state: StoreState) {
     editBaselineEntryId,
     baselineEntries,
     baselineEntriesAreLoading,
+    achievedId
   } = baselineEntryState;
   return {
     isUpdating,
@@ -40,6 +41,7 @@ function mapStateToProps(state: StoreState) {
     editBaselineEntryId,
     baselineEntries,
     baselineEntriesAreLoading,
+    achievedId
   };
 }
 
@@ -61,6 +63,7 @@ export type Props = OwnProps & ConnectedProps<typeof connector>;
 export function BaselineEntryPage({
   isUpdating,
   isModalOpen,
+  achievedId,
   isModalSaveOpen,
   editBaselineEntryId,
   baselineEntries,
@@ -85,7 +88,7 @@ export function BaselineEntryPage({
           variant="primary"
           aria-label="Baseline entry submit button"
           onClick={() => {
-            archiveBaseline(13);
+            archiveBaseline(achievedId);
           }}
         >
           Save

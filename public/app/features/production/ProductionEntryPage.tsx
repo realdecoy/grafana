@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
-import { PageToolbar, PageHeader, useStyles2, Icon, Modal } from '@grafana/ui';
+import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button } from '@grafana/ui';
 import { ProductionVolumeDTO, StoreState } from 'app/types';
 import {
   initProductionEntryPage,
@@ -11,12 +11,14 @@ import {
   openEditModal,
   closeEditModal,
   archiveProduction,
+  closeSaveModal,
+  openSaveModal,
 } from './state/actions';
 import ProductionEntryForm from './ProductionEntryForm';
 import EditBaselineEntryForm from './EditProductionEntryForm';
 import { getLoginStyles } from 'app/core/components/Login/LoginLayout';
 import { Branding } from 'app/core/components/Branding/Branding';
-
+import { format } from 'date-fns';
 export interface OwnProps {
   onDismiss: () => void;
 }
@@ -26,16 +28,20 @@ function mapStateToProps(state: StoreState) {
   const {
     isUpdating,
     isModalOpen,
+    isModalSaveOpen,
     editProductionEntryId,
     productionEntries,
     productionEntriesAreLoading,
+    achievedId,
   } = productionEntryState;
   return {
     isUpdating,
     isModalOpen,
+    isModalSaveOpen,
     editProductionEntryId,
     productionEntries,
     productionEntriesAreLoading,
+    achievedId
   };
 }
 
@@ -46,6 +52,8 @@ const mapDispatchToProps = {
   openEditModal,
   closeEditModal,
   archiveProduction,
+  openSaveModal,
+  closeSaveModal,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -55,6 +63,8 @@ export type Props = OwnProps & ConnectedProps<typeof connector>;
 export function ProductionEntryPage({
   isUpdating,
   isModalOpen,
+  isModalSaveOpen,
+  achievedId,
   editProductionEntryId,
   productionEntries,
   productionEntriesAreLoading,
@@ -62,6 +72,8 @@ export function ProductionEntryPage({
   initProductionEntryPage,
   submitProductionEntry,
   openEditModal,
+  openSaveModal,
+  closeSaveModal,
   closeEditModal,
   archiveProduction,
 }: Props) {
@@ -71,6 +83,28 @@ export function ProductionEntryPage({
 
   return (
     <div className="baseline-entry">
+      <Modal title="Archive Production" icon="save" onDismiss={closeSaveModal} isOpen={isModalSaveOpen}>
+        <Button
+          variant="primary"
+          aria-label="Baseline entry submit button"
+          onClick={() => {
+            archiveProduction( achievedId );
+          }}
+        >
+          Save
+        </Button>
+        <Button
+          variant="primary"
+          style={{ float: 'right' }}
+          aria-label="Baseline entry submit button"
+          onClick={() => {
+            closeSaveModal();
+          }}
+        >
+          cancel
+        </Button>
+      </Modal>
+
       <PageHeader title={`HiPro Energy Production`} className="no-margin" pageIcon="graph-bar">
         <Branding.LoginLogo className={loginStyles.pageHeaderLogo} />
       </PageHeader>
@@ -123,7 +157,7 @@ export function ProductionEntryPage({
           </thead>
           <tbody>
             {productionEntries.map((p: ProductionVolumeDTO) => {
-              return renderBaselineRecord(p, openEditModal, archiveProduction);
+              return renderBaselineRecord(p, openEditModal, openSaveModal);
             })}
           </tbody>
         </table>
@@ -190,7 +224,7 @@ const renderEditBaselineEntryModal = (
   return el;
 };
 
-const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEditModal: any, archiveBaseline: any) => {
+const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEditModal: any, openSaveModal: any) => {
   return (
     <tr key={ProductionVolumeEntry.id}>
       <td className="link-td max-width-10">
@@ -200,7 +234,7 @@ const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEd
       </td>
       <td className="link-td max-width-10">
         <a className="ellipsis" title={ProductionVolumeEntry.day}>
-          {ProductionVolumeEntry.day}
+          {format(Number(ProductionVolumeEntry.day) * 1000, 'yyyy-MM-dd')}
         </a>
       </td>
       <td className="link-td max-width-10">
@@ -346,7 +380,7 @@ const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEd
       <td className="link-td">
         <Icon
           name="pen"
-          title="Edit Baseline"
+          title="Edit Production"
           onClick={() => {
             openEditModal(ProductionVolumeEntry.id);
           }}
@@ -354,9 +388,9 @@ const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEd
         <Icon
           className="archive-link"
           name="folder-upload"
-          title="Archive Baseline"
+          title="Archive Production"
           onClick={() => {
-            archiveBaseline(ProductionVolumeEntry.id);
+            openSaveModal(ProductionVolumeEntry.id);
           }}
         />
       </td>

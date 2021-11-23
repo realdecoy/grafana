@@ -5,6 +5,8 @@ import {
   ProductionEntriesLoaded,
   setModalOpen,
   setEditProductionModal,
+  setModalSaveOpen,
+  setAchievedId,
 } from './reducers';
 import { api } from '../api';
 
@@ -66,7 +68,20 @@ export function archiveProduction(payload: number): ThunkResult<void> {
     } finally {
       dispatch(loadProductionEntries());
       dispatch(setUpdating({ updating: false }));
+      dispatch(setModalSaveOpen({ open: false }));
     }
+  };
+}
+
+export function openSaveModal(id: number): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(setAchievedId({ id: id }));
+    dispatch(setModalSaveOpen({ open: true }));
+  };
+}
+export function closeSaveModal(): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(setModalSaveOpen({ open: false }));
   };
 }
 
@@ -76,3 +91,5 @@ export function closeEditModal(): ThunkResult<void> {
     dispatch(setEditProductionModal({ id: 0 }));
   };
 }
+
+

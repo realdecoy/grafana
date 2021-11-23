@@ -7,6 +7,7 @@ import {
   setModalOpen,
   setEditBaselineModal,
   setModalSaveOpen,
+  setAchievedId,
 } from './reducers';
 import { api } from '../api';
 
@@ -58,8 +59,9 @@ export function openEditModal(payload: number): ThunkResult<void> {
     dispatch(setEditBaselineModal({ id: payload }));
   };
 }
-export function openSaveModal(): ThunkResult<void> {
+export function openSaveModal(id: number): ThunkResult<void> {
   return async function (dispatch) {
+    dispatch(setAchievedId({ id: id }));
     dispatch(setModalSaveOpen({ open: true }));
   };
 }
