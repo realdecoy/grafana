@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
-import { PageToolbar, PageHeader, useStyles2, Icon, Modal } from '@grafana/ui';
+import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button } from '@grafana/ui';
 import { ProductionVolumeDTO, StoreState } from 'app/types';
 import {
   initProductionEntryPage,
@@ -11,12 +11,14 @@ import {
   openEditModal,
   closeEditModal,
   archiveProduction,
+  closeSaveModal,
+  openSaveModal,
 } from './state/actions';
 import ProductionEntryForm from './ProductionEntryForm';
 import EditBaselineEntryForm from './EditProductionEntryForm';
 import { getLoginStyles } from 'app/core/components/Login/LoginLayout';
 import { Branding } from 'app/core/components/Branding/Branding';
-
+import { format } from 'date-fns';
 export interface OwnProps {
   onDismiss: () => void;
 }
@@ -26,16 +28,20 @@ function mapStateToProps(state: StoreState) {
   const {
     isUpdating,
     isModalOpen,
+    isModalSaveOpen,
     editProductionEntryId,
     productionEntries,
     productionEntriesAreLoading,
+    achievedId,
   } = productionEntryState;
   return {
     isUpdating,
     isModalOpen,
+    isModalSaveOpen,
     editProductionEntryId,
     productionEntries,
     productionEntriesAreLoading,
+    achievedId
   };
 }
 
@@ -46,6 +52,8 @@ const mapDispatchToProps = {
   openEditModal,
   closeEditModal,
   archiveProduction,
+  openSaveModal,
+  closeSaveModal,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -55,6 +63,8 @@ export type Props = OwnProps & ConnectedProps<typeof connector>;
 export function ProductionEntryPage({
   isUpdating,
   isModalOpen,
+  isModalSaveOpen,
+  achievedId,
   editProductionEntryId,
   productionEntries,
   productionEntriesAreLoading,
@@ -62,6 +72,8 @@ export function ProductionEntryPage({
   initProductionEntryPage,
   submitProductionEntry,
   openEditModal,
+  openSaveModal,
+  closeSaveModal,
   closeEditModal,
   archiveProduction,
 }: Props) {
@@ -71,6 +83,28 @@ export function ProductionEntryPage({
 
   return (
     <div className="baseline-entry">
+      <Modal title="Archive Production" icon="save" onDismiss={closeSaveModal} isOpen={isModalSaveOpen}>
+        <Button
+          variant="primary"
+          aria-label="Baseline entry submit button"
+          onClick={() => {
+            archiveProduction( achievedId );
+          }}
+        >
+          Save
+        </Button>
+        <Button
+          variant="primary"
+          style={{ float: 'right' }}
+          aria-label="Baseline entry submit button"
+          onClick={() => {
+            closeSaveModal();
+          }}
+        >
+          cancel
+        </Button>
+      </Modal>
+
       <PageHeader title={`HiPro Energy Production`} className="no-margin" pageIcon="graph-bar">
         <Branding.LoginLogo className={loginStyles.pageHeaderLogo} />
       </PageHeader>
@@ -89,36 +123,31 @@ export function ProductionEntryPage({
           <thead>
             <tr>
               <th>No.</th>
-              <th>
-                Date
-              </th>
+              <th>Date</th>
               <th>Warehouse staff</th>
-              <th>Staff - Total  </th>
-              <th>HiPro store & office staff </th>
-              <th>No. of staff – Office - Sales  </th>
+              <th>Store Employees / Staff</th>
+              <th>Staff - Total</th>
+              <th>HiPro store & office staff</th>
+              <th>No. of staff – Office - Sales</th>
               <th> No. of staff – Office - Accounts</th>
-              <th>No. of staff – Office - Group Purchasing  </th>
-              <th>No. of staff – Office - Store Purchasing   </th>
-              <th>No. of staff – Store - Customer Service  </th>
+              <th>No. of staff – Office - Group Purchasing</th>
+              <th>No. of staff – Office - Store Purchasing</th>
+              <th>No. of staff – Store - Customer Service</th>
               <th>No of Staff - Store - Cashiers </th>
               <th>No of Staff - Store - Pharmacy </th>
               <th>No of Staff - Store - Sales Floor</th>
-              <th>
-                No of Staff - Store - Receival</th>
+              <th>No of Staff - Store - Receival</th>
               <th>No of Staff - Store - Warehouse</th>
-              <th>
-                No. of customers - Total
-              </th>
+              <th>No. of customers - Total</th>
               <th>No. of customers - Store</th>
               <th>No. of customers - Warehouse</th>
-              <th>
-                No. of transactions – Total
-              </th>
+              <th>No. of transactions – Total</th>
               <th>No. of transactions Item/Department – A</th>
               <th>No. of transactions Item/Department – B</th>
               <th>No. of transactions Item/Department – C</th>
               <th> No. of transactions Item/Department – D</th>
               <th>No. of transactions Item/Department - E</th>
+              <th>Truck deliveries - Total</th>
               <th>Truck deliveries – Type A</th>
               <th>Truck deliveries – Type B</th>
               <th>Truck deliveries – Type C</th>
@@ -128,7 +157,7 @@ export function ProductionEntryPage({
           </thead>
           <tbody>
             {productionEntries.map((p: ProductionVolumeDTO) => {
-              return renderBaselineRecord(p, openEditModal, archiveProduction);
+              return renderBaselineRecord(p, openEditModal, openSaveModal);
             })}
           </tbody>
         </table>
@@ -195,8 +224,7 @@ const renderEditBaselineEntryModal = (
   return el;
 };
 
-const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEditModal: any, archiveBaseline: any) => {
-
+const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEditModal: any, openSaveModal: any) => {
   return (
     <tr key={ProductionVolumeEntry.id}>
       <td className="link-td max-width-10">
@@ -206,7 +234,7 @@ const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEd
       </td>
       <td className="link-td max-width-10">
         <a className="ellipsis" title={ProductionVolumeEntry.day}>
-          {ProductionVolumeEntry.day}
+          {format(Number(ProductionVolumeEntry.day) * 1000, 'yyyy-MM-dd')}
         </a>
       </td>
       <td className="link-td max-width-10">
@@ -222,6 +250,11 @@ const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEd
       <td className="link-td max-width-10">
         <a className="ellipsis" title={ProductionVolumeEntry.staffTotal}>
           {ProductionVolumeEntry.staffTotal}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
+        <a className="ellipsis" title={'HiPro Store & Office Staff'}>
+          N/A
         </a>
       </td>
       <td className="link-td max-width-10">
@@ -285,33 +318,38 @@ const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEd
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={ProductionVolumeEntry.noOftransactionstotal}>
-          {ProductionVolumeEntry.noOftransactionstotal}
+        <a className="ellipsis" title={'No. of Customers - Warehouse'}>
+          N/A
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={ProductionVolumeEntry.nooftransactionsitemdepartmenta}>
-          {ProductionVolumeEntry.nooftransactionsitemdepartmenta}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfTransactionsTotal}>
+          {ProductionVolumeEntry.noOfTransactionsTotal}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={ProductionVolumeEntry.nooftransactionsitemdepartmentb}>
-          {ProductionVolumeEntry.nooftransactionsitemdepartmentb}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfTransactionsItemDepartmentA}>
+          {ProductionVolumeEntry.noOfTransactionsItemDepartmentA}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={ProductionVolumeEntry.nooftransactionsitemdepartmentc}>
-          {ProductionVolumeEntry.nooftransactionsitemdepartmentc}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfTransactionsItemDepartmentB}>
+          {ProductionVolumeEntry.noOfTransactionsItemDepartmentB}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={ProductionVolumeEntry.nooftransactionsitemdepartmentd}>
-          {ProductionVolumeEntry.nooftransactionsitemdepartmentd}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfTransactionsItemDepartmentC}>
+          {ProductionVolumeEntry.noOfTransactionsItemDepartmentC}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={ProductionVolumeEntry.nooftransactionsitemdepartmente}>
-          {ProductionVolumeEntry.nooftransactionsitemdepartmente}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfTransactionsItemDepartmentD}>
+          {ProductionVolumeEntry.noOfTransactionsItemDepartmentD}
+        </a>
+      </td>
+      <td className="link-td max-width-10">
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfTransactionsItemDepartmentE}>
+          {ProductionVolumeEntry.noOfTransactionsItemDepartmentE}
         </a>
       </td>
       <td className="link-td max-width-10">
@@ -320,29 +358,29 @@ const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEd
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTypea}>
-          {ProductionVolumeEntry.truckDeliveriesTypea}
+        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTypeA}>
+          {ProductionVolumeEntry.truckDeliveriesTypeB}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTypeb}>
-          {ProductionVolumeEntry.truckDeliveriesTypeb}
+        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTypeB}>
+          {ProductionVolumeEntry.truckDeliveriesTypeB}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTypec}>
-          {ProductionVolumeEntry.truckDeliveriesTypec}
+        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTypeC}>
+          {ProductionVolumeEntry.truckDeliveriesTypeC}
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTyped}>
-          {ProductionVolumeEntry.truckDeliveriesTyped}
+        <a className="ellipsis" title={ProductionVolumeEntry.truckDeliveriesTypeD}>
+          {ProductionVolumeEntry.truckDeliveriesTypeD}
         </a>
       </td>
       <td className="link-td">
         <Icon
           name="pen"
-          title="Edit Baseline"
+          title="Edit Production"
           onClick={() => {
             openEditModal(ProductionVolumeEntry.id);
           }}
@@ -350,9 +388,9 @@ const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEd
         <Icon
           className="archive-link"
           name="folder-upload"
-          title="Archive Baseline"
+          title="Archive Production"
           onClick={() => {
-            archiveBaseline(ProductionVolumeEntry.id);
+            openSaveModal(ProductionVolumeEntry.id);
           }}
         />
       </td>

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { format } from 'date-fns';
 import { Button, DatePickerWithInput, Field, FieldSet, Form, Input, PageToolbar } from '@grafana/ui';
 import { BaselineEntryFields } from './types';
@@ -11,8 +11,7 @@ export interface Props {
 }
 
 export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselineEntry }) => {
-
-  const [isSaving, setIsSaving] = useState({ value: false });
+  const [isSaving] = useState({ value: false });
   const [id, setId] = useState({ value: '' });
   const [startDate, setStartDate] = useState({ value: '' });
   const [endDate, setEndDate] = useState({ value: '' });
@@ -45,43 +44,40 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
   const onSubmitBaselineEntry = (data: BaselineEntryFields) => {
     addBaselineEntry(data);
     clearForm();
-
-  
   };
   const clearForm = () => {
     (document.getElementById('baseline-entry-form') as HTMLInputElement & {
       reset: () => boolean;
     }).reset();
 
-    setId({ value: "" });
-    setStartDate({ value: "" });
-    setEndDate({ value: "" });
-    setNoOfDays({ value: "" });
-    setInvoiceDate({ value: "" });
-    setKwh({ value: "" });
-    setMinKw({ value: "" });
-    setMaxKw({ value: "" });
-    setAvgKw({ value: "" });
-    setAvgKva({ value: "" });
-    setPf({ value: "" });
-    setMinPf({ value: "" });
-    setMaxPf({ value: "" });
-    setRate({ value: "" });
-    setEnergyRate({ value: "" });
-    setFuelRate({ value: "" });
-    setKvaRate({ value: "" });
-    setIppRate({ value: "" });
-    setIppVariableRate({ value: "" });
-    setIppFixedRate({ value: "" });
-    setEnergyCharge({ value: "" });
-    setFuelCharge({ value: "" });
-    setIppCharge({ value: "" });
-    setIppVariableCharge({ value: "" });
-    setIppFixedCharge({ value: "" });
-    setKvaCharge({ value: "" });
-    setCurrentCharges({ value: "" });
-    setSalesTax({ value: "" });
-
+    setId({ value: '' });
+    setStartDate({ value: '' });
+    setEndDate({ value: '' });
+    setNoOfDays({ value: '' });
+    setInvoiceDate({ value: '' });
+    setKwh({ value: '' });
+    setMinKw({ value: '' });
+    setMaxKw({ value: '' });
+    setAvgKw({ value: '' });
+    setAvgKva({ value: '' });
+    setPf({ value: '' });
+    setMinPf({ value: '' });
+    setMaxPf({ value: '' });
+    setRate({ value: '' });
+    setEnergyRate({ value: '' });
+    setFuelRate({ value: '' });
+    setKvaRate({ value: '' });
+    setIppRate({ value: '' });
+    setIppVariableRate({ value: '' });
+    setIppFixedRate({ value: '' });
+    setEnergyCharge({ value: '' });
+    setFuelCharge({ value: '' });
+    setIppCharge({ value: '' });
+    setIppVariableCharge({ value: '' });
+    setIppFixedCharge({ value: '' });
+    setKvaCharge({ value: '' });
+    setCurrentCharges({ value: '' });
+    setSalesTax({ value: '' });
   };
 
   const onSubmit = (data: any) => {
@@ -115,10 +111,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
       currentCharges: currentCharges.value,
       salesTax: salesTax.value,
     };
-
-
     onSubmitBaselineEntry(trueData);
-    //onSubmitBaselineEntry(data);
     clearForm();
   };
 
@@ -146,11 +139,9 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     const el = document.getElementById('baseline-start-date') as HTMLInputElement;
                     el.value = formattedValue;
                     setValue('startDate', formattedValue, { shouldValidate: true });
-
-
+                    setStartDate({ value: formattedValue });
                   }}
                 />
-
               </Field>
 
               <Field
@@ -160,8 +151,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                 error="End Date is required"
                 disabled={isSaving.value}
               >
-
-
                 <DatePickerWithInput
                   id="baseline-end-date"
                   placeholder="endDate"
@@ -171,6 +160,7 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
                     const el = document.getElementById('baseline-end-date') as HTMLInputElement;
                     el.value = formattedValue;
+                    setEndDate({ value: formattedValue });
                     setValue('endDate', formattedValue, { shouldValidate: true });
                   }}
                 />
@@ -201,7 +191,6 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                 error="Invoice Date is required"
                 disabled={isSaving.value}
               >
-
                 <DatePickerWithInput
                   id="edit-baseline-invoice-date"
                   placeholder="invoiceDate"
@@ -209,12 +198,12 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                   {...register('invoiceDate', { required: true, pattern: /\d{4}\-\d{2}\-\d{2}/g })}
                   onChange={(val) => {
                     const formattedValue = format(new Date(val.toString()), DATE_FORMAT);
-                    const el = document.getElementById('baseline-end-date') as HTMLInputElement;
+                    const el = document.getElementById('edit-baseline-invoice-date') as HTMLInputElement;
                     el.value = formattedValue;
+                    setInvoiceDate({ value: formattedValue });
                     setValue('invoiceDate', formattedValue, { shouldValidate: true });
                   }}
                 />
-
               </Field>
             </div>
             <PageToolbar title={`Readings`} className="no-margin" />

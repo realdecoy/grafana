@@ -18,18 +18,18 @@ export type ProductionVolumeDTO = {
   noOfStaffStoreReceival: string;
   noOfCustomersTotal: string;
   noOfCustomersStore: string;
-  noOftransactionstotal: string;
-  nooftransactionsitemdepartmenta: string;
-  nooftransactionsitemdepartmentb: string;
-  nooftransactionsitemdepartmentc: string;
-  nooftransactionsitemdepartmentd: string;
-  nooftransactionsitemdepartmente: string;
+  noOfTransactionsTotal: string;
+  noOfTransactionsItemDepartmentA: string;
+  noOfTransactionsItemDepartmentB: string;
+  noOfTransactionsItemDepartmentC: string;
+  noOfTransactionsItemDepartmentD: string;
+  noOfTransactionsItemDepartmentE: string;
   truckDeliveriesTotal: string;
-  truckDeliveriesTypea: string;
-  truckDeliveriesTypeb: string;
-  truckDeliveriesTypec: string;
-  truckDeliveriesTyped: string;
-  wareHouseHiProStore :string;
+  truckDeliveriesTypeA: string;
+  truckDeliveriesTypeB: string;
+  truckDeliveriesTypeC: string;
+  truckDeliveriesTypeD: string;
+  wareHouseHiProStore: string;
 };
 export class ProductionVolumeeDatasource {
   _get(url: string) {

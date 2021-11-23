@@ -6,6 +6,8 @@ import {
   baselineEntriesLoaded,
   setModalOpen,
   setEditBaselineModal,
+  setModalSaveOpen,
+  setAchievedId,
 } from './reducers';
 import { api } from '../api';
 
@@ -29,6 +31,7 @@ export function submitBaselineEntry(payload: BaselineEntryFields): ThunkResult<v
     console.log(`[ submit ]`, payload);
     dispatch(setUpdating({ updating: true }));
     await api.submitBaselineEntry(payload);
+    setModalSaveOpen({ open: true });
     dispatch(loadBaselineEntries());
     dispatch(setUpdating({ updating: false }));
   };
@@ -56,7 +59,17 @@ export function openEditModal(payload: number): ThunkResult<void> {
     dispatch(setEditBaselineModal({ id: payload }));
   };
 }
-
+export function openSaveModal(id: number): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(setAchievedId({ id: id }));
+    dispatch(setModalSaveOpen({ open: true }));
+  };
+}
+export function closeSaveModal(): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(setModalSaveOpen({ open: false }));
+  };
+}
 export function archiveBaseline(payload: number): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setUpdating({ updating: true }));
@@ -67,10 +80,10 @@ export function archiveBaseline(payload: number): ThunkResult<void> {
     } finally {
       dispatch(loadBaselineEntries());
       dispatch(setUpdating({ updating: false }));
+      dispatch(setModalSaveOpen({ open: false }));
     }
   };
 }
-
 export function closeEditModal(): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setModalOpen({ open: false }));
