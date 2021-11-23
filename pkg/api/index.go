@@ -408,12 +408,31 @@ func (hs *HTTPServer) getNavTree(c *models.ReqContext, hasEditPerm bool) ([]*dto
 		Children:     []*dtos.NavLink{},
 	})
 	
+	baselineChildNavs := []*dtos.NavLink{}
+
+	baselineChildNavs = append(baselineChildNavs, &dtos.NavLink{
+		Text:       "Energy Consumption",
+		Id:         "baseline",
+		Url:        hs.Cfg.AppSubURL + "/baseline",
+		Icon:       "graph-bar",
+		HideFromTabs: true,
+	})
+
+	baselineChildNavs = append(baselineChildNavs, &dtos.NavLink{
+		Text:       "Production Volume",
+		Id:         "production",
+		Url:        hs.Cfg.AppSubURL + "/production",
+		Icon:       "graph-bar",
+		HideFromTabs: true,
+	})
+
 	navTree = append(navTree, &dtos.NavLink{
 		Text:       "Baseline",
 		Id:         "baseline",
 		SubTitle:   "Baseline Data Entry",
 		Icon:       "graph-bar",
 		SortWeight: dtos.WeightDashboard,
+		Children:   baselineChildNavs,
 		Url:        hs.Cfg.AppSubURL + "/baseline",
 	})
 

@@ -19,6 +19,7 @@ export * from './query';
 export * from './preferences';
 export * from './accessControl';
 export * from './baseline';
+export * from './production';
 
 import * as CoreEvents from './events';
 export { CoreEvents };

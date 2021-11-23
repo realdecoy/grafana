@@ -16,6 +16,7 @@ import ldapReducers from 'app/features/admin/state/reducers';
 import templatingReducers from 'app/features/variables/state/reducers';
 import importDashboardReducers from 'app/features/manage-dashboards/state/reducers';
 import baselineReducers from 'app/features/baseline/state/reducers';
+import productionReducers from 'app/features/production/state/reducers';
 
 const rootReducers = {
   ...sharedReducers,
@@ -34,6 +35,7 @@ const rootReducers = {
   ...templatingReducers,
   ...importDashboardReducers,
   ...baselineReducers,
+  ...productionReducers,
 };
 
 const addedReducers = {};

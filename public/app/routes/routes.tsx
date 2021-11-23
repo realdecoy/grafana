@@ -530,6 +530,13 @@ export function getAppRoutes(): RouteDescriptor[] {
         () => import(/* webpackChunkName: "BaselineEntryPage" */ 'app/features/baseline/BaselineEntryPage')
       ),
     },
+    {
+      path: '/production',
+      // roles: () => ['Editor', 'Admin'],
+      component: SafeDynamicImport(
+        () => import(/* webpackChunkName: "BaselineEntryPage" */ 'app/features/production/ProductionEntryPage')
+      ),
+    },
     ...getPluginsAdminRoutes(),
     ...extraRoutes,
     {
