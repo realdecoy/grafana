@@ -303,8 +303,8 @@ const renderBaselineRecord = (ProductionVolumeEntry: ProductionVolumeDTO, openEd
         </a>
       </td>
       <td className="link-td max-width-10">
-        <a className="ellipsis" title={ProductionVolumeEntry.wareHouseHiProStore}>
-          {ProductionVolumeEntry.wareHouseHiProStore}
+        <a className="ellipsis" title={ProductionVolumeEntry.noOfStaffStoreWarehouse}>
+          {ProductionVolumeEntry.noOfStaffStoreWarehouse}
         </a>
       </td>
       <td className="link-td max-width-10">

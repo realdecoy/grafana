@@ -25,7 +25,7 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
   const [noOfStaffStorePharmacy, setNoOfStaffStorePharmacy] = useState({ value: '' });
   const [noOfStaffStoreSalesFloor, setNoOfStaffStoreSalesFloor] = useState({ value: '' });
   const [noOfStaffStoreReceival, setNoOfStaffStoreReceival] = useState({ value: '' });
-  const [wareHouseHiProStore, setWareHouseHiProStore] = useState({ value: '' });
+  const [noOfStaffStoreWarehouse, setNoOfStaffStoreWarehouse] = useState({ value: '' });
   const [noOfCustomersTotal, setNoOfCustomersTotal] = useState({ value: '' });
   const [noOfCustomersStore, setNoOfCustomersStore] = useState({ value: '' });
   const [noOfTransactionsTotal, setNoOftransactionstotal] = useState({ value: '' });
@@ -65,7 +65,7 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
       noOfStaffStorePharmacy: noOfStaffStorePharmacy.value,
       noOfStaffStoreSalesFloor: noOfStaffStoreSalesFloor.value,
       noOfStaffStoreReceival: noOfStaffStoreReceival.value,
-      wareHouseHiProStore: wareHouseHiProStore.value,
+      noOfStaffStoreWarehouse: noOfStaffStoreWarehouse.value,
       noOfCustomersTotal: noOfCustomersTotal.value,
       noOfCustomersStore: noOfCustomersStore.value,
       noOfTransactionsTotal: noOfTransactionsTotal.value,
@@ -168,6 +168,26 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                     const value = event?.currentTarget.value;
                     setStaffTotal({ value });
                     setValue('staffTotal', value);
+                  }}
+                />
+              </Field>
+              <br />
+              <Field
+                className="baseline-field"
+                label="HiPro store & office staff"
+                invalid={!!errors.hiproStore}
+                error="HiPro store & office staff is required [e.g. 24.53]"
+                disabled={isSavingBaselineEntry}
+              >
+                <Input
+                  {...register('noOfStaffStoreWarehouse', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="Production-hiproStore"
+                  placeholder="HiPro store & office staff"
+                  defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setNoOfStaffStoreWarehouse({ value });
+                    setValue('noOfStaffStoreWarehouse', value);
                   }}
                 />
               </Field>
@@ -326,18 +346,18 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
               <Field
                 className="baseline-field"
                 label="No of Staff - Store - Warehouse HiPro store & office staff"
-                invalid={!!errors.wareHouseHiProStore}
+                invalid={!!errors.noOfStaffStoreWarehouse}
                 error="Warehouse HiPro store  is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('wareHouseHiProStore', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-wareHouseHiProStore"
+                  {...register('noOfStaffStoreWarehouse', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfStaffStoreWarehouse"
                   placeholder=" Warehouse HiPro store & office staff"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
-                    setWareHouseHiProStore({ value });
+                    setNoOfStaffStoreWarehouse({ value });
                     setValue('wareHouseHiProStore', value);
                   }}
                 />
