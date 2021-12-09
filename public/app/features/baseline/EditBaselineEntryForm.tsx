@@ -84,7 +84,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
       salesTax: salesTax.value,
     };
 
-    openSaveModal();
+    openSaveModal(parseInt(trueData.id, 10));
     onSubmitBaselineEntry(trueData);
   };
 

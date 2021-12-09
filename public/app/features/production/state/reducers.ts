@@ -8,7 +8,7 @@ export interface ProductionEntryState {
   isUpdating: boolean;
   isModalOpen: boolean;
   isModalSaveOpen: boolean;
-  achievedId:number;
+  archivedId: number;
 }
 
 export const initialProductionEntryState: ProductionEntryState = {
@@ -18,7 +18,7 @@ export const initialProductionEntryState: ProductionEntryState = {
   isUpdating: false,
   isModalOpen: false,
   isModalSaveOpen: false,
-  achievedId:0,
+  archivedId: 0,
 };
 
 export const slice = createSlice({
@@ -38,8 +38,8 @@ export const slice = createSlice({
       console.log(action.payload.open);
       state.isModalSaveOpen = action.payload.open;
     },
-    setAchievedId: (state, action: PayloadAction<{ id: number }>) => {
-      state.achievedId = action.payload.id;
+    setArchivedId: (state, action: PayloadAction<{ id: number }>) => {
+      state.archivedId = action.payload.id;
     },
     initLoadingProductionEntries: (state, action: PayloadAction<undefined>) => {
       state.productionEntriesAreLoading = true;
@@ -62,7 +62,7 @@ export const {
   initLoadingProductionEntries,
   ProductionEntriesLoaded,
   setModalSaveOpen,
-  setAchievedId
+  setArchivedId,
 } = slice.actions;
 
 export const ProductionReducer = slice.reducer;

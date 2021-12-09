@@ -224,6 +224,10 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     const value = event?.currentTarget.value;
                     setKwh({ value });
                     setValue('kwh', value);
+                    // calculate energyCharge automatically if values present
+                    if (value.length > 0 && energyRate.value.length > 0) {
+                      setValue('energyCharge', parseFloat(value) * parseFloat(energyRate.value));
+                    }
                   }}
                 />
               </Field>
@@ -300,6 +304,10 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     const value = event?.currentTarget.value;
                     setAvgKva({ value });
                     setValue('avgKva', value);
+                    // calculate kvaCharge automatically if values present
+                    if (value.length > 0 && kvaRate.value.length > 0) {
+                      setValue('kvaCharge', parseFloat(value) * parseFloat(kvaRate.value));
+                    }
                   }}
                 />
               </Field>
@@ -398,6 +406,10 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     const value = event?.currentTarget.value;
                     setEnergyRate({ value });
                     setValue('energyRate', value);
+                    // calculate energyCharge automatically if values present
+                    if (value.length > 0 && kwh.value.length > 0) {
+                      setValue('energyCharge', parseFloat(value) * parseFloat(kwh.value));
+                    }
                   }}
                 />
               </Field>
@@ -436,6 +448,10 @@ export const BaselineEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBaselin
                     const value = event?.currentTarget.value;
                     setKvaRate({ value });
                     setValue('kvaRate', value);
+                    // calculate kvaCharge automatically if values present
+                    if (value.length > 0 && avgKva.value.length > 0) {
+                      setValue('kvaCharge', parseFloat(value) * parseFloat(avgKva.value));
+                    }
                   }}
                 />
               </Field>

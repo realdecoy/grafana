@@ -198,16 +198,16 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                 {...register('wareHouseStaff', { required: true, pattern: /^[0-9.-]+$/g })}
-                 id="Production-wareHouseStaff"
-                 placeholder="Warehouse Staff"
-                 defaultValue={''}
-                 onChange={(event) => {
-                   const value = event?.currentTarget.value;
-                   setWareHouseStaff({ value });
-                   setValue('wareHouseStaff', value);
-                  }} 
-                 />
+                  {...register('wareHouseStaff', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="Production-wareHouseStaff"
+                  placeholder="Warehouse Staff"
+                  defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setWareHouseStaff({ value });
+                    setValue('wareHouseStaff', value);
+                  }}
+                />
               </Field>
               <Field
                 className="baseline-field"

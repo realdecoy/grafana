@@ -32,7 +32,7 @@ function mapStateToProps(state: StoreState) {
     editProductionEntryId,
     productionEntries,
     productionEntriesAreLoading,
-    achievedId,
+    archivedId,
   } = productionEntryState;
   return {
     isUpdating,
@@ -41,7 +41,7 @@ function mapStateToProps(state: StoreState) {
     editProductionEntryId,
     productionEntries,
     productionEntriesAreLoading,
-    achievedId
+    archivedId,
   };
 }
 
@@ -64,7 +64,7 @@ export function ProductionEntryPage({
   isUpdating,
   isModalOpen,
   isModalSaveOpen,
-  achievedId,
+  archivedId,
   editProductionEntryId,
   productionEntries,
   productionEntriesAreLoading,
@@ -88,7 +88,7 @@ export function ProductionEntryPage({
           variant="primary"
           aria-label="Baseline entry submit button"
           onClick={() => {
-            archiveProduction( achievedId );
+            archiveProduction(archivedId);
           }}
         >
           Save
