@@ -272,6 +272,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                     const value = event?.currentTarget.value;
                     setKwh({ value });
                     setValue('kwh', value);
+                    // calculate energyCharge automatically if values present
+                    if (value.length > 0 && energyRate.value.length > 0) {
+                      const energyCharge = parseFloat(value) * parseFloat(energyRate.value);
+                      setEnergyCharge({ value: energyCharge.toString() });
+                    }
                   }}
                 />
               </Field>
@@ -348,6 +353,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                     const value = event?.currentTarget.value;
                     setAvgKva({ value });
                     setValue('avgKva', value);
+                    // calculate kvaCharge automatically if values present
+                    if (value.length > 0 && kvaRate.value.length > 0) {
+                      const kvaCharge = parseFloat(value) * parseFloat(kvaRate.value);
+                      setKvaCharge({ value: kvaCharge.toString() });
+                    }
                   }}
                 />
               </Field>
@@ -446,6 +456,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                     const value = event?.currentTarget.value;
                     setEnergyRate({ value });
                     setValue('energyRate', value);
+                    // calculate energyCharge automatically if values present
+                    if (value.length > 0 && kwh.value.length > 0) {
+                      const energyCharge = parseFloat(value) * parseFloat(kwh.value);
+                      setEnergyCharge({ value: energyCharge.toString() });
+                    }
                   }}
                 />
               </Field>
@@ -484,6 +499,11 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                     const value = event?.currentTarget.value;
                     setKvaRate({ value });
                     setValue('kvaRate', value);
+                    // calculate kvaCharge automatically if values present
+                    if (value.length > 0 && avgKva.value.length > 0) {
+                      const kvaCharge = parseFloat(value) * parseFloat(avgKva.value);
+                      setKvaCharge({ value: kvaCharge.toString() });
+                    }
                   }}
                 />
               </Field>
