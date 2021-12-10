@@ -26,5 +26,5 @@ export type ProductionEntryFields = {
   truckDeliveriesTypeB: string;
   truckDeliveriesTypeC: string;
   truckDeliveriesTypeD: string;
-  wareHouseHiProStore: string;
+  noOfStaffStoreWarehouse: string;
 };

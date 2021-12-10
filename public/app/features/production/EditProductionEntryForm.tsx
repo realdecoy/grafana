@@ -25,7 +25,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
   const [noOfStaffStorePharmacy, setNoOfStaffStorePharmacy] = useState({ value: '' });
   const [noOfStaffStoreSalesFloor, setNoOfStaffStoreSalesFloor] = useState({ value: '' });
   const [noOfStaffStoreReceival, setNoOfStaffStoreReceival] = useState({ value: '' });
-  const [wareHouseHiProStore, setWareHouseHiProStore] = useState({ value: '' });
+  const [noOfStaffStoreWarehouse, setWareHouseHiProStore] = useState({ value: '' });
   const [noOfCustomersTotal, setNoOfCustomersTotal] = useState({ value: '' });
   const [noOfCustomersStore, setNoOfCustomersStore] = useState({ value: '' });
   const [noOfTransactionsTotal, setNoOftransactionstotal] = useState({ value: '' });
@@ -68,7 +68,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
       noOfStaffStorePharmacy: noOfStaffStorePharmacy.value,
       noOfStaffStoreSalesFloor: noOfStaffStoreSalesFloor.value,
       noOfStaffStoreReceival: noOfStaffStoreReceival.value,
-      wareHouseHiProStore: wareHouseHiProStore.value,
+      noOfStaffStoreWarehouse: noOfStaffStoreWarehouse.value,
       noOfCustomersTotal: noOfCustomersTotal.value,
       noOfCustomersStore: noOfCustomersStore.value,
       noOfTransactionsTotal: noOfTransactionsTotal.value,
@@ -101,7 +101,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
     setNoOfStaffStorePharmacy({ value: existingBaseline.noOfStaffStorePharmacy as string });
     setNoOfStaffStoreSalesFloor({ value: existingBaseline.noOfStaffStoreSalesFloor as string });
     setNoOfStaffStoreReceival({ value: existingBaseline.noOfStaffStoreReceival as string });
-    setWareHouseHiProStore({ value: existingBaseline.wareHouseHiProStore as string });
+    setWareHouseHiProStore({ value: existingBaseline.noOfStaffStoreWarehouse as string });
     setNoOfCustomersTotal({ value: existingBaseline.noOfCustomersTotal as string });
     setNoOfCustomersStore({ value: existingBaseline.noOfCustomersStore as string });
     setNoOftransactionstotal({ value: existingBaseline.noOfTransactionsTotal as string });
@@ -134,7 +134,7 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
         setValue('noOfStaffStorePharmacy', noOfStaffStorePharmacy.value);
         setValue('noOfStaffStoreSalesFloor', noOfStaffStoreSalesFloor.value);
         setValue('noOfStaffStoreReceival', noOfStaffStoreReceival.value);
-        setValue('wareHouseHiProStore', wareHouseHiProStore.value);
+        setValue('noOfStaffStoreWarehouse', noOfStaffStoreWarehouse.value);
         setValue('noOfCustomersTotal', noOfCustomersTotal.value);
         setValue('noOfCustomersStore', noOfCustomersStore.value);
         setValue('noOfTransactionsTotal', noOfTransactionsTotal.value);
@@ -198,16 +198,16 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                 {...register('wareHouseStaff', { required: true, pattern: /^[0-9.-]+$/g })}
-                 id="Production-wareHouseStaff"
-                 placeholder="Warehouse Staff"
-                 defaultValue={''}
-                 onChange={(event) => {
-                   const value = event?.currentTarget.value;
-                   setWareHouseStaff({ value });
-                   setValue('wareHouseStaff', value);
-                  }} 
-                 />
+                  {...register('wareHouseStaff', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="Production-wareHouseStaff"
+                  placeholder="Warehouse Staff"
+                  defaultValue={''}
+                  onChange={(event) => {
+                    const value = event?.currentTarget.value;
+                    setWareHouseStaff({ value });
+                    setValue('wareHouseStaff', value);
+                  }}
+                />
               </Field>
               <Field
                 className="baseline-field"
@@ -422,19 +422,19 @@ export const EditBaselineEntryForm: FC<Props> = ({ existingBaseline, isSavingBas
               <Field
                 className="baseline-field"
                 label="No of Staff - Store - Warehouse HiPro store & office staff"
-                invalid={!!errors.wareHouseHiProStore}
+                invalid={!!errors.noOfStaffStoreWarehouse}
                 error="Warehouse HiPro store  is required [e.g. 24.53]"
                 disabled={isSavingBaselineEntry}
               >
                 <Input
-                  {...register('wareHouseHiProStore', { required: true, pattern: /^[0-9.-]+$/g })}
-                  id="baseline-wareHouseHiProStore"
+                  {...register('noOfStaffStoreWarehouse', { required: true, pattern: /^[0-9.-]+$/g })}
+                  id="baseline-noOfStaffStoreWarehouse"
                   placeholder=" Warehouse HiPro store & office staff"
                   defaultValue={''}
                   onChange={(event) => {
                     const value = event?.currentTarget.value;
                     setWareHouseHiProStore({ value });
-                    setValue('wareHouseHiProStore', value);
+                    setValue('noOfStaffStoreWarehouse', value);
                   }}
                 />
               </Field> */}

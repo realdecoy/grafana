@@ -29,7 +29,7 @@ export type ProductionVolumeDTO = {
   truckDeliveriesTypeB: string;
   truckDeliveriesTypeC: string;
   truckDeliveriesTypeD: string;
-  wareHouseHiProStore: string;
+  noOfStaffStoreWarehouse: string;
 };
 export class ProductionVolumeeDatasource {
   _get(url: string) {
