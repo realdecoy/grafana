@@ -27,7 +27,7 @@ node_modules: package.json yarn.lock ## Install node modules.
 
 ##@ Building
 
-build-go: ## Build all Go binaries.
+build-go: ## Build all Go binaries. 
 	@echo "build go files"
 	$(GO) run build.go build
 
