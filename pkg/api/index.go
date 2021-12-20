@@ -154,6 +154,7 @@ func (hs *HTTPServer) getNavTree(c *models.ReqContext, hasEditPerm bool) ([]*dto
 	}
 
 	canSeeAll := c.OrgRole == models.ROLE_ADMIN
+	isNotClient := c.Email != "hipro@corewatts.com"
 
 	dashboardChildNavs := []*dtos.NavLink{}
 
@@ -426,15 +427,17 @@ func (hs *HTTPServer) getNavTree(c *models.ReqContext, hasEditPerm bool) ([]*dto
 		HideFromTabs: true,
 	})
 
-	navTree = append(navTree, &dtos.NavLink{
-		Text:       "Baseline",
-		Id:         "baseline",
-		SubTitle:   "Baseline Data Entry",
-		Icon:       "graph-bar",
-		SortWeight: dtos.WeightDashboard,
-		Children:   baselineChildNavs,
-		Url:        hs.Cfg.AppSubURL + "/baseline",
-	})
+	if isNotClient {
+		navTree = append(navTree, &dtos.NavLink{
+			Text:       "Baseline",
+			Id:         "baseline",
+			SubTitle:   "Baseline Data Entry",
+			Icon:       "graph-bar",
+			SortWeight: dtos.WeightDashboard,
+			Children:   baselineChildNavs,
+			Url:        hs.Cfg.AppSubURL + "/baseline",
+		})
+	}
 
 	return navTree, nil
 }
