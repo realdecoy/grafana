@@ -1,4 +1,6 @@
-import moment from 'moment'; // eslint-disable-line no-restricted-imports
+// import moment from 'moment'; // eslint-disable-line no-restricted-imports
+import { SafeDynamicImport } from 'app/core/components/DynamicImports/SafeDynamicImport';
+const moment = SafeDynamicImport(() => import(/* webpackChunkName: "moment" */ 'moment'));
 // eslint-disable-next-line lodash/import-scope
 import _, { isFunction } from 'lodash';
 import $ from 'jquery';
@@ -12,7 +14,7 @@ import { getBackendSrv, locationService } from '@grafana/runtime';
 import { appEvents } from '../../../core/core';
 
 export class DashboardLoaderSrv {
-  constructor() {}
+  constructor() { }
   _dashboardLoadFailed(title: string, snapshot?: boolean) {
     snapshot = snapshot || false;
     return {

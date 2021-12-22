@@ -2,7 +2,9 @@
 import _ from 'lodash';
 import * as sdk from 'app/plugins/sdk';
 import kbn from 'app/core/utils/kbn';
-import moment from 'moment'; // eslint-disable-line no-restricted-imports
+// import moment from 'moment'; // eslint-disable-line no-restricted-imports
+import { SafeDynamicImport } from 'app/core/components/DynamicImports/SafeDynamicImport';
+const moment = SafeDynamicImport(() => import(/* webpackChunkName: "moment" */ 'moment'));
 import angular from 'angular';
 import jquery from 'jquery';
 
