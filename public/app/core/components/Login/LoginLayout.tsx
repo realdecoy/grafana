@@ -97,7 +97,8 @@ export const getLoginStyles = (theme: GrafanaTheme2) => {
       width: 100%;
     `,
     loginLogo: css`
-      width: 100%;
+      width: 120px;
+      height: 94px;
       max-width: 120px;
       margin-bottom: 15px;
     `,
