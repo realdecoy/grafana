@@ -18,6 +18,7 @@ import BaselineEntryForm from './BaselineEntryForm';
 import EditBaselineEntryForm from './EditBaselineEntryForm';
 import { getLoginStyles } from 'app/core/components/Login/LoginLayout';
 import { Branding } from 'app/core/components/Branding/Branding';
+import DataTable from 'react-data-table-component';
 
 export interface OwnProps {
   onDismiss: () => void;
@@ -81,6 +82,146 @@ export function BaselineEntryPage({
 
   const loginStyles = useStyles2(getLoginStyles);
 
+  const columns =  [
+    {
+      name: 'No',
+      selector: (row: { id: String }) => row.id,
+      sortable: true,
+    },
+    {
+      name: 'Date',
+      selector: (row: { day: String }) => format(Number(row.day) * 1000, 'yyyy-MM-dd'),
+      sortable: true,
+    },
+    {
+      name: 'Invoice Date',
+      selector: (row: { wareHouseStaff: String }) => row.wareHouseStaff,
+      minWidth:'300px',
+    },
+    {
+      name: 'No. of Days',
+      selector: (row: { storeEmployees: String }) => row.storeEmployees,
+      minWidth:'300px',
+    },
+    {
+      name: 'Kilowatt-hour',
+      selector: (row: { staffTotal: String }) => row.staffTotal,
+      minWidth:'300px',
+    },
+    {
+      name: 'KWh (Normalized)	',
+      selector: '',
+      minWidth:'300px',
+    },
+    {
+      name: 'Min. kW',
+      selector: (row: { noOfStaffOfficeAccounts: String }) => row.noOfStaffOfficeAccounts,
+      minWidth:'300px',
+    },
+    {
+      name: 'Max. kW',
+      selector: (row: { noOfStaffOfficeGroupPurchasing: String }) => row.noOfStaffOfficeGroupPurchasing,
+      minWidth:'300px',
+    },
+    {
+      name: 'Avg. kW',
+      selector: (row: { noOfStaffOfficeStorePurchasing: String }) => row.noOfStaffOfficeStorePurchasing,
+      minWidth:'300px',
+    },
+    {
+      name: 'Avg. kVA',
+      selector: (row: { noOfStaffStoreCashiers: String }) => row.noOfStaffStoreCashiers,
+      minWidth:'300px',
+    },
+    {
+      name: 'PF',
+      selector: (row: { noOfStaffStoreCustomerService: String }) => row.noOfStaffStoreCustomerService,
+      minWidth:'300px',
+    },
+    {
+      name: 'Min. PF',
+      selector: (row: { noOfStaffStorePharmacy: String }) => row.noOfStaffStorePharmacy,
+      minWidth:'300px',
+    },
+    {
+      name: 'Max. PF',
+      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
+      minWidth:'300px',
+    },
+    {
+      name: 'Rate',
+      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
+      minWidth:'300px',
+    },
+    {
+      name: 'Energy Rate',
+      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
+      minWidth:'300px',
+    },
+    {
+      name: 'Fuel Rate',
+      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
+      minWidth:'300px',
+    },
+    {
+      name: 'KVA Rate',
+      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
+      minWidth:'300px',
+    },
+    {
+      name: 'Fuel & IPP Rate',
+      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
+      minWidth:'300px',
+    },
+    {
+      name: 'Fuel Charge',
+      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
+      minWidth:'300px',
+    },
+    {
+      name: 'IPP Var. Rate',
+      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
+      minWidth:'300px',
+    },
+    {
+      name: 'Actions',
+      cell: (row: { id: number }) => (
+        <>
+        <Icon
+          name="pen"
+          title="Edit Baseline"
+          onClick={() => {
+            openEditModal(row.id);
+          }}
+        />
+        <Icon
+          className="archive-link"
+          name="folder-upload"
+          title="Archive Baseline"
+          onClick={() => {
+            openSaveModal(row.id);
+          }}
+        />
+      </>
+      )
+      
+    }
+  ];
+
+
+  const conditionalRowStyles = [
+    {
+      when: (row: { id: number; }) => row.id % 2 == 0,
+       style: {
+      backgroundColor: 'lightslategray',
+      color: 'white',
+      '&:hover': {
+        cursor: 'pointer',
+      },
+    },
+    },
+  ];
+
   return (
     <div className="baseline-entry">
       <Modal title="Archive Baseline" icon="save" onDismiss={closeSaveModal} isOpen={isModalSaveOpen}>
@@ -120,52 +261,21 @@ export function BaselineEntryPage({
             : 'baseline-entry-table-container'
         }
       >
-        <table className="baseline-entry-table filter-table form-inline filter-table--hover">
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>
-                Start Date&nbsp;
-                {/* <Tooltip placement="top" content="Start Date">
-                  <Icon name="shield" />
-                </Tooltip> */}
-              </th>
-              <th>End Date</th>
-              <th>Invoice Date</th>
-              <th>No. of Days</th>
-              <th>Kilowatt-hour</th>
-              <th>KWh (Normalized)</th>
-              <th>Min. kW</th>
-              <th>Max. kW</th>
-              <th>Avg. kW</th>
-              <th>Avg. kVA</th>
-              <th>PF</th>
-              <th>Min. PF</th>
-              <th>Max. PF</th>
-              <th>Rate</th>
-              <th>Energy Rate</th>
-              <th>Fuel Rate</th>
-              <th>KVA Rate</th>
-              <th>KVA Charge</th>
-              <th>Fuel & IPP Rate</th>
-              <th>Fuel & IPP Charge</th>
-              <th>Fuel Charge</th>
-              <th>IPP Var. Rate</th>
-              <th>IPP Fixed Rate</th>
-              <th>IPP Var. Charge</th>
-              <th>IPP Fixed Charge</th>
-              <th>Energy Charge</th>
-              <th>Current Charges</th>
-              <th>Sales Tax</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {baselineEntries.map((p: BaselineDTO) => {
-              return renderBaselineRecord(p, openEditModal, openSaveModal);
-            })}
-          </tbody>
-        </table>
+        
+       
+       <DataTable
+         fixedHeader
+         fixedHeaderScrollHeight="500px"
+         pagination
+         responsive
+         subHeaderWrap
+         columns={columns}
+         data={baselineEntries}
+         conditionalRowStyles={conditionalRowStyles}
+         />
+         
+     </div>
+           
         {renderLoadingBaselineEntries(baselineEntriesAreLoading, isUpdating)}
       </div>
       {renderEditBaselineEntryModal(
