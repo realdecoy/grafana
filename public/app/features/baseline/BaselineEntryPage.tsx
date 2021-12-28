@@ -19,6 +19,7 @@ import EditBaselineEntryForm from './EditBaselineEntryForm';
 import { getLoginStyles } from 'app/core/components/Login/LoginLayout';
 import { Branding } from 'app/core/components/Branding/Branding';
 import DataTable from 'react-data-table-component';
+import { format } from 'date-fns';
 
 export interface OwnProps {
   onDismiss: () => void;
@@ -82,129 +83,175 @@ export function BaselineEntryPage({
 
   const loginStyles = useStyles2(getLoginStyles);
 
-  const columns =  [
+  const columns = [
     {
       name: 'No',
       selector: (row: { id: String }) => row.id,
       sortable: true,
     },
     {
-      name: 'Date',
-      selector: (row: { day: String }) => format(Number(row.day) * 1000, 'yyyy-MM-dd'),
+      name: 'Start Date',
+      selector: (row: { startDate: String }) => format(Number(row.startDate) * 1000, 'yyyy-MM-dd'),
       sortable: true,
     },
     {
+      name: 'End Date',
+      selector: (row: { endDate: String }) => format(Number(row.endDate) * 1000, 'yyyy-MM-dd'),
+      minWidth: '300px',
+    },
+    {
       name: 'Invoice Date',
-      selector: (row: { wareHouseStaff: String }) => row.wareHouseStaff,
-      minWidth:'300px',
+      selector: (row: { invoiceDate: String }) => format(Number(row.invoiceDate) * 1000, 'yyyy-MM-dd'),
+      minWidth: '300px',
     },
     {
       name: 'No. of Days',
-      selector: (row: { storeEmployees: String }) => row.storeEmployees,
-      minWidth:'300px',
+      selector: (row: { noOfDays: String }) => row.noOfDays,
+      minWidth: '300px',
     },
     {
       name: 'Kilowatt-hour',
-      selector: (row: { staffTotal: String }) => row.staffTotal,
-      minWidth:'300px',
+      selector: (row: { kwh: String }) => row.kwh,
+      minWidth: '300px',
     },
     {
       name: 'KWh (Normalized)	',
-      selector: '',
-      minWidth:'300px',
+      selector: (row: { kwhNormalized: String }) => row.kwhNormalized,
+      minWidth: '300px',
     },
     {
       name: 'Min. kW',
-      selector: (row: { noOfStaffOfficeAccounts: String }) => row.noOfStaffOfficeAccounts,
-      minWidth:'300px',
+      selector: (row: { minKw: String }) => row.minKw,
+      minWidth: '300px',
     },
     {
       name: 'Max. kW',
-      selector: (row: { noOfStaffOfficeGroupPurchasing: String }) => row.noOfStaffOfficeGroupPurchasing,
-      minWidth:'300px',
+      selector: (row: { maxKw: String }) => row.maxKw,
+      minWidth: '300px',
     },
     {
       name: 'Avg. kW',
-      selector: (row: { noOfStaffOfficeStorePurchasing: String }) => row.noOfStaffOfficeStorePurchasing,
-      minWidth:'300px',
+      selector: (row: { avgKw: String }) => row.avgKw,
+      minWidth: '300px',
     },
     {
       name: 'Avg. kVA',
-      selector: (row: { noOfStaffStoreCashiers: String }) => row.noOfStaffStoreCashiers,
-      minWidth:'300px',
+      selector: (row: { avgKva: String }) => row.avgKva,
+      minWidth: '300px',
     },
     {
       name: 'PF',
-      selector: (row: { noOfStaffStoreCustomerService: String }) => row.noOfStaffStoreCustomerService,
-      minWidth:'300px',
+      selector: (row: { pf: String }) => row.pf,
+      minWidth: '300px',
     },
     {
       name: 'Min. PF',
-      selector: (row: { noOfStaffStorePharmacy: String }) => row.noOfStaffStorePharmacy,
-      minWidth:'300px',
+      selector: (row: { minPf: String }) => row.minPf,
+      minWidth: '300px',
     },
     {
       name: 'Max. PF',
-      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
-      minWidth:'300px',
+      selector: (row: { maxPf: String }) => row.maxPf,
+      minWidth: '300px',
     },
     {
       name: 'Rate',
-      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
-      minWidth:'300px',
+      selector: (row: { rate: String }) => row.rate,
+      minWidth: '300px',
     },
     {
       name: 'Energy Rate',
-      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
-      minWidth:'300px',
+      selector: (row: { energyRate: String }) => row.energyRate,
+      minWidth: '300px',
     },
     {
       name: 'Fuel Rate',
-      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
-      minWidth:'300px',
+      selector: (row: { fuelRate: String }) => row.fuelRate,
+      minWidth: '300px',
     },
     {
       name: 'KVA Rate',
-      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
-      minWidth:'300px',
+      selector: (row: { ippRate: String }) => row.ippRate,
+      minWidth: '300px',
     },
     {
       name: 'Fuel & IPP Rate',
-      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
+      selector: (row: { kvaRate: String }) => row.kvaRate,
+      minWidth: '300px',
+    },
+    {
+      name: 'Fuel Charge',
+      selector: (row: { ippVariableRate: String }) => row.ippVariableRate,
+      minWidth: '300px',
+    },
+    {
+      name: 'IPP Var. Rate',
+      selector: (row: { ippFixedRate: String }) => row.ippFixedRate,
+      minWidth: '300px',
+    },
+    {
+      name: 'IPP Var. Rate',
+      selector: (row: { ippFixedRate: String }) => row.ippFixedRate,
+      minWidth: '300px',
+    },
+
+    {
+      name: 'IPP Var. Rate',
+      selector: (row: { ippVariableCharge: String }) => row.ippVariableCharge,
+      minWidth: '300px',
+    },
+    {
+      name: 'IPP Fixed Charge',
+      selector: (row: { ippFixedCharge: String }) => row.ippFixedCharge,
+      minWidth: '300px',
+    },
+    {
+      name: 'Energy Charge',
+      selector: (row: { energyCharge: String }) => row.energyCharge,
+      minWidth: '300px',
+    },
+    {
+      name: 'Kva Charge',
+      selector: (row: { kvaCharge: String }) => row.kvaCharge,
       minWidth:'300px',
     },
     {
       name: 'Fuel Charge',
-      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
+      selector: (row: { fuelCharge: String }) => row.fuelCharge,
       minWidth:'300px',
     },
     {
-      name: 'IPP Var. Rate',
-      selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
+      name: 'Current Charges',
+      selector: (row: { currentCharges: String }) => row.currentCharges,
+      minWidth:'300px',
+    },
+    {
+      name: 'Sales Tax',
+      selector: (row: { salesTax: String }) => row.salesTax,
       minWidth:'300px',
     },
     {
       name: 'Actions',
       cell: (row: { id: number }) => (
         <>
-        <Icon
-          name="pen"
-          title="Edit Baseline"
-          onClick={() => {
-            openEditModal(row.id);
-          }}
-        />
-        <Icon
-          className="archive-link"
-          name="folder-upload"
-          title="Archive Baseline"
-          onClick={() => {
-            openSaveModal(row.id);
-          }}
-        />
-      </>
+          <Icon
+            name="pen"
+            title="Edit Baseline"
+            onClick={() => {
+              openEditModal(row.id);
+            }}
+          />
+          <Icon
+            className="archive-link"
+            name="folder-upload"
+            title="Archive Baseline"
+            onClick={() => {
+              openSaveModal(row.id);
+            }}
+          />
+        </>
       )
-      
+
     }
   ];
 
@@ -212,13 +259,13 @@ export function BaselineEntryPage({
   const conditionalRowStyles = [
     {
       when: (row: { id: number; }) => row.id % 2 == 0,
-       style: {
-      backgroundColor: 'lightslategray',
-      color: 'white',
-      '&:hover': {
-        cursor: 'pointer',
+      style: {
+        backgroundColor: 'lightslategray',
+        color: 'white',
+        '&:hover': {
+          cursor: 'pointer',
+        },
       },
-    },
     },
   ];
 
@@ -261,21 +308,21 @@ export function BaselineEntryPage({
             : 'baseline-entry-table-container'
         }
       >
-        
-       
-       <DataTable
-         fixedHeader
-         fixedHeaderScrollHeight="500px"
-         pagination
-         responsive
-         subHeaderWrap
-         columns={columns}
-         data={baselineEntries}
-         conditionalRowStyles={conditionalRowStyles}
-         />
-         
-     </div>
-           
+
+
+        <DataTable
+          fixedHeader
+          fixedHeaderScrollHeight="500px"
+          pagination
+          responsive
+          subHeaderWrap
+          columns={columns}
+          data={baselineEntries}
+          conditionalRowStyles={conditionalRowStyles}
+        />
+
+      </div>
+      <div>
         {renderLoadingBaselineEntries(baselineEntriesAreLoading, isUpdating)}
       </div>
       {renderEditBaselineEntryModal(
