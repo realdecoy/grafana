@@ -91,17 +91,17 @@ export function BaselineEntryPage({
     },
     {
       name: 'Start Date',
-      selector: (row: { startDate: String }) => format(Number(row.startDate) * 1000, 'yyyy-MM-dd'),
+      selector: (row: { startDate: String }) => row.startDate,
       sortable: true,
     },
     {
       name: 'End Date',
-      selector: (row: { endDate: String }) => format(Number(row.endDate) * 1000, 'yyyy-MM-dd'),
+      selector: (row: { endDate: String }) => row.endDate,
       minWidth: '300px',
     },
     {
       name: 'Invoice Date',
-      selector: (row: { invoiceDate: String }) => format(Number(row.invoiceDate) * 1000, 'yyyy-MM-dd'),
+      selector: (row: { invoiceDate: String }) => row.invoiceDate,
       minWidth: '300px',
     },
     {
