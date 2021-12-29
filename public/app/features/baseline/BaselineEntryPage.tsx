@@ -91,19 +91,19 @@ export function BaselineEntryPage({
     },
     {
       name: 'Start Date',
-      selector: (row: { startDate: string }) => format (new Date(row.startDate),'yyyy-MM-dd'),
+      selector: (row: { startDate: string }) => format(new Date(row.startDate), 'yyyy-MM-dd'),
       sortable: true,
       minWidth: '300px',
     },
     {
       name: 'End Date',
-      selector: (row: { endDate: string }) =>  format (new Date(row.endDate),'yyyy-MM-dd'),
+      selector: (row: { endDate: string }) => format(new Date(row.endDate), 'yyyy-MM-dd'),
       minWidth: '300px',
       sortable: true,
     },
     {
       name: 'Invoice Date',
-      selector: (row: { invoiceDate: string }) =>  format (new Date(row.invoiceDate),'yyyy-MM-dd'),
+      selector: (row: { invoiceDate: string }) => format(new Date(row.invoiceDate), 'yyyy-MM-dd'),
       minWidth: '300px',
       sortable: true,
     },
@@ -216,22 +216,22 @@ export function BaselineEntryPage({
     {
       name: 'Kva Charge',
       selector: (row: { kvaCharge: number }) => new Intl.NumberFormat().format(row.kvaCharge),
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'Fuel Charge',
       selector: (row: { fuelCharge: number }) => new Intl.NumberFormat().format(row.fuelCharge),
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'Current Charges',
       selector: (row: { currentCharges: number }) => new Intl.NumberFormat().format(row.currentCharges),
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'Sales Tax',
       selector: (row: { salesTax: number }) => new Intl.NumberFormat().format(row.salesTax),
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'Actions',
@@ -253,17 +253,15 @@ export function BaselineEntryPage({
             }}
           />
         </>
-      )
-
-    }
+      ),
+    },
   ];
-
 
   const conditionalRowStyles = [
     {
-      when: (row: { id: number; }) => row.id % 2 == 0,
+      when: (row: { id: number }) => row.id % 2 === 0,
       style: {
-        backgroundColor: 'lightslategray',
+        backgroundColor: '#00000029',
         color: 'white',
         '&:hover': {
           cursor: 'pointer',
@@ -311,8 +309,6 @@ export function BaselineEntryPage({
             : 'baseline-entry-table-container'
         }
       >
-
-
         <DataTable
           fixedHeader
           fixedHeaderScrollHeight="500px"
@@ -323,11 +319,8 @@ export function BaselineEntryPage({
           data={baselineEntries}
           conditionalRowStyles={conditionalRowStyles}
         />
-
       </div>
-      <div>
-        {renderLoadingBaselineEntries(baselineEntriesAreLoading, isUpdating)}
-      </div>
+      <div>{renderLoadingBaselineEntries(baselineEntriesAreLoading, isUpdating)}</div>
       {renderEditBaselineEntryModal(
         baselineEntriesAreLoading,
         isUpdating,
@@ -387,175 +380,6 @@ const renderEditBaselineEntryModal = (
     );
   }
   return el;
-};
-
-const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any, openSaveModal: any) => {
-  return (
-    <tr key={baselineEntry.id}>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.id}>
-          {baselineEntry.id}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.startDate}>
-          {baselineEntry.startDate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.endDate}>
-          {baselineEntry.endDate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.invoiceDate}>
-          {baselineEntry.invoiceDate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfDays}>
-          {baselineEntry.noOfDays}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kwh}>
-          {baselineEntry.kwh}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kwhNormalized}>
-          {baselineEntry.kwhNormalized}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.minKw}>
-          {baselineEntry.minKw}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.maxKw}>
-          {baselineEntry.maxKw}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.avgKw}>
-          {baselineEntry.avgKw}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.avgKva}>
-          {baselineEntry.avgKva}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.pf}>
-          {baselineEntry.pf}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.minPf}>
-          {baselineEntry.minPf}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.maxPf}>
-          {baselineEntry.maxPf}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.rate}>
-          {baselineEntry.rate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.energyRate}>
-          {baselineEntry.energyRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.fuelRate}>
-          {baselineEntry.fuelRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kvaRate}>
-          {baselineEntry.kvaRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kvaCharge}>
-          {baselineEntry.kvaCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippRate}>
-          {baselineEntry.ippRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippCharge}>
-          {baselineEntry.ippCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.fuelCharge}>
-          {baselineEntry.fuelCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippVariableRate}>
-          {baselineEntry.ippVariableRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippFixedRate}>
-          {baselineEntry.ippFixedRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippVariableCharge}>
-          {baselineEntry.ippVariableCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippFixedCharge}>
-          {baselineEntry.ippFixedCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.energyCharge}>
-          {baselineEntry.energyCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.currentCharges}>
-          {baselineEntry.currentCharges}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.salesTax}>
-          {baselineEntry.salesTax}
-        </a>
-      </td>
-      <td className="link-td">
-        <Icon
-          name="pen"
-          title="Edit Baseline"
-          onClick={() => {
-            openEditModal(baselineEntry.id);
-          }}
-        />
-        <Icon
-          className="archive-link"
-          name="folder-upload"
-          title="Archive Baseline"
-          onClick={() => {
-            openSaveModal();
-          }}
-        />
-      </td>
-    </tr>
-  );
 };
 
 export default hot(module)(connector(BaselineEntryPage));

@@ -22,7 +22,6 @@ import { format } from 'date-fns';
 
 import DataTable from 'react-data-table-component';
 
-
 export interface OwnProps {
   onDismiss: () => void;
 }
@@ -84,11 +83,7 @@ export function ProductionEntryPage({
   useMount(() => initProductionEntryPage());
 
   const loginStyles = useStyles2(getLoginStyles);
-
-
-  
-
-  const columns =  [
+  const columns = [
     {
       name: 'No',
       selector: (row: { id: String }) => row.id,
@@ -102,172 +97,169 @@ export function ProductionEntryPage({
     {
       name: 'Warehouse staff',
       selector: (row: { wareHouseStaff: String }) => row.wareHouseStaff,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'Store Employees / Staff',
       selector: (row: { storeEmployees: String }) => row.storeEmployees,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'Staff - Total',
       selector: (row: { staffTotal: String }) => row.staffTotal,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'HiPro store & office staff	',
       selector: '',
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of staff – Office - Sales',
       selector: (row: { noOfStaffOfficeAccounts: String }) => row.noOfStaffOfficeAccounts,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of staff – Office - Accounts',
       selector: (row: { noOfStaffOfficeGroupPurchasing: String }) => row.noOfStaffOfficeGroupPurchasing,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of staff – Office - Group Purchasing',
       selector: (row: { noOfStaffOfficeStorePurchasing: String }) => row.noOfStaffOfficeStorePurchasing,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No of Staff - Store - Cashiers',
       selector: (row: { noOfStaffStoreCashiers: String }) => row.noOfStaffStoreCashiers,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of staff – Store - Customer Service',
       selector: (row: { noOfStaffStoreCustomerService: String }) => row.noOfStaffStoreCustomerService,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No of Staff - Store - Pharmacy',
       selector: (row: { noOfStaffStorePharmacy: String }) => row.noOfStaffStorePharmacy,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No of Staff - Store - Sales Floor',
       selector: (row: { noOfStaffStoreSalesFloor: String }) => row.noOfStaffStoreSalesFloor,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No of Staff - Store - Receival',
       selector: (row: { noOfStaffStoreReceival: String }) => row.noOfStaffStoreReceival,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'HiPro store & office staff',
       selector: 'N/A',
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of customers - Total',
       selector: (row: { noOfCustomersTotal: String }) => row.noOfCustomersTotal,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of customers - Store',
       selector: (row: { noOfCustomersStore: String }) => row.noOfCustomersStore,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of transactions – Total',
       selector: (row: { noOfTransactionsTotal: String }) => row.noOfTransactionsTotal,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of transactions Item/Department – A',
       selector: (row: { noOfTransactionsItemDepartmentA: String }) => row.noOfTransactionsItemDepartmentA,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of transactions Item/Department – B',
       selector: (row: { noOfTransactionsItemDepartmentB: String }) => row.noOfTransactionsItemDepartmentB,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of transactions Item/Department – C',
       selector: (row: { noOfTransactionsItemDepartmentC: String }) => row.noOfTransactionsItemDepartmentC,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of transactions Item/Department – D',
       selector: (row: { noOfTransactionsItemDepartmentD: String }) => row.noOfTransactionsItemDepartmentD,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'No. of transactions Item/Department - E',
       selector: (row: { noOfTransactionsItemDepartmentE: String }) => row.noOfTransactionsItemDepartmentE,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'Truck deliveries - Total',
       selector: (row: { truckDeliveriesTotal: String }) => row.truckDeliveriesTotal,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'Truck deliveries – Type A',
       selector: (row: { truckDeliveriesTypeA: String }) => row.truckDeliveriesTypeA,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'Truck deliveries – Type B',
       selector: (row: { truckDeliveriesTypeB: String }) => row.truckDeliveriesTypeB,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'Truck deliveries – Type C',
       selector: (row: { truckDeliveriesTypeC: String }) => row.truckDeliveriesTypeC,
-      minWidth:'300px',
+      minWidth: '300px',
     },
     {
       name: 'Truck deliveries – Type D',
       selector: (row: { truckDeliveriesTypeD: String }) => row.truckDeliveriesTypeD,
-      minWidth:'300px',
-    }
-    ,  {
+      minWidth: '300px',
+    },
+    {
       name: 'Actions',
       cell: (row: { id: number }) => (
         <>
-        <Icon
-          name="pen"
-          title="Edit Baseline"
-          onClick={() => {
-            openEditModal(row.id);
-          }}
-        />
-        <Icon
-          className="archive-link"
-          name="folder-upload"
-          title="Archive Baseline"
-          onClick={() => {
-            openSaveModal(row.id);
-          }}
-        />
-      </>
-      )
-      
-    }
+          <Icon
+            name="pen"
+            title="Edit Baseline"
+            onClick={() => {
+              openEditModal(row.id);
+            }}
+          />
+          <Icon
+            className="archive-link"
+            name="folder-upload"
+            title="Archive Baseline"
+            onClick={() => {
+              openSaveModal(row.id);
+            }}
+          />
+        </>
+      ),
+    },
   ];
-
 
   const conditionalRowStyles = [
     {
-      when: (row: { id: number; }) => row.id % 2 == 0,
-       style: {
-      backgroundColor: 'lightslategray',
-      color: 'white',
-      '&:hover': {
-        cursor: 'pointer',
+      when: (row: { id: number }) => row.id % 2 === 0,
+      style: {
+        backgroundColor: 'lightslategray',
+        color: 'white',
+        '&:hover': {
+          cursor: 'pointer',
+        },
       },
     },
-    },
   ];
-
 
   return (
     <div className="baseline-entry">
@@ -306,7 +298,7 @@ export function ProductionEntryPage({
             ? 'baseline-no-scroll baseline-entry-table-container'
             : 'baseline-entry-table-container'
         }
-      >   
+      >
         <div>
           <DataTable
             fixedHeader
@@ -317,7 +309,7 @@ export function ProductionEntryPage({
             columns={columns}
             data={productionEntries}
             conditionalRowStyles={conditionalRowStyles}
-            />
+          />
         </div>
         {renderLoadingBaselineEntries(productionEntriesAreLoading, isUpdating)}
       </div>
