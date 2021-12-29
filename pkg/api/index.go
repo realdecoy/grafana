@@ -263,45 +263,45 @@ func (hs *HTTPServer) getNavTree(c *models.ReqContext, hasEditPerm bool) ([]*dto
 		navTree = append(navTree, hs.getProfileNode(c))
 	}
 
-	// if setting.AlertingEnabled {
-	// 	alertChildNavs := []*dtos.NavLink{
-	// 		{Text: "Alert rules", Id: "alert-list", Url: hs.Cfg.AppSubURL + "/alerting/list", Icon: "list-ul"},
-	// 	}
-	// 	if hs.Cfg.IsNgAlertEnabled() {
-	// 		alertChildNavs = append(alertChildNavs, &dtos.NavLink{Text: "Notifications", Id: "notifications", Url: hs.Cfg.AppSubURL + "/alerting/alertmanager", Icon: "layer-group"})
-	// 		alertChildNavs = append(alertChildNavs, &dtos.NavLink{Text: "Silences", Id: "silences", Url: hs.Cfg.AppSubURL + "/alerting/silences", Icon: "bell-slash"})
-	// 	}
-	// 	if c.OrgRole == models.ROLE_ADMIN || c.OrgRole == models.ROLE_EDITOR {
-	// 		if hs.Cfg.IsNgAlertEnabled() {
-	// 			alertChildNavs = append(alertChildNavs, &dtos.NavLink{
-	// 				Text: "Contact points", Id: "receivers", Url: hs.Cfg.AppSubURL + "/alerting/notifications",
-	// 				Icon: "comment-alt-share",
-	// 			})
-	// 			alertChildNavs = append(alertChildNavs, &dtos.NavLink{Text: "Notification policies", Id: "am-routes", Url: hs.Cfg.AppSubURL + "/alerting/routes", Icon: "sitemap"})
-	// 		} else {
-	// 			alertChildNavs = append(alertChildNavs, &dtos.NavLink{
-	// 				Text: "Notification channels", Id: "channels", Url: hs.Cfg.AppSubURL + "/alerting/notifications",
-	// 				Icon: "comment-alt-share",
-	// 			})
-	// 		}
-	// 	}
-	// 	if c.OrgRole == models.ROLE_ADMIN {
-	// 		alertChildNavs = append(alertChildNavs, &dtos.NavLink{
-	// 			Text: "Admin", Id: "alerting-admin", Url: hs.Cfg.AppSubURL + "/alerting/admin",
-	// 			Icon: "cog",
-	// 		})
-	// 	}
+	if setting.AlertingEnabled {
+		alertChildNavs := []*dtos.NavLink{
+			{Text: "Alert rules", Id: "alert-list", Url: hs.Cfg.AppSubURL + "/alerting/list", Icon: "list-ul"},
+		}
+		if hs.Cfg.IsNgAlertEnabled() {
+			alertChildNavs = append(alertChildNavs, &dtos.NavLink{Text: "Notifications", Id: "notifications", Url: hs.Cfg.AppSubURL + "/alerting/alertmanager", Icon: "layer-group"})
+			alertChildNavs = append(alertChildNavs, &dtos.NavLink{Text: "Silences", Id: "silences", Url: hs.Cfg.AppSubURL + "/alerting/silences", Icon: "bell-slash"})
+		}
+		if c.OrgRole == models.ROLE_ADMIN || c.OrgRole == models.ROLE_EDITOR {
+			if hs.Cfg.IsNgAlertEnabled() {
+				alertChildNavs = append(alertChildNavs, &dtos.NavLink{
+					Text: "Contact points", Id: "receivers", Url: hs.Cfg.AppSubURL + "/alerting/notifications",
+					Icon: "comment-alt-share",
+				})
+				alertChildNavs = append(alertChildNavs, &dtos.NavLink{Text: "Notification policies", Id: "am-routes", Url: hs.Cfg.AppSubURL + "/alerting/routes", Icon: "sitemap"})
+			} else {
+				alertChildNavs = append(alertChildNavs, &dtos.NavLink{
+					Text: "Notification channels", Id: "channels", Url: hs.Cfg.AppSubURL + "/alerting/notifications",
+					Icon: "comment-alt-share",
+				})
+			}
+		}
+		if c.OrgRole == models.ROLE_ADMIN {
+			alertChildNavs = append(alertChildNavs, &dtos.NavLink{
+				Text: "Admin", Id: "alerting-admin", Url: hs.Cfg.AppSubURL + "/alerting/admin",
+				Icon: "cog",
+			})
+		}
 
-	// 	navTree = append(navTree, &dtos.NavLink{
-	// 		Text:       "Alerting",
-	// 		SubTitle:   "Alert rules and notifications",
-	// 		Id:         "alerting",
-	// 		Icon:       "bell",
-	// 		Url:        hs.Cfg.AppSubURL + "/alerting/list",
-	// 		Children:   alertChildNavs,
-	// 		SortWeight: dtos.WeightAlerting,
-	// 	})
-	// }
+		navTree = append(navTree, &dtos.NavLink{
+			Text:       "Alerting",
+			SubTitle:   "Alert rules and notifications",
+			Id:         "alerting",
+			Icon:       "bell",
+			Url:        hs.Cfg.AppSubURL + "/alerting/list",
+			Children:   alertChildNavs,
+			SortWeight: dtos.WeightAlerting,
+		})
+	}
 
 	appLinks, err := hs.getAppLinks(c)
 	if err != nil {
