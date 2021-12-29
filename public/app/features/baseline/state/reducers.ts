@@ -6,6 +6,7 @@ export interface BaselineEntryState {
   baselineEntriesAreLoading: boolean;
   editBaselineEntryId: number;
   isUpdating: boolean;
+  isUploadModalOpen:boolean;
   isModalOpen: boolean;
   isModalSaveOpen: boolean;
   archivedId: number;
@@ -17,6 +18,7 @@ export const initialBaselineEntryState: BaselineEntryState = {
   editBaselineEntryId: 0,
   isUpdating: false,
   isModalOpen: false,
+  isUploadModalOpen:false,
   isModalSaveOpen: false,
   archivedId: 0,
 };
@@ -34,6 +36,10 @@ export const slice = createSlice({
     setModalSaveOpen: (state, action: PayloadAction<{ open: boolean }>) => {
       console.log(action.payload.open);
       state.isModalSaveOpen = action.payload.open;
+    },
+    setModalUploadOpen: (state, action: PayloadAction<{ open: boolean }>) => {
+      console.log(action.payload.open);
+      state.isUploadModalOpen = action.payload.open;
     },
     setArchivedId: (state, action: PayloadAction<{ id: number }>) => {
       state.archivedId = action.payload.id;
@@ -63,6 +69,7 @@ export const {
   baselineEntriesLoaded,
   setModalSaveOpen,
   setArchivedId,
+  setModalUploadOpen
 } = slice.actions;
 
 export const baselineReducer = slice.reducer;

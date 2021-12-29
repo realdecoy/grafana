@@ -13,6 +13,7 @@ import {
   archiveBaseline,
   closeSaveModal,
   openSaveModal,
+  openUploadModal,
 } from './state/actions';
 import BaselineEntryForm from './BaselineEntryForm';
 import EditBaselineEntryForm from './EditBaselineEntryForm';
@@ -31,6 +32,7 @@ function mapStateToProps(state: StoreState) {
     isUpdating,
     isModalOpen,
     isModalSaveOpen,
+    isUploadModalOpen,
     editBaselineEntryId,
     baselineEntries,
     baselineEntriesAreLoading,
@@ -39,6 +41,7 @@ function mapStateToProps(state: StoreState) {
   return {
     isUpdating,
     isModalSaveOpen,
+    isUploadModalOpen,
     isModalOpen,
     editBaselineEntryId,
     baselineEntries,
@@ -47,11 +50,14 @@ function mapStateToProps(state: StoreState) {
   };
 }
 
+
+
 const mapDispatchToProps = {
   initBaselineEntryPage,
   submitBaselineEntry,
   updateBaselineEntry,
   openEditModal,
+  openUploadModal,
   closeEditModal,
   archiveBaseline,
   openSaveModal,
@@ -67,6 +73,7 @@ export function BaselineEntryPage({
   isModalOpen,
   archivedId,
   isModalSaveOpen,
+  isUploadModalOpen,
   editBaselineEntryId,
   baselineEntries,
   baselineEntriesAreLoading,
@@ -86,7 +93,7 @@ export function BaselineEntryPage({
   const columns = [
     {
       name: 'No',
-      selector: (row: { id: string }) => row.id,
+      selector: (row: { id: number }) => row.id,
       sortable: true,
     },
     {
@@ -294,12 +301,41 @@ export function BaselineEntryPage({
         </Button>
       </Modal>
 
+      <Modal title="Archive Baseline" icon="save" onDismiss={closeSaveModal} isOpen={isUploadModalOpen}>
+        {/* <Dropzone accept="application/csv" onDrop={acceptedFiles => console.log(acceptedFiles)}>
+          {({ getRootProps, getInputProps }) => (
+            <section>
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <p>Drag 'n' drop some files here, or click to select files</p>
+              </div>
+            </section>
+          )}
+        </Dropzone> */}
+      </Modal>
+
       <PageHeader title={`HiPro Energy Baseline`} className="no-margin" pageIcon="graph-bar">
         <Branding.LoginLogo className={loginStyles.pageHeaderLogo} />
+
+
       </PageHeader>
 
       <PageToolbar title={`Baseline Entry`} className="no-margin" />
-      <div className="sub-title">Possible microcopy providing high level explanation of the chart.</div>
+      <div className="sub-title">Possible microcopy providing high level explanation of the chart.  <div className="baseline-field-group">
+        <div className="gf-form-button-row">
+          <Icon
+            className="Upload-link"
+            name="upload"
+            title="Upload Baseline"
+            size="xxxl"
+            onClick={() => {
+              openUploadModal();
+            }}
+          />
+        </div>
+      </div>
+      </div>
+
       <BaselineEntryForm addBaselineEntry={submitBaselineEntry} isSavingBaselineEntry={isUpdating} />
       <hr className="spacious"></hr>
       <div

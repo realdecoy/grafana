@@ -155,6 +155,11 @@ export function ProductionEntryPage({
       minWidth: '300px',
     },
     {
+      name: 'HiPro store & office staff',
+      selector: 'N/A',
+      minWidth: '300px',
+    },
+    {
       name: 'No. of customers - Total',
       selector: (row: { noOfCustomersTotal: String }) => row.noOfCustomersTotal,
       minWidth: '300px',
@@ -218,8 +223,8 @@ export function ProductionEntryPage({
       name: 'Truck deliveries – Type D',
       selector: (row: { truckDeliveriesTypeD: String }) => row.truckDeliveriesTypeD,
       minWidth: '300px',
-    },
-    {
+    }
+    , {
       name: 'Actions',
       cell: (row: { id: number }) => (
         <>

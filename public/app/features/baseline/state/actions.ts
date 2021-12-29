@@ -65,6 +65,18 @@ export function openSaveModal(id: number): ThunkResult<void> {
     dispatch(setModalSaveOpen({ open: true }));
   };
 }
+export function openUploadModal(): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(isUploadModalOpen({ open: true }));
+  };
+}
+
+export function closeUploadModal(): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(isUploadModalOpen({ open: false }));
+  };
+}
+
 export function closeSaveModal(): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setModalSaveOpen({ open: false }));
@@ -90,3 +102,7 @@ export function closeEditModal(): ThunkResult<void> {
     dispatch(setEditBaselineModal({ id: 0 }));
   };
 }
+function isUploadModalOpen(arg0: { open: boolean; }): any {
+  throw new Error('Function not implemented.');
+}
+
