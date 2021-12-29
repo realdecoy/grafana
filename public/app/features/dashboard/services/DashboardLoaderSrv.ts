@@ -14,7 +14,7 @@ import { getBackendSrv, locationService } from '@grafana/runtime';
 import { appEvents } from '../../../core/core';
 
 export class DashboardLoaderSrv {
-  constructor() { }
+  constructor() {}
   _dashboardLoadFailed(title: string, snapshot?: boolean) {
     snapshot = snapshot || false;
     return {
