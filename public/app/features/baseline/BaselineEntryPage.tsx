@@ -262,7 +262,7 @@ export function BaselineEntryPage({
       when: (row: { id: number }) => row.id % 2 === 0,
       style: {
         backgroundColor: '#00000029',
-        color: 'white',
+        color: 'black',
         '&:hover': {
           cursor: 'pointer',
         },
