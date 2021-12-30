@@ -111,22 +111,22 @@ export function ProductionEntryPage({
     },
     {
       name: 'HiPro store & office staff	',
-      selector: '',
+      selector: (row: { wareHouseStaff: number,staffTotal: number }) => row.wareHouseStaff + row.staffTotal,
       minWidth: '300px',
     },
     {
       name: 'No. of staff – Office - Sales',
-      selector: (row: { noOfStaffOfficeAccounts: String }) => row.noOfStaffOfficeAccounts,
+      selector: (row: { noOfStaffOfficeSales: String }) => row.noOfStaffOfficeSales,
       minWidth: '300px',
     },
     {
       name: 'No. of staff – Office - Accounts',
-      selector: (row: { noOfStaffOfficeGroupPurchasing: String }) => row.noOfStaffOfficeGroupPurchasing,
+      selector: (row: { noOfStaffOfficeAccounts: String }) => row.noOfStaffOfficeAccounts,
       minWidth: '300px',
     },
     {
       name: 'No. of staff – Office - Group Purchasing',
-      selector: (row: { noOfStaffOfficeStorePurchasing: String }) => row.noOfStaffOfficeStorePurchasing,
+      selector: (row: { noOfStaffOfficeGroupPurchasing: String }) => row.noOfStaffOfficeGroupPurchasing,
       minWidth: '300px',
     },
     {
@@ -152,11 +152,6 @@ export function ProductionEntryPage({
     {
       name: 'No of Staff - Store - Receival',
       selector: (row: { noOfStaffStoreReceival: String }) => row.noOfStaffStoreReceival,
-      minWidth: '300px',
-    },
-    {
-      name: 'HiPro store & office staff',
-      selector: 'N/A',
       minWidth: '300px',
     },
     {
