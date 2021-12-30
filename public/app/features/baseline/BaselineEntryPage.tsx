@@ -184,28 +184,28 @@ export function BaselineEntryPage({
     },
     {
       name: 'Fuel Charge',
-      selector: (row: { ippVariableRate: number }) => new Intl.NumberFormat().format(row.ippVariableRate),
+      selector: (row: { ippVariableRate: number }) => row.fuelRate,
       minWidth: '300px',
     },
     {
       name: 'IPP Var. Rate',
-      selector: (row: { ippFixedRate: number }) => new Intl.NumberFormat().format(row.ippFixedRate),
+      selector: (row: { ippFixedRate: number }) => row.ippFixedRate,
       minWidth: '300px',
     },
     {
-      name: 'IPP Var. Rate',
-      selector: (row: { ippFixedRate: number }) => new Intl.NumberFormat().format(row.ippFixedRate),
+      name: 'IPP Fixed Rate',
+      selector: (row: { ippFixedRate: number }) => row.ippFixedRate,
       minWidth: '300px',
     },
 
     {
-      name: 'IPP Var. Rate',
-      selector: (row: { ippVariableCharge: number }) => new Intl.NumberFormat().format(row.ippVariableCharge),
+      name: 'IIP Variable Charge',
+      selector: (row: { ippVariableCharge: number }) => row.ippVariableCharge,
       minWidth: '300px',
     },
     {
       name: 'IPP Fixed Charge',
-      selector: (row: { ippFixedCharge: number }) => new Intl.NumberFormat().format(row.ippFixedCharge),
+      selector: (row: { ippFixedCharge: number }) => row.ippFixedCharge,
       minWidth: '300px',
     },
     {
