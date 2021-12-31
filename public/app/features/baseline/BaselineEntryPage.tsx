@@ -18,6 +18,8 @@ import BaselineEntryForm from './BaselineEntryForm';
 import EditBaselineEntryForm from './EditBaselineEntryForm';
 import { getLoginStyles } from 'app/core/components/Login/LoginLayout';
 import { Branding } from 'app/core/components/Branding/Branding';
+import DataTable from 'react-data-table-component';
+import { format } from 'date-fns';
 
 export interface OwnProps {
   onDismiss: () => void;
@@ -81,6 +83,193 @@ export function BaselineEntryPage({
 
   const loginStyles = useStyles2(getLoginStyles);
 
+  const columns = [
+    {
+      name: 'No',
+      selector: (row: { id: string }) => row.id,
+      sortable: true,
+    },
+    {
+      name: 'Start Date',
+      selector: (row: { startDate: string }) => format(new Date(row.startDate), 'yyyy-MM-dd'),
+      sortable: true,
+      minWidth: '300px',
+    },
+    {
+      name: 'End Date',
+      selector: (row: { endDate: string }) => format(new Date(row.endDate), 'yyyy-MM-dd'),
+      minWidth: '300px',
+      sortable: true,
+    },
+    {
+      name: 'Invoice Date',
+      selector: (row: { invoiceDate: string }) => format(new Date(row.invoiceDate), 'yyyy-MM-dd'),
+      minWidth: '300px',
+      sortable: true,
+    },
+    {
+      name: 'No. of Days',
+      selector: (row: { noOfDays: number }) => row.noOfDays,
+      minWidth: '300px',
+    },
+    {
+      name: 'Kilowatt-hour',
+      selector: (row: { kwh: number }) => new Intl.NumberFormat().format(row.kwh),
+      minWidth: '300px',
+    },
+    {
+      name: 'KWh (Normalized)	',
+      selector: (row: { kwhNormalized: number }) => new Intl.NumberFormat().format(row.kwhNormalized),
+      minWidth: '300px',
+    },
+    {
+      name: 'Min. kW',
+      selector: (row: { minKw: number }) => row.minKw,
+      minWidth: '300px',
+    },
+    {
+      name: 'Max. kW',
+      selector: (row: { maxKw: number }) => row.maxKw,
+      minWidth: '300px',
+    },
+    {
+      name: 'Avg. kW',
+      selector: (row: { avgKw: number }) => row.avgKw,
+      minWidth: '300px',
+    },
+    {
+      name: 'Avg. kVA',
+      selector: (row: { avgKva: number }) => row.avgKva,
+      minWidth: '300px',
+    },
+    {
+      name: 'PF',
+      selector: (row: { pf: number }) => row.pf,
+      minWidth: '300px',
+    },
+    {
+      name: 'Min. PF',
+      selector: (row: { minPf: number }) => row.minPf,
+      minWidth: '300px',
+    },
+    {
+      name: 'Max. PF',
+      selector: (row: { maxPf: number }) => row.maxPf,
+      minWidth: '300px',
+    },
+    {
+      name: 'Rate',
+      selector: (row: { rate: number }) => row.rate,
+      minWidth: '300px',
+    },
+    {
+      name: 'Energy Rate',
+      selector: (row: { energyRate: number }) => row.energyRate,
+      minWidth: '300px',
+    },
+    {
+      name: 'Fuel Rate',
+      selector: (row: { fuelRate: number }) => row.fuelRate,
+      minWidth: '300px',
+    },
+    {
+      name: 'KVA Rate',
+      selector: (row: { kvaRate: number }) => row.kvaRate,
+      minWidth: '300px',
+    },
+    {
+      name: 'Fuel & IPP Rate',
+      selector: (row: {  ippRate: number }) => new Intl.NumberFormat().format(row.ippRate),
+      minWidth: '300px',
+    },
+    {
+      name: 'Fuel Charge',
+      selector: (row: { fuelCharge: number }) => row.fuelCharge,
+      minWidth: '300px',
+    },
+    {
+      name: 'IPP Var. Rate',
+      selector: (row: { ippVariableRate: number }) => row.ippVariableRate,
+      minWidth: '300px',
+    },
+    {
+      name: 'IPP Fixed Rate',
+      selector: (row: { ippFixedRate: number }) => row.ippFixedRate,
+      minWidth: '300px',
+    },
+
+    {
+      name: 'IIP Variable Charge',
+      selector: (row: { ippVariableCharge: number }) => row.ippVariableCharge,
+      minWidth: '300px',
+    },
+    {
+      name: 'IPP Fixed Charge',
+      selector: (row: { ippFixedCharge: number }) => row.ippFixedCharge,
+      minWidth: '300px',
+    },
+    {
+      name: 'Energy Charge',
+      selector: (row: { energyCharge: number }) => row.energyCharge,
+      minWidth: '300px',
+    },
+    {
+      name: 'Kva Charge',
+      selector: (row: { kvaCharge: number }) => new Intl.NumberFormat().format(row.kvaCharge),
+      minWidth: '300px',
+    },
+    {
+      name: 'Fuel Charge',
+      selector: (row: { fuelCharge: number }) => new Intl.NumberFormat().format(row.fuelCharge),
+      minWidth: '300px',
+    },
+    {
+      name: 'Current Charges',
+      selector: (row: { currentCharges: number }) => new Intl.NumberFormat().format(row.currentCharges),
+      minWidth: '300px',
+    },
+    {
+      name: 'Sales Tax',
+      selector: (row: { salesTax: number }) => new Intl.NumberFormat().format(row.salesTax),
+      minWidth: '300px',
+    },
+    {
+      name: 'Actions',
+      cell: (row: { id: number }) => (
+        <>
+          <Icon
+            name="pen"
+            title="Edit Baseline"
+            onClick={() => {
+              openEditModal(row.id);
+            }}
+          />
+          <Icon
+            className="archive-link"
+            name="folder-upload"
+            title="Archive Baseline"
+            onClick={() => {
+              openSaveModal(row.id);
+            }}
+          />
+        </>
+      ),
+    },
+  ];
+
+  const conditionalRowStyles = [
+    {
+      when: (row: { id: number }) => row.id % 2 === 0,
+      style: {
+        backgroundColor: '#00000029',
+        color: 'black',
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      },
+    },
+  ];
+
   return (
     <div className="baseline-entry">
       <Modal title="Archive Baseline" icon="save" onDismiss={closeSaveModal} isOpen={isModalSaveOpen}>
@@ -120,54 +309,18 @@ export function BaselineEntryPage({
             : 'baseline-entry-table-container'
         }
       >
-        <table className="baseline-entry-table filter-table form-inline filter-table--hover">
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>
-                Start Date&nbsp;
-                {/* <Tooltip placement="top" content="Start Date">
-                  <Icon name="shield" />
-                </Tooltip> */}
-              </th>
-              <th>End Date</th>
-              <th>Invoice Date</th>
-              <th>No. of Days</th>
-              <th>Kilowatt-hour</th>
-              <th>KWh (Normalized)</th>
-              <th>Min. kW</th>
-              <th>Max. kW</th>
-              <th>Avg. kW</th>
-              <th>Avg. kVA</th>
-              <th>PF</th>
-              <th>Min. PF</th>
-              <th>Max. PF</th>
-              <th>Rate</th>
-              <th>Energy Rate</th>
-              <th>Fuel Rate</th>
-              <th>KVA Rate</th>
-              <th>KVA Charge</th>
-              <th>Fuel & IPP Rate</th>
-              <th>Fuel & IPP Charge</th>
-              <th>Fuel Charge</th>
-              <th>IPP Var. Rate</th>
-              <th>IPP Fixed Rate</th>
-              <th>IPP Var. Charge</th>
-              <th>IPP Fixed Charge</th>
-              <th>Energy Charge</th>
-              <th>Current Charges</th>
-              <th>Sales Tax</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {baselineEntries.map((p: BaselineDTO) => {
-              return renderBaselineRecord(p, openEditModal, openSaveModal);
-            })}
-          </tbody>
-        </table>
-        {renderLoadingBaselineEntries(baselineEntriesAreLoading, isUpdating)}
+        <DataTable
+          fixedHeader
+          fixedHeaderScrollHeight="500px"
+          pagination
+          responsive
+          subHeaderWrap
+          columns={columns}
+          data={baselineEntries}
+          conditionalRowStyles={conditionalRowStyles}
+        />
       </div>
+      <div>{renderLoadingBaselineEntries(baselineEntriesAreLoading, isUpdating)}</div>
       {renderEditBaselineEntryModal(
         baselineEntriesAreLoading,
         isUpdating,
@@ -227,175 +380,6 @@ const renderEditBaselineEntryModal = (
     );
   }
   return el;
-};
-
-const renderBaselineRecord = (baselineEntry: BaselineDTO, openEditModal: any, openSaveModal: any) => {
-  return (
-    <tr key={baselineEntry.id}>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.id}>
-          {baselineEntry.id}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.startDate}>
-          {baselineEntry.startDate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.endDate}>
-          {baselineEntry.endDate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.invoiceDate}>
-          {baselineEntry.invoiceDate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.noOfDays}>
-          {baselineEntry.noOfDays}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kwh}>
-          {baselineEntry.kwh}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kwhNormalized}>
-          {baselineEntry.kwhNormalized}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.minKw}>
-          {baselineEntry.minKw}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.maxKw}>
-          {baselineEntry.maxKw}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.avgKw}>
-          {baselineEntry.avgKw}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.avgKva}>
-          {baselineEntry.avgKva}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.pf}>
-          {baselineEntry.pf}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.minPf}>
-          {baselineEntry.minPf}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.maxPf}>
-          {baselineEntry.maxPf}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.rate}>
-          {baselineEntry.rate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.energyRate}>
-          {baselineEntry.energyRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.fuelRate}>
-          {baselineEntry.fuelRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kvaRate}>
-          {baselineEntry.kvaRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.kvaCharge}>
-          {baselineEntry.kvaCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippRate}>
-          {baselineEntry.ippRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippCharge}>
-          {baselineEntry.ippCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.fuelCharge}>
-          {baselineEntry.fuelCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippVariableRate}>
-          {baselineEntry.ippVariableRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippFixedRate}>
-          {baselineEntry.ippFixedRate}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippVariableCharge}>
-          {baselineEntry.ippVariableCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.ippFixedCharge}>
-          {baselineEntry.ippFixedCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.energyCharge}>
-          {baselineEntry.energyCharge}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.currentCharges}>
-          {baselineEntry.currentCharges}
-        </a>
-      </td>
-      <td className="link-td max-width-10">
-        <a className="ellipsis" title={baselineEntry.salesTax}>
-          {baselineEntry.salesTax}
-        </a>
-      </td>
-      <td className="link-td">
-        <Icon
-          name="pen"
-          title="Edit Baseline"
-          onClick={() => {
-            openEditModal(baselineEntry.id);
-          }}
-        />
-        <Icon
-          className="archive-link"
-          name="folder-upload"
-          title="Archive Baseline"
-          onClick={() => {
-            openSaveModal();
-          }}
-        />
-      </td>
-    </tr>
-  );
 };
 
 export default hot(module)(connector(BaselineEntryPage));
