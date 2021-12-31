@@ -20,6 +20,25 @@ async function archiveBaselineEntry(id: number): Promise<void> {
   await baselineQuery._get(`/api/archiveBaselineById/${id}`);
 }
 
+
+async function uploadDocument(fileDetails: FormData, file: File): Promise<void> {
+  const { data: { signature } } = await baselineQuery._post(`/api/getUploadURL`,fileDetails);
+  const bodyFormData = new FormData();
+  bodyFormData.append('key', signature.key);
+  bodyFormData.append('policy', signature.policy);
+  bodyFormData.append('success_action_status', signature.success_action_status);
+  bodyFormData.append('X-amz-credential', signature['X-amz-credential']);
+  bodyFormData.append('X-amz-algorithm', signature['X-amz-algorithm']);
+  bodyFormData.append('X-amz-date', signature['X-amz-date']);
+  bodyFormData.append('X-amz-signature', signature['X-amz-signature']);
+  bodyFormData.append('X-Amz-Security-Token', signature['X-Amz-Security-Token']);
+  bodyFormData.append('file', file);
+  
+  console.log(signature);
+}
+
+
+
 export const api = {
   loadBaselineEntries,
   submitBaselineEntry,

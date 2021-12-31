@@ -8,6 +8,7 @@ import {
   setEditBaselineModal,
   setModalSaveOpen,
   setArchivedId,
+  setModalUploadOpen
 } from './reducers';
 import { api } from '../api';
 
@@ -67,13 +68,15 @@ export function openSaveModal(id: number): ThunkResult<void> {
 }
 export function openUploadModal(): ThunkResult<void> {
   return async function (dispatch) {
-    dispatch(isUploadModalOpen({ open: true }));
+   
+    dispatch(setModalUploadOpen({ open: true }));
   };
 }
 
 export function closeUploadModal(): ThunkResult<void> {
   return async function (dispatch) {
-    dispatch(isUploadModalOpen({ open: false }));
+    
+    dispatch(setModalUploadOpen({ open: false }));
   };
 }
 
@@ -83,6 +86,8 @@ export function closeSaveModal(): ThunkResult<void> {
   };
 }
 export function archiveBaseline(payload: number): ThunkResult<void> {
+
+
   return async function (dispatch) {
     dispatch(setUpdating({ updating: true }));
     try {
@@ -102,7 +107,20 @@ export function closeEditModal(): ThunkResult<void> {
     dispatch(setEditBaselineModal({ id: 0 }));
   };
 }
-function isUploadModalOpen(arg0: { open: boolean; }): any {
-  throw new Error('Function not implemented.');
+
+export function uploadDocument(fileDetails: FormData, file: File): ThunkResult<void> {
+  
+  return async function (dispatch) {
+    try {
+      console.log(fileDetails);
+      await api.uploadDocument(fileDetails,file);
+    } catch (err) {
+      console.log(`[err]`);
+    } finally {
+      dispatch(setModalSaveOpen({ open: false }));
+    }
+  };
 }
+
+
 
