@@ -184,7 +184,7 @@ export function BaselineEntryPage({
     },
     {
       name: 'Fuel Charge',
-      selector: (row: { fuelRate: number }) => row.fuelRate,
+      selector: (row: { fuelCharge: number }) => row.fuelRate,
       minWidth: '300px',
     },
     {
