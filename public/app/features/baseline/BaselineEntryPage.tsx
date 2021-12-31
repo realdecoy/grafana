@@ -174,12 +174,12 @@ export function BaselineEntryPage({
     },
     {
       name: 'KVA Rate',
-      selector: (row: { ippRate: number }) => row.ippRate,
+      selector: (row: { kvaRate: number }) => row.kvaRate,
       minWidth: '300px',
     },
     {
       name: 'Fuel & IPP Rate',
-      selector: (row: { kvaRate: number }) => new Intl.NumberFormat().format(row.kvaRate),
+      selector: (row: {  ippRate: number }) => new Intl.NumberFormat().format(row.ippRate),
       minWidth: '300px',
     },
     {
