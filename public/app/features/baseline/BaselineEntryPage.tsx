@@ -189,7 +189,7 @@ export function BaselineEntryPage({
     },
     {
       name: 'IPP Var. Rate',
-      selector: (row: { ippFixedRate: number }) => row.ippFixedRate,
+      selector: (row: { ippVariableRate: number }) => row.ippVariableRate,
       minWidth: '300px',
     },
     {
