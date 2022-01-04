@@ -7,6 +7,7 @@ import {
   setEditProductionModal,
   setModalSaveOpen,
   setArchivedId,
+  setModalUploadOpen,
 } from './reducers';
 import { api } from '../api';
 
@@ -89,5 +90,17 @@ export function closeEditModal(): ThunkResult<void> {
   return async function (dispatch) {
     dispatch(setModalOpen({ open: false }));
     dispatch(setEditProductionModal({ id: 0 }));
+  };
+}
+
+export function openUploadModal(): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(setModalUploadOpen({ open: true }));
+  };
+}
+
+export function closeUploadModal(): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(setModalUploadOpen({ open: false }));
   };
 }
