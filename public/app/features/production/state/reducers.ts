@@ -8,7 +8,7 @@ export interface ProductionEntryState {
   isUpdating: boolean;
   isModalOpen: boolean;
   isModalSaveOpen: boolean;
-  isUploadModalOpen:boolean;
+  isUploadModalOpen: boolean;
   archivedId: number;
 }
 
@@ -19,7 +19,7 @@ export const initialProductionEntryState: ProductionEntryState = {
   isUpdating: false,
   isModalOpen: false,
   isModalSaveOpen: false,
-  isUploadModalOpen:false,
+  isUploadModalOpen: false,
   archivedId: 0,
 };
 
@@ -69,7 +69,7 @@ export const {
   ProductionEntriesLoaded,
   setModalSaveOpen,
   setArchivedId,
-  setModalUploadOpen
+  setModalUploadOpen,
 } = slice.actions;
 
 export const ProductionReducer = slice.reducer;

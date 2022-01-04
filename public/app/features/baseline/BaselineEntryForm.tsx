@@ -2,8 +2,7 @@ import React, { FC, useState } from 'react';
 import { format } from 'date-fns';
 import { Button, DatePickerWithInput, Field, FieldSet, Form, Input, PageToolbar } from '@grafana/ui';
 import { BaselineEntryFields } from './types';
-
-import Dropzone from 'react-dropzone'
+import Dropzone from 'react-dropzone';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 

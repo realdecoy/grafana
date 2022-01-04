@@ -8,7 +8,7 @@ import {
   setEditBaselineModal,
   setModalSaveOpen,
   setArchivedId,
-  setModalUploadOpen
+  setModalUploadOpen,
 } from './reducers';
 import { api } from '../api';
 
@@ -68,14 +68,12 @@ export function openSaveModal(id: number): ThunkResult<void> {
 }
 export function openUploadModal(): ThunkResult<void> {
   return async function (dispatch) {
-   
     dispatch(setModalUploadOpen({ open: true }));
   };
 }
 
 export function closeUploadModal(): ThunkResult<void> {
   return async function (dispatch) {
-    
     dispatch(setModalUploadOpen({ open: false }));
   };
 }
@@ -86,8 +84,6 @@ export function closeSaveModal(): ThunkResult<void> {
   };
 }
 export function archiveBaseline(payload: number): ThunkResult<void> {
-
-
   return async function (dispatch) {
     dispatch(setUpdating({ updating: true }));
     try {
@@ -109,11 +105,10 @@ export function closeEditModal(): ThunkResult<void> {
 }
 
 export function uploadDocument(fileDetails: FormData, file: File): ThunkResult<void> {
-  
   return async function (dispatch) {
     try {
       console.log(fileDetails);
-      await api.uploadDocument(fileDetails,file);
+      await api.uploadDocument(fileDetails, file);
     } catch (err) {
       console.log(`[err]`);
     } finally {
@@ -121,6 +116,3 @@ export function uploadDocument(fileDetails: FormData, file: File): ThunkResult<v
     }
   };
 }
-
-
-

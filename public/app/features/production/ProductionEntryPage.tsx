@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
@@ -15,7 +15,6 @@ import {
   openSaveModal,
   openUploadModal,
   closeUploadModal,
-  isUploadModalOpen 
 } from './state/actions';
 import ProductionEntryForm from './ProductionEntryForm';
 import EditBaselineEntryForm from './EditProductionEntryForm';
@@ -24,6 +23,8 @@ import { Branding } from 'app/core/components/Branding/Branding';
 import { format } from 'date-fns';
 
 import DataTable from 'react-data-table-component';
+import { uploadDocument } from '../baseline/state/actions';
+import { useDropzone } from 'react-dropzone';
 
 export interface OwnProps {
   onDismiss: () => void;
@@ -66,28 +67,28 @@ const baseStyle = {
   backgroundColor: '#fafafa',
   color: '#bdbdbd',
   outline: 'none',
-  transition: 'border .24s ease-in-out'
+  transition: 'border .24s ease-in-out',
 };
 
 const activeStyle = {
-  borderColor: '#2196f3'
+  borderColor: '#2196f3',
 };
 
 const acceptStyle = {
-  borderColor: '#00e676'
+  borderColor: '#00e676',
 };
 
 const rejectStyle = {
-  borderColor: '#ff1744'
+  borderColor: '#ff1744',
 };
 
-function s3BeforeUpload(file:FormData) {
+function s3BeforeUpload(file: FormData) {
   const formData = new FormData();
 
-    formData.append('filePath', file.name);
-    formData.append('contentType', file.type);
-    formData.append('fileSize', file.size);
-    uploadDocument(formData,file)
+  formData.append('filePath', file.name);
+  formData.append('contentType', file.type);
+  formData.append('fileSize', file.size);
+  uploadDocument(formData, file);
 }
 
 function StyledDropzone(props) {
@@ -100,47 +101,43 @@ function StyledDropzone(props) {
     acceptedFiles,
     fileRejections,
   } = useDropzone({
-    onDropAccepted : files => s3BeforeUpload(files),
-    accept: '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+    onDropAccepted: (files) => s3BeforeUpload(files),
+    accept: '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
   });
 
-  const acceptedFileItems = acceptedFiles.map(file => (
+  const acceptedFileItems = acceptedFiles.map((file) => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
     </li>
-  
   ));
-
-
 
   const fileRejectionItems = fileRejections.map(({ file, errors }) => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
       <ul>
-        {errors.map(e => (
+        {errors.map((e) => (
           <li key={e.code}>{e.message}</li>
         ))}
       </ul>
     </li>
   ));
 
-  const style = useMemo(() => ({
-    ...baseStyle,
-    ...(isDragActive ? activeStyle : {}),
-    ...(isDragAccept ? acceptStyle : {}),
-    ...(isDragReject ? rejectStyle : {})
-  }), [
-    isDragActive,
-    isDragReject,
-    isDragAccept
-  ]);
+  const style = useMemo(
+    () => ({
+      ...baseStyle,
+      ...(isDragActive ? activeStyle : {}),
+      ...(isDragAccept ? acceptStyle : {}),
+      ...(isDragReject ? rejectStyle : {}),
+    }),
+    [isDragActive, isDragReject, isDragAccept]
+  );
 
   return (
     <div className="container">
-      <div {...getRootProps({style})}>
+      <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
-        <em>(Only *.cvs and *.xlsx  will be accepted)</em>
+        <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
+        <em>(Only *.cvs and *.xlsx will be accepted)</em>
       </div>
       <aside>
         <h4>Accepted files</h4>
@@ -149,7 +146,6 @@ function StyledDropzone(props) {
         <ul>{fileRejectionItems}</ul>
       </aside>
     </div>
-  
   );
 }
 
@@ -164,7 +160,6 @@ const mapDispatchToProps = {
   closeSaveModal,
   openUploadModal,
   closeUploadModal,
-  isUploadModalOpen
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -179,6 +174,7 @@ export function ProductionEntryPage({
   editProductionEntryId,
   productionEntries,
   productionEntriesAreLoading,
+  isUploadModalOpen,
   updateProductionEntry,
   initProductionEntryPage,
   submitProductionEntry,
@@ -221,7 +217,7 @@ export function ProductionEntryPage({
     },
     {
       name: 'HiPro store & office staff	',
-      selector: (row: { wareHouseStaff: number,staffTotal: number }) => row.wareHouseStaff + row.staffTotal,
+      selector: (row: { wareHouseStaff: number; staffTotal: number }) => row.wareHouseStaff + row.staffTotal,
       minWidth: '300px',
     },
     {
@@ -333,8 +329,8 @@ export function ProductionEntryPage({
       name: 'Truck deliveries – Type D',
       selector: (row: { truckDeliveriesTypeD: String }) => row.truckDeliveriesTypeD,
       minWidth: '300px',
-    }
-    , {
+    },
+    {
       name: 'Actions',
       cell: (row: { id: number }) => (
         <>
@@ -395,27 +391,29 @@ export function ProductionEntryPage({
         </Button>
       </Modal>
       <Modal title="Upload Production" icon="save" onDismiss={closeUploadModal} isOpen={isUploadModalOpen}>
-      <StyledDropzone />
+        <StyledDropzone />
       </Modal>
       <PageHeader title={`HiPro Energy Production`} className="no-margin" pageIcon="graph-bar">
         <Branding.LoginLogo className={loginStyles.pageHeaderLogo} />
       </PageHeader>
       <PageToolbar title={`Production Entry`} className="no-margin" />
-      <div className="gf-form-button-row">
-          <Icon
-            className="Upload-link"
-            name="upload"
-            title="Upload Baseline"
-            size="xxxl"
-            onClick={() => {
-              openUploadModal();
-            }}
-          />
+      <div className="sub-title">
+        Possible microcopy providing high level explanation of the chart.
+        <div className="baseline-field-group">
+          <div className="gf-form-button-row">
+            <Icon
+              className="Upload-link"
+              name="upload"
+              title="Upload Baseline"
+              size="xxxl"
+              onClick={() => {
+                openUploadModal();
+              }}
+            />
+          </div>
         </div>
-      <div className="sub-title">Possible microcopy providing high level explanation of the chart.</div>
- 
+      </div>
       <ProductionEntryForm addBaselineEntry={submitProductionEntry} isSavingBaselineEntry={isUpdating} />
-   
       <hr className="spacious"></hr>
       <div
         className={

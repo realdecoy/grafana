@@ -172,7 +172,6 @@ export const ProductionEntryForm: FC<Props> = ({ isSavingBaselineEntry, addBasel
                 />
               </Field>
               <br />
-    
               <Field
                 className="baseline-field"
                 label="No. of staff – Office - Sales"

@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
@@ -15,7 +15,7 @@ import {
   openSaveModal,
   openUploadModal,
   closeUploadModal,
-  uploadDocument
+  uploadDocument,
 } from './state/actions';
 import BaselineEntryForm from './BaselineEntryForm';
 import EditBaselineEntryForm from './EditBaselineEntryForm';
@@ -23,7 +23,7 @@ import { getLoginStyles } from 'app/core/components/Login/LoginLayout';
 import { Branding } from 'app/core/components/Branding/Branding';
 import DataTable from 'react-data-table-component';
 import { format } from 'date-fns';
-import {useDropzone} from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 export interface OwnProps {
   onDismiss: () => void;
 }
@@ -65,28 +65,28 @@ const baseStyle = {
   backgroundColor: '#fafafa',
   color: '#bdbdbd',
   outline: 'none',
-  transition: 'border .24s ease-in-out'
+  transition: 'border .24s ease-in-out',
 };
 
 const activeStyle = {
-  borderColor: '#2196f3'
+  borderColor: '#2196f3',
 };
 
 const acceptStyle = {
-  borderColor: '#00e676'
+  borderColor: '#00e676',
 };
 
 const rejectStyle = {
-  borderColor: '#ff1744'
+  borderColor: '#ff1744',
 };
 
-function s3BeforeUpload(file:FormData) {
+function s3BeforeUpload(file: FormData) {
   const formData = new FormData();
 
-    formData.append('filePath', file.name);
-    formData.append('contentType', file.type);
-    formData.append('fileSize', file.size);
-    uploadDocument(formData,file)
+  formData.append('filePath', file.name);
+  formData.append('contentType', file.type);
+  formData.append('fileSize', file.size);
+  uploadDocument(formData, file);
 }
 
 function StyledDropzone(props) {
@@ -99,47 +99,43 @@ function StyledDropzone(props) {
     acceptedFiles,
     fileRejections,
   } = useDropzone({
-    onDropAccepted : files => s3BeforeUpload(files),
-    accept: '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+    onDropAccepted: (files) => s3BeforeUpload(files),
+    accept: '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel',
   });
 
-  const acceptedFileItems = acceptedFiles.map(file => (
+  const acceptedFileItems = acceptedFiles.map((file) => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
     </li>
-  
   ));
-
-
 
   const fileRejectionItems = fileRejections.map(({ file, errors }) => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
       <ul>
-        {errors.map(e => (
+        {errors.map((e) => (
           <li key={e.code}>{e.message}</li>
         ))}
       </ul>
     </li>
   ));
 
-  const style = useMemo(() => ({
-    ...baseStyle,
-    ...(isDragActive ? activeStyle : {}),
-    ...(isDragAccept ? acceptStyle : {}),
-    ...(isDragReject ? rejectStyle : {})
-  }), [
-    isDragActive,
-    isDragReject,
-    isDragAccept
-  ]);
+  const style = useMemo(
+    () => ({
+      ...baseStyle,
+      ...(isDragActive ? activeStyle : {}),
+      ...(isDragAccept ? acceptStyle : {}),
+      ...(isDragReject ? rejectStyle : {}),
+    }),
+    [isDragActive, isDragReject, isDragAccept]
+  );
 
   return (
     <div className="container">
-      <div {...getRootProps({style})}>
+      <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
-        <em>(Only *.cvs and *.xlsx  will be accepted)</em>
+        <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
+        <em>(Only *.cvs and *.xlsx will be accepted)</em>
       </div>
       <aside>
         <h4>Accepted files</h4>
@@ -148,12 +144,8 @@ function StyledDropzone(props) {
         <ul>{fileRejectionItems}</ul>
       </aside>
     </div>
-  
   );
 }
-
-
-
 
 const mapDispatchToProps = {
   initBaselineEntryPage,
@@ -166,7 +158,7 @@ const mapDispatchToProps = {
   openSaveModal,
   closeSaveModal,
   closeUploadModal,
-  uploadDocument
+  uploadDocument,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -192,7 +184,7 @@ export function BaselineEntryPage({
   openUploadModal,
   archiveBaseline,
   closeUploadModal,
-  uploadDocument
+  uploadDocument,
 }: Props) {
   useMount(() => initBaselineEntryPage());
 
@@ -294,7 +286,7 @@ export function BaselineEntryPage({
     },
     {
       name: 'Fuel & IPP Rate',
-      selector: (row: {  ippRate: number }) => new Intl.NumberFormat().format(row.ippRate),
+      selector: (row: { ippRate: number }) => new Intl.NumberFormat().format(row.ippRate),
       minWidth: '300px',
     },
     {
@@ -410,7 +402,7 @@ export function BaselineEntryPage({
       </Modal>
 
       <Modal title="Upload Baseline" icon="save" onDismiss={closeUploadModal} isOpen={isUploadModalOpen}>
-      <StyledDropzone />
+        <StyledDropzone />
       </Modal>
 
       <PageHeader title={`HiPro Energy Baseline`} className="no-margin" pageIcon="graph-bar">
@@ -418,19 +410,21 @@ export function BaselineEntryPage({
       </PageHeader>
 
       <PageToolbar title={`Baseline Entry`} className="no-margin" />
-      <div className="sub-title">Possible microcopy providing high level explanation of the chart.  <div className="baseline-field-group">
-        <div className="gf-form-button-row">
-          <Icon
-            className="Upload-link"
-            name="upload"
-            title="Upload Baseline"
-            size="xxxl"
-            onClick={() => {
-              openUploadModal();
-            }}
-          />
+      <div className="sub-title">
+        Possible microcopy providing high level explanation of the chart.
+        <div className="baseline-field-group">
+          <div className="gf-form-button-row">
+            <Icon
+              className="Upload-link"
+              name="upload"
+              title="Upload Baseline"
+              size="xxxl"
+              onClick={() => {
+                openUploadModal();
+              }}
+            />
+          </div>
         </div>
-      </div>
       </div>
 
       <BaselineEntryForm addBaselineEntry={submitBaselineEntry} isSavingBaselineEntry={isUpdating} />
