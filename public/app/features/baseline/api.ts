@@ -1,5 +1,6 @@
 import { BaselineEntryFields } from './types';
 import { BaselineDTO, BaselineDatasource } from '../../types';
+import { format } from 'date-fns';
 
 const baselineQuery = new BaselineDatasource();
 
@@ -20,26 +21,15 @@ async function archiveBaselineEntry(id: number): Promise<void> {
   await baselineQuery._get(`/api/archiveBaselineById/${id}`);
 }
 
-async function uploadDocument(fileDetails: FormData, file: File): Promise<void> {
-  const {
-    data: { signature },
-  } = await baselineQuery._post(`/api/getUploadURL`, fileDetails);
-  const bodyFormData = new FormData();
-  bodyFormData.append('key', signature.key);
-  bodyFormData.append('policy', signature.policy);
-  bodyFormData.append('success_action_status', signature.success_action_status);
-  bodyFormData.append('X-amz-credential', signature['X-amz-credential']);
-  bodyFormData.append('X-amz-algorithm', signature['X-amz-algorithm']);
-  bodyFormData.append('X-amz-date', signature['X-amz-date']);
-  bodyFormData.append('X-amz-signature', signature['X-amz-signature']);
-  bodyFormData.append('X-Amz-Security-Token', signature['X-Amz-Security-Token']);
-  bodyFormData.append('file', file);
-  console.log(signature);
-}
+async function uploadDocument(file: string | ArrayBuffer | null): Promise<void> {
 
+  await baselineQuery._post(`/api/getUploadURL`, {base64:file,fileName:`baseline_${format(new Date(), 'yyyy_MM_dd')}.csv`});
+ 
+}
 export const api = {
   loadBaselineEntries,
   submitBaselineEntry,
   updateBaselineEntry,
   archiveBaselineEntry,
+  uploadDocument,
 };

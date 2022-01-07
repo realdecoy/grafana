@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
-import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button } from '@grafana/ui';
+import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button,Alert} from '@grafana/ui';
 import { BaselineDTO, StoreState } from 'app/types';
 import {
   initBaselineEntryPage,
@@ -16,6 +16,7 @@ import {
   openUploadModal,
   closeUploadModal,
   uploadDocument,
+  closeArchiveAlert,
 } from './state/actions';
 import BaselineEntryForm from './BaselineEntryForm';
 import EditBaselineEntryForm from './EditBaselineEntryForm';
@@ -39,6 +40,7 @@ function mapStateToProps(state: StoreState) {
     baselineEntries,
     baselineEntriesAreLoading,
     archivedId,
+    isAlertShowing
   } = baselineEntryState;
   return {
     isUpdating,
@@ -49,6 +51,7 @@ function mapStateToProps(state: StoreState) {
     baselineEntries,
     baselineEntriesAreLoading,
     archivedId,
+    isAlertShowing
   };
 }
 
@@ -80,14 +83,23 @@ const rejectStyle = {
   borderColor: '#ff1744',
 };
 
-function s3BeforeUpload(file: FormData) {
-  const formData = new FormData();
+let files: string | ArrayBuffer | null;
 
-  formData.append('filePath', file.name);
-  formData.append('contentType', file.type);
-  formData.append('fileSize', file.size);
-  uploadDocument(formData, file);
+function s3BeforeUpload(file: File[]) {
+  getBase64(file[0]);
 }
+
+function getBase64(file: File) {
+  var reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = function () {
+    files = reader.result;
+  };
+  reader.onerror = function (error) {
+    console.log('Error: ', error);
+  };
+}
+
 
 function StyledDropzone(props) {
   const {
@@ -140,8 +152,7 @@ function StyledDropzone(props) {
       <aside>
         <h4>Accepted files</h4>
         <ul>{acceptedFileItems}</ul>
-        <h4>Rejected files</h4>
-        <ul>{fileRejectionItems}</ul>
+
       </aside>
     </div>
   );
@@ -159,6 +170,7 @@ const mapDispatchToProps = {
   closeSaveModal,
   closeUploadModal,
   uploadDocument,
+  closeArchiveAlert
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -174,6 +186,7 @@ export function BaselineEntryPage({
   editBaselineEntryId,
   baselineEntries,
   baselineEntriesAreLoading,
+  isAlertShowing,
   updateBaselineEntry,
   initBaselineEntryPage,
   submitBaselineEntry,
@@ -185,6 +198,7 @@ export function BaselineEntryPage({
   archiveBaseline,
   closeUploadModal,
   uploadDocument,
+  closeArchiveAlert
 }: Props) {
   useMount(() => initBaselineEntryPage());
 
@@ -403,8 +417,22 @@ export function BaselineEntryPage({
 
       <Modal title="Upload Baseline" icon="save" onDismiss={closeUploadModal} isOpen={isUploadModalOpen}>
         <StyledDropzone />
+        <Button
+          variant="primary"
+          style={{ float: 'right' }}
+          aria-label="Baseline entry submit button"
+          onClick={() => {
+            uploadDocument(files);
+          }}
+        >
+          Submit
+        </Button>
       </Modal>
-
+      <Modal title="Upload Production" icon="save" onDismiss={closeArchiveAlert} isOpen={isAlertShowing}>
+       
+       <Alert severity="success" title={''} > File Uploaded</Alert> 
+       
+     </Modal>
       <PageHeader title={`HiPro Energy Baseline`} className="no-margin" pageIcon="graph-bar">
         <Branding.LoginLogo className={loginStyles.pageHeaderLogo} />
       </PageHeader>

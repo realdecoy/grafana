@@ -10,6 +10,7 @@ export interface ProductionEntryState {
   isModalSaveOpen: boolean;
   isUploadModalOpen: boolean;
   archivedId: number;
+  isAlertShowing: boolean;
 }
 
 export const initialProductionEntryState: ProductionEntryState = {
@@ -21,6 +22,7 @@ export const initialProductionEntryState: ProductionEntryState = {
   isModalSaveOpen: false,
   isUploadModalOpen: false,
   archivedId: 0,
+  isAlertShowing:false,
 };
 
 export const slice = createSlice({
@@ -57,6 +59,9 @@ export const slice = createSlice({
     archiveProductionEntry: (state, action: PayloadAction<{ id: number }>) => {
       state.editProductionEntryId = action.payload.id;
     },
+    archiveAlertShowing: (state, action: PayloadAction<{ open: boolean}>) => {
+      state.isAlertShowing = action.payload.open;
+    },
   },
 });
 
@@ -70,6 +75,8 @@ export const {
   setModalSaveOpen,
   setArchivedId,
   setModalUploadOpen,
+  archiveAlertShowing
+  
 } = slice.actions;
 
 export const ProductionReducer = slice.reducer;

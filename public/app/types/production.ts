@@ -41,7 +41,7 @@ export class ProductionVolumeeDatasource {
     return getBackendSrv().fetch<any>(options).toPromise();
   }
 
-  _post(url: string, paylod: ProductionVolumeDTO) {
+  _post(url: string, paylod: any) {
     const options: BackendSrvRequest = {
       headers: {},
       method: 'POST',
@@ -51,7 +51,7 @@ export class ProductionVolumeeDatasource {
     return getBackendSrv().fetch<any>(options).toPromise();
   }
 
-  _put(url: string, paylod: ProductionVolumeDTO) {
+  _put(url: string, paylod: any) {
     const options: BackendSrvRequest = {
       headers: {},
       method: 'PUT',

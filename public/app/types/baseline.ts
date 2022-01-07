@@ -52,7 +52,7 @@ export class BaselineDatasource {
     return getBackendSrv().fetch<any>(options).toPromise();
   }
 
-  _put(url: string, paylod: BaselineDTO) {
+  _put(url: string, paylod: any) {
     const options: BackendSrvRequest = {
       headers: {},
       method: 'PUT',
