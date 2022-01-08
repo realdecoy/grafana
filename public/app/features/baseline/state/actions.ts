@@ -9,6 +9,7 @@ import {
   setModalSaveOpen,
   setArchivedId,
   setModalUploadOpen,
+  archiveAlertShowing,
 } from './reducers';
 import { api } from '../api';
 
@@ -104,15 +105,26 @@ export function closeEditModal(): ThunkResult<void> {
   };
 }
 
-export function uploadDocument(fileDetails: FormData, file: File): ThunkResult<void> {
+export function openArchiveAlert(): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(archiveAlertShowing({ open: true }));
+  };
+}
+
+export function closeArchiveAlert(): ThunkResult<void> {
+  return async function (dispatch) {
+    dispatch(archiveAlertShowing({ open: false }));
+  };
+}
+
+export function uploadDocument(file: string | ArrayBuffer | null): ThunkResult<void> {
   return async function (dispatch) {
     try {
-      console.log(fileDetails);
-      await api.uploadDocument(fileDetails, file);
+      await api.uploadDocument(file);
     } catch (err) {
       console.log(`[err]`);
     } finally {
-      dispatch(setModalSaveOpen({ open: false }));
+      dispatch(setModalUploadOpen({ open: false }));
     }
   };
 }
