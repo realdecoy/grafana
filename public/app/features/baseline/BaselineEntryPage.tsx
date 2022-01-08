@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
-import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button,Alert} from '@grafana/ui';
+import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button, Alert } from '@grafana/ui';
 import { BaselineDTO, StoreState } from 'app/types';
 import {
   initBaselineEntryPage,
@@ -40,7 +40,7 @@ function mapStateToProps(state: StoreState) {
     baselineEntries,
     baselineEntriesAreLoading,
     archivedId,
-    isAlertShowing
+    isAlertShowing,
   } = baselineEntryState;
   return {
     isUpdating,
@@ -51,7 +51,7 @@ function mapStateToProps(state: StoreState) {
     baselineEntries,
     baselineEntriesAreLoading,
     archivedId,
-    isAlertShowing
+    isAlertShowing,
   };
 }
 
@@ -100,8 +100,7 @@ function getBase64(file: File) {
   };
 }
 
-
-function StyledDropzone(props) {
+function StyledDropzone() {
   const {
     getRootProps,
     getInputProps,
@@ -152,7 +151,6 @@ function StyledDropzone(props) {
       <aside>
         <h4>Accepted files</h4>
         <ul>{acceptedFileItems}</ul>
-
       </aside>
     </div>
   );
@@ -170,7 +168,7 @@ const mapDispatchToProps = {
   closeSaveModal,
   closeUploadModal,
   uploadDocument,
-  closeArchiveAlert
+  closeArchiveAlert,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -198,7 +196,7 @@ export function BaselineEntryPage({
   archiveBaseline,
   closeUploadModal,
   uploadDocument,
-  closeArchiveAlert
+  closeArchiveAlert,
 }: Props) {
   useMount(() => initBaselineEntryPage());
 
@@ -429,9 +427,7 @@ export function BaselineEntryPage({
         </Button>
       </Modal>
       <Modal title="Upload Production" icon="save" onDismiss={closeArchiveAlert} isOpen={isAlertShowing}>
-       
-       <Alert severity="success" title={''} > File Uploaded</Alert> 
-       
+       <Alert severity="success" title={''} > File Uploaded</Alert>
      </Modal>
       <PageHeader title={`HiPro Energy Baseline`} className="no-margin" pageIcon="graph-bar">
         <Branding.LoginLogo className={loginStyles.pageHeaderLogo} />

@@ -22,9 +22,10 @@ async function archiveBaselineEntry(id: number): Promise<void> {
 }
 
 async function uploadDocument(file: string | ArrayBuffer | null): Promise<void> {
-
-  await baselineQuery._post(`/api/getUploadURL`, {base64:file,fileName:`baseline_${format(new Date(), 'yyyy_MM_dd')}.csv`});
- 
+  await baselineQuery._post(`/api/getUploadURL`, {
+    base64: file,
+    fileName: `baseline_${format(new Date(), 'yyyy_MM_dd')}.csv`,
+  });
 }
 export const api = {
   loadBaselineEntries,

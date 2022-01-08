@@ -9,6 +9,7 @@ import {
   setModalSaveOpen,
   setArchivedId,
   setModalUploadOpen,
+  archiveAlertShowing,
 } from './reducers';
 import { api } from '../api';
 
@@ -118,9 +119,8 @@ export function closeArchiveAlert(): ThunkResult<void> {
 
 export function uploadDocument(file: string | ArrayBuffer | null): ThunkResult<void> {
   return async function (dispatch) {
-    try {  
+    try {
       await api.uploadDocument(file);
-      
     } catch (err) {
       console.log(`[err]`);
     } finally {

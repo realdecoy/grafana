@@ -42,7 +42,7 @@ export class BaselineDatasource {
     return getBackendSrv().fetch<any>(options).toPromise();
   }
 
-  _post(url: string, paylod: BaselineDTO) {
+  _post(url: string, paylod: BaselineDTO | any) {
     const options: BackendSrvRequest = {
       headers: {},
       method: 'POST',

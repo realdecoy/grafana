@@ -21,16 +21,16 @@ async function archiveProductionEntry(id: number): Promise<void> {
 }
 
 async function uploadDocument(file: string | ArrayBuffer | null): Promise<void> {
-
-  await productionQuery._post(`/api/getUploadURL`, {base64:file,fileName:`production_${format(new Date(), 'yyyy_MM_dd')}.csv`});
- 
+  await productionQuery._post(`/api/getUploadURL`, {
+    base64: file,
+    fileName: `production_${format(new Date(), 'yyyy_MM_dd')}.csv`,
+  });
 }
-
 
 export const api = {
   loadProductionEntries,
   submitProductionEntry,
   updateProductionEntry,
   archiveProductionEntry,
-  uploadDocument
+  uploadDocument,
 };

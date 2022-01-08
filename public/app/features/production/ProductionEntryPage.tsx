@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { useMount } from 'react-use';
 import { hot } from 'react-hot-loader';
-import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button,Alert } from '@grafana/ui';
+import { PageToolbar, PageHeader, useStyles2, Icon, Modal, Button, Alert } from '@grafana/ui';
 import { ProductionVolumeDTO, StoreState } from 'app/types';
 import {
   initProductionEntryPage,
@@ -17,7 +17,7 @@ import {
   closeUploadModal,
   uploadDocument,
   openArchiveAlert,
-  closeArchiveAlert
+  closeArchiveAlert,
 } from './state/actions';
 import ProductionEntryForm from './ProductionEntryForm';
 import EditBaselineEntryForm from './EditProductionEntryForm';
@@ -44,7 +44,7 @@ function mapStateToProps(state: StoreState) {
     isUploadModalOpen,
     productionEntriesAreLoading,
     archivedId,
-    isAlertShowing
+    isAlertShowing,
   } = productionEntryState;
   return {
     isUpdating,
@@ -55,7 +55,7 @@ function mapStateToProps(state: StoreState) {
     isUploadModalOpen,
     productionEntriesAreLoading,
     archivedId,
-    isAlertShowing
+    isAlertShowing,
   };
 }
 
@@ -90,22 +90,19 @@ const rejectStyle = {
 let files: string | ArrayBuffer | null;
 
 function s3BeforeUpload(file: File[]) {
-  
   getBase64(file[0]);
-
 }
 
 function getBase64(file: File) {
   var reader = new FileReader();
   reader.readAsDataURL(file);
   reader.onload = function () {
-    files =reader.result;
+    files = reader.result;
   };
   reader.onerror = function (error) {
     console.log('Error: ', error);
   };
 }
-
 
 function StyledDropzone(props) {
   const {
@@ -158,7 +155,6 @@ function StyledDropzone(props) {
       <aside>
         <h4>Accepted files</h4>
         <ul>{acceptedFileItems}</ul>
-
       </aside>
     </div>
   );
@@ -177,7 +173,7 @@ const mapDispatchToProps = {
   closeUploadModal,
   uploadDocument,
   closeArchiveAlert,
-  openArchiveAlert
+  openArchiveAlert,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
@@ -205,8 +201,7 @@ export function ProductionEntryPage({
   closeUploadModal,
   uploadDocument,
   closeArchiveAlert,
-  openArchiveAlert,
-  isAlertShowing
+  isAlertShowing,
 }: Props) {
   useMount(() => initProductionEntryPage());
 
@@ -424,16 +419,12 @@ export function ProductionEntryPage({
         >
           Submit
         </Button>
-
-        
       </Modal>
       <Modal title="Upload Production" icon="save" onDismiss={closeArchiveAlert} isOpen={isAlertShowing}>
-       
-        <Alert severity="success" title={''} > File Uploaded</Alert> 
-        
+        <Alert severity="success" title={''}>
+          File Uploaded
+        </Alert>
       </Modal>
-   
-    
       <PageHeader title={`HiPro Energy Production`} className="no-margin" pageIcon="graph-bar">
         <Branding.LoginLogo className={loginStyles.pageHeaderLogo} />
       </PageHeader>
@@ -464,7 +455,6 @@ export function ProductionEntryPage({
         }
       >
         <div>
-     
           <DataTable
             fixedHeader
             fixedHeaderScrollHeight="500px"

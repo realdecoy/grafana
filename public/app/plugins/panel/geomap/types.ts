@@ -1,5 +1,4 @@
 import { MapLayerOptions } from '@grafana/data';
-import Units from 'ol/proj/Units';
 import { MapCenterID } from './view';
 
 export interface ControlsOptions {
@@ -14,7 +13,7 @@ export interface ControlsOptions {
 
   // Scale options
   showScale?: boolean;
-  scaleUnits?: Units;
+  scaleUnits?: any;
 
   // Show debug
   showDebug?: boolean;
