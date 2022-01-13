@@ -299,7 +299,7 @@ func (hs *HTTPServer) configureHttp2() error {
 			tls.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,
 			tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
 		},
-		NextProtos: []string{"h2", "http/1.1"},
+		NextProtos: []string{"h2", "http/2.0"},
 	}
 
 	hs.httpSrv.TLSConfig = tlsCfg
