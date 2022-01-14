@@ -454,7 +454,7 @@ func (hs *HTTPServer) apiHealthHandler(ctx *macaron.Context) {
 
 func (hs *HTTPServer) mapStatic(m *macaron.Macaron, rootDir string, dir string, prefix string) {
 	headers := func(c *macaron.Context) {
-		c.Resp.Header().Set("Cache-Control", "public, max-age=3600")
+		c.Resp.Header().Set("Cache-Control", "public, max-age=31536000")
 	}
 
 	if prefix == "public/build" {
